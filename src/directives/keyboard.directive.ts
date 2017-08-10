@@ -20,13 +20,16 @@ export class MdKeyboardDirective {
 
 	@Input() isDebug: boolean;
 
+	@Input() switches: string[];
+
 	@HostListener('focus', ['$event'])
 	private _showKeyboard() {
 		this._keyboardRef = this._keyboardService.open(this.mdKeyboard, {
 			darkTheme:  this.darkTheme,
 			duration:   this.duration,
 			hasAction:  this.hasAction,
-			isDebug:    this.isDebug
+			isDebug:    this.isDebug,
+			switches:   this.switches
 		});
 		this._keyboardRef.instance.setInputInstance(this._elementRef);
 	}

@@ -1,6 +1,6 @@
 {
   "name": "ngx-onscreen-keyboard",
-  "version": "0.1.0-201708101145",
+  "version": "0.1.0-201708101730",
   "description": "Onscreen virtual keyboard for Angular ≥ 2 (https://angular.io/) using Material 2 (https://material.angular.io/).",
   "main": "./dist/bundles/ngx-onscreen-keyboard.umd.js",
   "module": "./dist/ngx-onscreen-keyboard.es5.js",
@@ -53,8 +53,5 @@
     "tslint": "^5.5.0",
     "tslint-microsoft-contrib": "^5.0.1",
     "zone.js": "^0.8.14"
-  },
-  "dependencies": {
-    "material-design-icons": "^3.0.1"
   }
 }

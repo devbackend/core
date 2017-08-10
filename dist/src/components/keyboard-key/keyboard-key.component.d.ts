@@ -10,6 +10,9 @@ export declare class MdKeyboardKeyComponent implements OnInit {
     altClick: EventEmitter<void>;
     capsClick: EventEmitter<void>;
     shiftClick: EventEmitter<void>;
+    enterClick: EventEmitter<void>;
+    keyClick: EventEmitter<void>;
+    switchClick: EventEmitter<void>;
     readonly lowerKey: string;
     readonly charCode: number;
     readonly isClassKey: boolean;

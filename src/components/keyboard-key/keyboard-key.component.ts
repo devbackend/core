@@ -27,6 +27,12 @@ export class MdKeyboardKeyComponent implements OnInit {
 
 	@Output() shiftClick = new EventEmitter<void>();
 
+	@Output() enterClick = new EventEmitter<void>();
+
+	@Output() keyClick = new EventEmitter<void>();
+
+	@Output() switchClick = new EventEmitter<void>();
+
 	get lowerKey(): string {
 		return this.key.toLowerCase();
 	}
@@ -112,6 +118,7 @@ export class MdKeyboardKeyComponent implements OnInit {
 
 			case 'Enter':
 				char = '\n\r';
+				this.enterClick.emit();
 				break;
 
 			case 'Shift':
@@ -126,17 +133,22 @@ export class MdKeyboardKeyComponent implements OnInit {
 				char = '\t';
 				break;
 
+			case 'Switch':
+				this.switchClick.emit();
+				break;
+
 			default:
 				char = this.key;
+				this.keyClick.emit();
 				break;
 		}
 
 		if (char && this.input) {
 			this.input.nativeElement.value = [value.slice(0, caret), char, value.slice(caret)].join('');
 			this._setCursorPosition(caret + 1);
-		}
 
-		this._triggerKeyEvent();
+			this._triggerKeyEvent();
+		}
 	}
 
 	private _triggerKeyEvent(): Event {

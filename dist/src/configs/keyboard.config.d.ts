@@ -15,4 +15,6 @@ export declare class MdKeyboardConfig {
     hasAction?: boolean;
     /** Enable the debug view **/
     isDebug?: boolean;
+    /** Keyboard layouts for switch **/
+    switches?: any[];
 }

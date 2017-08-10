@@ -30,10 +30,12 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 let KeyboardModifier = {};
 KeyboardModifier.None = 0;
 KeyboardModifier.Shift = 1;
-KeyboardModifier.Alt = 2;
-KeyboardModifier.ShiftAlt = 3;
+KeyboardModifier.Caps = 2;
+KeyboardModifier.Alt = 3;
+KeyboardModifier.ShiftAlt = 4;
 KeyboardModifier[KeyboardModifier.None] = "None";
 KeyboardModifier[KeyboardModifier.Shift] = "Shift";
+KeyboardModifier[KeyboardModifier.Caps] = "Caps";
 KeyboardModifier[KeyboardModifier.Alt] = "Alt";
 KeyboardModifier[KeyboardModifier.ShiftAlt] = "ShiftAlt";
 
@@ -31184,6 +31186,23 @@ class MdKeyboardRef {
         }
     }
     /**
+     * @return {?}
+     */
+    get switches() {
+        if (this.instance instanceof MdKeyboardComponent) {
+            return this.instance.switches;
+        }
+    }
+    /**
+     * @param {?} switches
+     * @return {?}
+     */
+    set switches(switches) {
+        if (this.instance instanceof MdKeyboardComponent) {
+            this.instance.switches = switches;
+        }
+    }
+    /**
      * Dismisses the keyboard.
      * @return {?}
      */
@@ -31274,6 +31293,10 @@ class MdKeyboardConfig {
          * Enable the debug view *
          */
         this.isDebug = false;
+        /**
+         * Keyboard layouts for switch *
+         */
+        this.switches = [];
     }
 }
 
@@ -31391,6 +31414,10 @@ class MdKeyboardService {
         keyboardComponentRef.darkTheme = config.darkTheme;
         keyboardComponentRef.hasAction = config.hasAction;
         keyboardComponentRef.isDebug = config.isDebug;
+        keyboardComponentRef.switches = config.switches;
+        if ('' === layoutOrLocale && 0 !== config.switches.length) {
+            layoutOrLocale = config.switches[0];
+        }
         // a locale is provided
         if (this.availableLocales[layoutOrLocale]) {
             keyboardComponentRef.instance.locale = layoutOrLocale;
@@ -31516,6 +31543,7 @@ class MdKeyboardComponent {
         this.isDebug = false;
         this.modifier = KeyboardModifier.None;
         this._inputInstance$ = new AsyncSubject();
+        this._switchValue = 0;
     }
     /**
      * @return {?}
@@ -31574,7 +31602,9 @@ class MdKeyboardComponent {
     /**
      * @return {?}
      */
-    onCapsClick() { }
+    onCapsClick() {
+        this.modifier = (this.modifier !== KeyboardModifier.Caps ? KeyboardModifier.Caps : KeyboardModifier.None);
+    }
     /**
      * @return {?}
      */
@@ -31592,129 +31622,163 @@ class MdKeyboardComponent {
             this.modifier = KeyboardModifier.None;
         }
     }
+    /**
+     * @return {?}
+     */
+    onEnterClick() {
+        this.inputInstance.subscribe((elRef) => {
+            const /** @type {?} */ enterEvent = document.createEvent('KeyboardEvent');
+            const /** @type {?} */ initMethod = ('undefined' !== typeof enterEvent.initKeyboardEvent ? 'initKeyboardEvent' : 'initKeyEvent');
+            enterEvent[initMethod]('keydown', true, true, window, false, false, false, false, 13, 0);
+            elRef.nativeElement.dispatchEvent(enterEvent);
+        });
+    }
+    /**
+     * @return {?}
+     */
+    onKeyClick() {
+        if (this.modifier === KeyboardModifier.Shift) {
+            this.modifier = KeyboardModifier.None;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    onSwitchClick() {
+        this._switchValue++;
+        if (this._switchValue >= this.switches.length) {
+            this._switchValue = 0;
+        }
+        this.locale = this.switches[this._switchValue];
+        this.layout = this._keyboardService.getLayoutForLocale(this.locale);
+    }
 }
 MdKeyboardComponent.decorators = [
     { type: Component, args: [{
                 selector: 'md-keyboard',
                 template: `
-    <nav class="mat-keyboard-layout">
-      <div
-        class="mat-keyboard-row"
-        *ngFor="let row of layout.keys"
-      >
-        <ng-container *ngFor="let key of row">
-          <md-keyboard-key
-            class="mat-keyboard-col"
-            *ngIf="key[modifier]"
-            [key]="key[modifier]"
-            [active]="isActive(key[modifier])"
-            [input]="inputInstance | async"
-            (altClick)="onAltClick()"
-            (capsClick)="onCapsClick()"
-            (shiftClick)="onShiftClick()"
-          ></md-keyboard-key>
-        </ng-container>
-      </div>
-    </nav>
+   <nav class="mat-keyboard-layout">
+     <div
+       class="mat-keyboard-row"
+       *ngFor="let row of layout.keys"
+     >
+       <ng-container *ngFor="let key of row">
+         <md-keyboard-key
+           class="mat-keyboard-col"
+           *ngIf="key[modifier]"
+           [key]="key[modifier]"
+           [class.switch-container]="'switch' === key[modifier].toLowerCase()"
+           [active]="isActive(key[modifier])"
+           [input]="inputInstance | async"
+           (altClick)="onAltClick()"
+           (capsClick)="onCapsClick()"
+           (shiftClick)="onShiftClick()"
+           (enterClick)="onEnterClick()"
+           (keyClick)="onKeyClick()"
+           (switchClick)="onSwitchClick()"
+         ></md-keyboard-key>
+       </ng-container>
+     </div>
+   </nav>
 
-    <button
-      md-icon-button
-      class="mat-keyboard-action"
-      *ngIf="hasAction"
-      (click)="dismiss()"
-    >
-      <md-icon>close</md-icon>
-    </button>
-  `,
+   <button
+     md-icon-button
+     class="mat-keyboard-action"
+     *ngIf="hasAction"
+     (click)="dismiss()"
+   >
+     <md-icon>close</md-icon>
+   </button>
+	`,
                 styles: [`
-    /**
-     * Applies styles for users in high contrast mode. Note that this only applies
-     * to Microsoft browsers. Chrome can be included by checking for the \`html[hc]\`
-     * attribute, however Chrome handles high contrast differently.
-     */
-    /* Theme for the ripple elements.*/
-    /** The mixins below are shared between md-menu and md-select */
-    /**
-     * This mixin adds the correct panel transform styles based
-     * on the direction that the menu panel opens.
-     */
-    /* stylelint-disable material/no-prefixes */
-    /* stylelint-enable */
-    /**
-     * This mixin contains shared option styles between the select and
-     * autocomplete components.
-     */
-    :host {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      font-family: Roboto, "Helvetica Neue", sans-serif;
-      font-size: 14px;
-      -webkit-box-pack: justify;
-          -ms-flex-pack: justify;
-              justify-content: space-between;
-      line-height: 20px; }
+   /**
+    * Applies styles for users in high contrast mode. Note that this only applies
+    * to Microsoft browsers. Chrome can be included by checking for the \`html[hc]\`
+    * attribute, however Chrome handles high contrast differently.
+    */
+   /* Theme for the ripple elements.*/
+   /** The mixins below are shared between md-menu and md-select */
+   /**
+    * This mixin adds the correct panel transform styles based
+    * on the direction that the menu panel opens.
+    */
+   /* stylelint-disable material/no-prefixes */
+   /* stylelint-enable */
+   /**
+    * This mixin contains shared option styles between the select and
+    * autocomplete components.
+    */
+   :host {
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     font-family: Roboto, "Helvetica Neue", sans-serif;
+     font-size: 14px;
+     -webkit-box-pack: justify;
+         -ms-flex-pack: justify;
+             justify-content: space-between;
+     line-height: 20px; }
 
-    .mat-keyboard-action {
-      background: none;
-      color: inherit;
-      -ms-flex-negative: 0;
-          flex-shrink: 0;
-      font-family: inherit;
-      font-size: inherit;
-      font-weight: 600;
-      line-height: 1;
-      margin-left: 8px;
-      text-transform: uppercase; }
+   .mat-keyboard-action {
+     background: none;
+     color: inherit;
+     -ms-flex-negative: 0;
+         flex-shrink: 0;
+     font-family: inherit;
+     font-size: inherit;
+     font-weight: 600;
+     line-height: 1;
+     margin-left: 8px;
+     text-transform: uppercase; }
 
-    /deep/ .mat-keyboard.dark-theme .mat-keyboard-action {
-      color: whitesmoke; }
+   /deep/ .mat-keyboard.dark-theme .mat-keyboard-action {
+     color: whitesmoke; }
 
-    .mat-keyboard-layout {
-      width: 100%; }
+   .mat-keyboard-layout {
+     width: 100%; }
 
-    .mat-keyboard-row {
-      -webkit-box-align: stretch;
-          -ms-flex-align: stretch;
-              align-items: stretch;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-orient: horizontal;
-      -webkit-box-direction: normal;
-          -ms-flex-direction: row;
-              flex-direction: row;
-      -ms-flex-wrap: nowrap;
-          flex-wrap: nowrap; }
+   .mat-keyboard-row {
+     -webkit-box-align: stretch;
+         -ms-flex-align: stretch;
+             align-items: stretch;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-orient: horizontal;
+     -webkit-box-direction: normal;
+         -ms-flex-direction: row;
+             flex-direction: row;
+     -ms-flex-wrap: nowrap;
+         flex-wrap: nowrap; }
 
-    .mat-keyboard-col {
-      -webkit-box-sizing: border-box;
-              box-sizing: border-box;
-      -webkit-box-flex: 1;
-          -ms-flex: 1 1 auto;
-              flex: 1 1 auto;
-      padding: 4px; }
+   .mat-keyboard-col {
+     -webkit-box-sizing: border-box;
+             box-sizing: border-box;
+     -webkit-box-flex: 1;
+         -ms-flex: 1 1 auto;
+             flex: 1 1 auto;
+     padding: 4px; }
 
-    .mat-keyboard-key {
-      min-width: 0;
-      width: 100%; }
+   .mat-keyboard-key {
+     min-width: 0;
+     width: 100%; }
 
-    /deep/ .mat-keyboard.dark-theme .mat-keyboard-key {
-      background-color: #616161;
-      color: whitesmoke; }
+   /deep/ .mat-keyboard.dark-theme .mat-keyboard-key {
+     background-color: #616161;
+     color: whitesmoke; }
 
-    /deep/ .mat-keyboard.debug .mat-keyboard-key-deadkey {
-      background-color: cadetblue; }
+   /deep/ .mat-keyboard.debug .mat-keyboard-key-deadkey {
+     background-color: cadetblue; }
 
-    /deep/ .mat-keyboard.debug .mat-keyboard-key-modifier {
-      background-color: aquamarine; }
+   /deep/ .mat-keyboard.debug .mat-keyboard-key-modifier {
+     background-color: aquamarine; }
 
-    /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-deadkey {
-      background-color: rebeccapurple; }
+   /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-deadkey {
+     background-color: rebeccapurple; }
 
-    /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-modifier {
-      background-color: mediumpurple; }
-  `],
+   /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-modifier {
+     background-color: mediumpurple; }
+	`],
                 changeDetection: ChangeDetectionStrategy.OnPush
             },] },
 ];
@@ -31742,6 +31806,7 @@ KeyboardKeyClass.Enter = ('enter');
 KeyboardKeyClass.Shift = ('shift');
 KeyboardKeyClass.Space = ('space');
 KeyboardKeyClass.Tab = ('tab');
+KeyboardKeyClass.Switch = ('switch');
 KeyboardKeyClass[KeyboardKeyClass.Alt] = "Alt";
 KeyboardKeyClass[KeyboardKeyClass.AltGr] = "AltGr";
 KeyboardKeyClass[KeyboardKeyClass.AltLk] = "AltLk";
@@ -31751,6 +31816,7 @@ KeyboardKeyClass[KeyboardKeyClass.Enter] = "Enter";
 KeyboardKeyClass[KeyboardKeyClass.Shift] = "Shift";
 KeyboardKeyClass[KeyboardKeyClass.Space] = "Space";
 KeyboardKeyClass[KeyboardKeyClass.Tab] = "Tab";
+KeyboardKeyClass[KeyboardKeyClass.Switch] = "Switch";
 
 // - Lay out each dead key set as an object of property/value
 //   pairs.  The rows below are wrapped so uppercase letters are
@@ -31965,7 +32031,8 @@ const keyboardIcons = {
     'caps': 'keyboard_capslock',
     'enter': 'keyboard_return',
     'space': '',
-    'tab': 'keyboard_tab'
+    'tab': 'keyboard_tab',
+    'switch': 'language'
 };
 
 class MdKeyboardKeyComponent {
@@ -31981,6 +32048,9 @@ class MdKeyboardKeyComponent {
         this.altClick = new EventEmitter();
         this.capsClick = new EventEmitter();
         this.shiftClick = new EventEmitter();
+        this.enterClick = new EventEmitter();
+        this.keyClick = new EventEmitter();
+        this.switchClick = new EventEmitter();
     }
     /**
      * @return {?}
@@ -32074,6 +32144,7 @@ class MdKeyboardKeyComponent {
                 break;
             case 'Enter':
                 char = '\n\r';
+                this.enterClick.emit();
                 break;
             case 'Shift':
                 this.shiftClick.emit();
@@ -32084,15 +32155,19 @@ class MdKeyboardKeyComponent {
             case 'Tab':
                 char = '\t';
                 break;
+            case 'Switch':
+                this.switchClick.emit();
+                break;
             default:
                 char = this.key;
+                this.keyClick.emit();
                 break;
         }
         if (char && this.input) {
             this.input.nativeElement.value = [value.slice(0, caret), char, value.slice(caret)].join('');
             this._setCursorPosition(caret + 1);
+            this._triggerKeyEvent();
         }
-        this._triggerKeyEvent();
     }
     /**
      * @return {?}
@@ -32203,37 +32278,6 @@ MdKeyboardKeyComponent.decorators = [
     * This mixin contains shared option styles between the select and
     * autocomplete components.
     */
-   @font-face {
-     font-family: 'Material Icons';
-     font-style: normal;
-     font-weight: 400;
-     src: url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.eot);
-     /* For IE6-8 */
-     src: local("/node_modules/material-design-icons/iconfont/Material Icons"), local("/node_modules/material-design-icons/iconfont/MaterialIcons-Regular"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format("woff2"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff) format("woff"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.ttf) format("truetype"); }
-
-   .material-icons {
-     font-family: 'Material Icons';
-     font-weight: normal;
-     font-style: normal;
-     font-size: 24px;
-     /* Preferred icon size */
-     display: inline-block;
-     line-height: 1;
-     text-transform: none;
-     letter-spacing: normal;
-     word-wrap: normal;
-     white-space: nowrap;
-     direction: ltr;
-     /* Support for all WebKit browsers. */
-     -webkit-font-smoothing: antialiased;
-     /* Support for Safari and Chrome. */
-     text-rendering: optimizeLegibility;
-     /* Support for Firefox. */
-     -moz-osx-font-smoothing: grayscale;
-     /* Support for IE. */
-     -webkit-font-feature-settings: 'liga';
-             font-feature-settings: 'liga'; }
-
    :host {
      display: -webkit-box;
      display: -ms-flexbox;
@@ -32244,12 +32288,27 @@ MdKeyboardKeyComponent.decorators = [
          -ms-flex-pack: justify;
              justify-content: space-between;
      line-height: 20px; }
+     :host.switch-container {
+       -webkit-box-flex: 0;
+           -ms-flex: 0;
+               flex: 0; }
 
    .mat-keyboard-key {
      min-width: 0;
      width: 100%; }
      .mat-keyboard-key-active {
        background-color: #e0e0e0; }
+     .mat-keyboard-key.key-switch {
+       background-color: #656; }
+
+   .mat-keyboard-key-switch {
+     width: 85px; }
+
+   .mat-keyboard :host-context(.key-switch) {
+     width: 85px;
+     -webkit-box-flex: 0;
+         -ms-flex: 0;
+             flex: 0; }
 
    :host-context(.dark-theme) .mat-keyboard-key {
      background-color: #616161;
@@ -32286,6 +32345,9 @@ MdKeyboardKeyComponent.propDecorators = {
     'altClick': [{ type: Output },],
     'capsClick': [{ type: Output },],
     'shiftClick': [{ type: Output },],
+    'enterClick': [{ type: Output },],
+    'keyClick': [{ type: Output },],
+    'switchClick': [{ type: Output },],
 };
 
 class MdKeyboardDirective {
@@ -32305,17 +32367,10 @@ class MdKeyboardDirective {
             darkTheme: this.darkTheme,
             duration: this.duration,
             hasAction: this.hasAction,
-            isDebug: this.isDebug
+            isDebug: this.isDebug,
+            switches: this.switches
         });
         this._keyboardRef.instance.setInputInstance(this._elementRef);
-    }
-    /**
-     * @return {?}
-     */
-    _hideKeyboard() {
-        if (this._keyboardRef) {
-            this._keyboardRef.dismiss();
-        }
     }
 }
 MdKeyboardDirective.decorators = [
@@ -32336,8 +32391,8 @@ MdKeyboardDirective.propDecorators = {
     'duration': [{ type: Input },],
     'hasAction': [{ type: Input },],
     'isDebug': [{ type: Input },],
+    'switches': [{ type: Input },],
     '_showKeyboard': [{ type: HostListener, args: ['focus', ['$event'],] },],
-    '_hideKeyboard': [{ type: HostListener, args: ['blur', ['$event'],] },],
 };
 
 class KebabCasePipe {

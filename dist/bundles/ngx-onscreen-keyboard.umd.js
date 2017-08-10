@@ -17,10 +17,12 @@ var __extends = (this && this.__extends) || (function () {
 var KeyboardModifier = {};
 KeyboardModifier.None = 0;
 KeyboardModifier.Shift = 1;
-KeyboardModifier.Alt = 2;
-KeyboardModifier.ShiftAlt = 3;
+KeyboardModifier.Caps = 2;
+KeyboardModifier.Alt = 3;
+KeyboardModifier.ShiftAlt = 4;
 KeyboardModifier[KeyboardModifier.None] = "None";
 KeyboardModifier[KeyboardModifier.Shift] = "Shift";
+KeyboardModifier[KeyboardModifier.Caps] = "Caps";
 KeyboardModifier[KeyboardModifier.Alt] = "Alt";
 KeyboardModifier[KeyboardModifier.ShiftAlt] = "ShiftAlt";
 /*! *****************************************************************************
@@ -31432,6 +31434,27 @@ var MdKeyboardRef = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MdKeyboardRef.prototype, "switches", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            if (this.instance instanceof MdKeyboardComponent) {
+                return this.instance.switches;
+            }
+        },
+        /**
+         * @param {?} switches
+         * @return {?}
+         */
+        set: function (switches) {
+            if (this.instance instanceof MdKeyboardComponent) {
+                this.instance.switches = switches;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Dismisses the keyboard.
      * @return {?}
@@ -31523,6 +31546,10 @@ var MdKeyboardConfig = (function () {
          * Enable the debug view *
          */
         this.isDebug = false;
+        /**
+         * Keyboard layouts for switch *
+         */
+        this.switches = [];
     }
     return MdKeyboardConfig;
 }());
@@ -31655,6 +31682,10 @@ var MdKeyboardService = (function () {
         keyboardComponentRef.darkTheme = config.darkTheme;
         keyboardComponentRef.hasAction = config.hasAction;
         keyboardComponentRef.isDebug = config.isDebug;
+        keyboardComponentRef.switches = config.switches;
+        if ('' === layoutOrLocale && 0 !== config.switches.length) {
+            layoutOrLocale = config.switches[0];
+        }
         // a locale is provided
         if (this.availableLocales[layoutOrLocale]) {
             keyboardComponentRef.instance.locale = layoutOrLocale;
@@ -31780,6 +31811,7 @@ var MdKeyboardComponent = (function () {
         this.isDebug = false;
         this.modifier = KeyboardModifier.None;
         this._inputInstance$ = new rxjs_AsyncSubject.AsyncSubject();
+        this._switchValue = 0;
     }
     Object.defineProperty(MdKeyboardComponent.prototype, "inputInstance", {
         /**
@@ -31842,7 +31874,9 @@ var MdKeyboardComponent = (function () {
     /**
      * @return {?}
      */
-    MdKeyboardComponent.prototype.onCapsClick = function () { };
+    MdKeyboardComponent.prototype.onCapsClick = function () {
+        this.modifier = (this.modifier !== KeyboardModifier.Caps ? KeyboardModifier.Caps : KeyboardModifier.None);
+    };
     /**
      * @return {?}
      */
@@ -31860,13 +31894,43 @@ var MdKeyboardComponent = (function () {
             this.modifier = KeyboardModifier.None;
         }
     };
+    /**
+     * @return {?}
+     */
+    MdKeyboardComponent.prototype.onEnterClick = function () {
+        this.inputInstance.subscribe(function (elRef) {
+            var /** @type {?} */ enterEvent = document.createEvent('KeyboardEvent');
+            var /** @type {?} */ initMethod = ('undefined' !== typeof enterEvent.initKeyboardEvent ? 'initKeyboardEvent' : 'initKeyEvent');
+            enterEvent[initMethod]('keydown', true, true, window, false, false, false, false, 13, 0);
+            elRef.nativeElement.dispatchEvent(enterEvent);
+        });
+    };
+    /**
+     * @return {?}
+     */
+    MdKeyboardComponent.prototype.onKeyClick = function () {
+        if (this.modifier === KeyboardModifier.Shift) {
+            this.modifier = KeyboardModifier.None;
+        }
+    };
+    /**
+     * @return {?}
+     */
+    MdKeyboardComponent.prototype.onSwitchClick = function () {
+        this._switchValue++;
+        if (this._switchValue >= this.switches.length) {
+            this._switchValue = 0;
+        }
+        this.locale = this.switches[this._switchValue];
+        this.layout = this._keyboardService.getLayoutForLocale(this.locale);
+    };
     return MdKeyboardComponent;
 }());
 MdKeyboardComponent.decorators = [
     { type: _angular_core.Component, args: [{
                 selector: 'md-keyboard',
-                template: "\n    <nav class=\"mat-keyboard-layout\">\n      <div\n        class=\"mat-keyboard-row\"\n        *ngFor=\"let row of layout.keys\"\n      >\n        <ng-container *ngFor=\"let key of row\">\n          <md-keyboard-key\n            class=\"mat-keyboard-col\"\n            *ngIf=\"key[modifier]\"\n            [key]=\"key[modifier]\"\n            [active]=\"isActive(key[modifier])\"\n            [input]=\"inputInstance | async\"\n            (altClick)=\"onAltClick()\"\n            (capsClick)=\"onCapsClick()\"\n            (shiftClick)=\"onShiftClick()\"\n          ></md-keyboard-key>\n        </ng-container>\n      </div>\n    </nav>\n\n    <button\n      md-icon-button\n      class=\"mat-keyboard-action\"\n      *ngIf=\"hasAction\"\n      (click)=\"dismiss()\"\n    >\n      <md-icon>close</md-icon>\n    </button>\n  ",
-                styles: ["\n    /**\n     * Applies styles for users in high contrast mode. Note that this only applies\n     * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n     * attribute, however Chrome handles high contrast differently.\n     */\n    /* Theme for the ripple elements.*/\n    /** The mixins below are shared between md-menu and md-select */\n    /**\n     * This mixin adds the correct panel transform styles based\n     * on the direction that the menu panel opens.\n     */\n    /* stylelint-disable material/no-prefixes */\n    /* stylelint-enable */\n    /**\n     * This mixin contains shared option styles between the select and\n     * autocomplete components.\n     */\n    :host {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      font-family: Roboto, \"Helvetica Neue\", sans-serif;\n      font-size: 14px;\n      -webkit-box-pack: justify;\n          -ms-flex-pack: justify;\n              justify-content: space-between;\n      line-height: 20px; }\n\n    .mat-keyboard-action {\n      background: none;\n      color: inherit;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n      font-family: inherit;\n      font-size: inherit;\n      font-weight: 600;\n      line-height: 1;\n      margin-left: 8px;\n      text-transform: uppercase; }\n\n    /deep/ .mat-keyboard.dark-theme .mat-keyboard-action {\n      color: whitesmoke; }\n\n    .mat-keyboard-layout {\n      width: 100%; }\n\n    .mat-keyboard-row {\n      -webkit-box-align: stretch;\n          -ms-flex-align: stretch;\n              align-items: stretch;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      -ms-flex-wrap: nowrap;\n          flex-wrap: nowrap; }\n\n    .mat-keyboard-col {\n      -webkit-box-sizing: border-box;\n              box-sizing: border-box;\n      -webkit-box-flex: 1;\n          -ms-flex: 1 1 auto;\n              flex: 1 1 auto;\n      padding: 4px; }\n\n    .mat-keyboard-key {\n      min-width: 0;\n      width: 100%; }\n\n    /deep/ .mat-keyboard.dark-theme .mat-keyboard-key {\n      background-color: #616161;\n      color: whitesmoke; }\n\n    /deep/ .mat-keyboard.debug .mat-keyboard-key-deadkey {\n      background-color: cadetblue; }\n\n    /deep/ .mat-keyboard.debug .mat-keyboard-key-modifier {\n      background-color: aquamarine; }\n\n    /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-deadkey {\n      background-color: rebeccapurple; }\n\n    /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-modifier {\n      background-color: mediumpurple; }\n  "],
+                template: "\n   <nav class=\"mat-keyboard-layout\">\n     <div\n       class=\"mat-keyboard-row\"\n       *ngFor=\"let row of layout.keys\"\n     >\n       <ng-container *ngFor=\"let key of row\">\n         <md-keyboard-key\n           class=\"mat-keyboard-col\"\n           *ngIf=\"key[modifier]\"\n           [key]=\"key[modifier]\"\n           [class.switch-container]=\"'switch' === key[modifier].toLowerCase()\"\n           [active]=\"isActive(key[modifier])\"\n           [input]=\"inputInstance | async\"\n           (altClick)=\"onAltClick()\"\n           (capsClick)=\"onCapsClick()\"\n           (shiftClick)=\"onShiftClick()\"\n           (enterClick)=\"onEnterClick()\"\n           (keyClick)=\"onKeyClick()\"\n           (switchClick)=\"onSwitchClick()\"\n         ></md-keyboard-key>\n       </ng-container>\n     </div>\n   </nav>\n\n   <button\n     md-icon-button\n     class=\"mat-keyboard-action\"\n     *ngIf=\"hasAction\"\n     (click)=\"dismiss()\"\n   >\n     <md-icon>close</md-icon>\n   </button>\n\t",
+                styles: ["\n   /**\n    * Applies styles for users in high contrast mode. Note that this only applies\n    * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n    * attribute, however Chrome handles high contrast differently.\n    */\n   /* Theme for the ripple elements.*/\n   /** The mixins below are shared between md-menu and md-select */\n   /**\n    * This mixin adds the correct panel transform styles based\n    * on the direction that the menu panel opens.\n    */\n   /* stylelint-disable material/no-prefixes */\n   /* stylelint-enable */\n   /**\n    * This mixin contains shared option styles between the select and\n    * autocomplete components.\n    */\n   :host {\n     display: -webkit-box;\n     display: -ms-flexbox;\n     display: flex;\n     font-family: Roboto, \"Helvetica Neue\", sans-serif;\n     font-size: 14px;\n     -webkit-box-pack: justify;\n         -ms-flex-pack: justify;\n             justify-content: space-between;\n     line-height: 20px; }\n\n   .mat-keyboard-action {\n     background: none;\n     color: inherit;\n     -ms-flex-negative: 0;\n         flex-shrink: 0;\n     font-family: inherit;\n     font-size: inherit;\n     font-weight: 600;\n     line-height: 1;\n     margin-left: 8px;\n     text-transform: uppercase; }\n\n   /deep/ .mat-keyboard.dark-theme .mat-keyboard-action {\n     color: whitesmoke; }\n\n   .mat-keyboard-layout {\n     width: 100%; }\n\n   .mat-keyboard-row {\n     -webkit-box-align: stretch;\n         -ms-flex-align: stretch;\n             align-items: stretch;\n     display: -webkit-box;\n     display: -ms-flexbox;\n     display: flex;\n     -webkit-box-orient: horizontal;\n     -webkit-box-direction: normal;\n         -ms-flex-direction: row;\n             flex-direction: row;\n     -ms-flex-wrap: nowrap;\n         flex-wrap: nowrap; }\n\n   .mat-keyboard-col {\n     -webkit-box-sizing: border-box;\n             box-sizing: border-box;\n     -webkit-box-flex: 1;\n         -ms-flex: 1 1 auto;\n             flex: 1 1 auto;\n     padding: 4px; }\n\n   .mat-keyboard-key {\n     min-width: 0;\n     width: 100%; }\n\n   /deep/ .mat-keyboard.dark-theme .mat-keyboard-key {\n     background-color: #616161;\n     color: whitesmoke; }\n\n   /deep/ .mat-keyboard.debug .mat-keyboard-key-deadkey {\n     background-color: cadetblue; }\n\n   /deep/ .mat-keyboard.debug .mat-keyboard-key-modifier {\n     background-color: aquamarine; }\n\n   /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-deadkey {\n     background-color: rebeccapurple; }\n\n   /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-modifier {\n     background-color: mediumpurple; }\n\t"],
                 changeDetection: _angular_core.ChangeDetectionStrategy.OnPush
             },] },
 ];
@@ -31893,6 +31957,7 @@ KeyboardKeyClass.Enter = ('enter');
 KeyboardKeyClass.Shift = ('shift');
 KeyboardKeyClass.Space = ('space');
 KeyboardKeyClass.Tab = ('tab');
+KeyboardKeyClass.Switch = ('switch');
 KeyboardKeyClass[KeyboardKeyClass.Alt] = "Alt";
 KeyboardKeyClass[KeyboardKeyClass.AltGr] = "AltGr";
 KeyboardKeyClass[KeyboardKeyClass.AltLk] = "AltLk";
@@ -31902,6 +31967,7 @@ KeyboardKeyClass[KeyboardKeyClass.Enter] = "Enter";
 KeyboardKeyClass[KeyboardKeyClass.Shift] = "Shift";
 KeyboardKeyClass[KeyboardKeyClass.Space] = "Space";
 KeyboardKeyClass[KeyboardKeyClass.Tab] = "Tab";
+KeyboardKeyClass[KeyboardKeyClass.Switch] = "Switch";
 // - Lay out each dead key set as an object of property/value
 //   pairs.  The rows below are wrapped so uppercase letters are
 //   below their lowercase equivalents.
@@ -32114,7 +32180,8 @@ var keyboardIcons = {
     'caps': 'keyboard_capslock',
     'enter': 'keyboard_return',
     'space': '',
-    'tab': 'keyboard_tab'
+    'tab': 'keyboard_tab',
+    'switch': 'language'
 };
 var MdKeyboardKeyComponent = (function () {
     /**
@@ -32129,6 +32196,9 @@ var MdKeyboardKeyComponent = (function () {
         this.altClick = new _angular_core.EventEmitter();
         this.capsClick = new _angular_core.EventEmitter();
         this.shiftClick = new _angular_core.EventEmitter();
+        this.enterClick = new _angular_core.EventEmitter();
+        this.keyClick = new _angular_core.EventEmitter();
+        this.switchClick = new _angular_core.EventEmitter();
     }
     Object.defineProperty(MdKeyboardKeyComponent.prototype, "lowerKey", {
         /**
@@ -32252,6 +32322,7 @@ var MdKeyboardKeyComponent = (function () {
                 break;
             case 'Enter':
                 char = '\n\r';
+                this.enterClick.emit();
                 break;
             case 'Shift':
                 this.shiftClick.emit();
@@ -32262,15 +32333,19 @@ var MdKeyboardKeyComponent = (function () {
             case 'Tab':
                 char = '\t';
                 break;
+            case 'Switch':
+                this.switchClick.emit();
+                break;
             default:
                 char = this.key;
+                this.keyClick.emit();
                 break;
         }
         if (char && this.input) {
             this.input.nativeElement.value = [value.slice(0, caret), char, value.slice(caret)].join('');
             this._setCursorPosition(caret + 1);
+            this._triggerKeyEvent();
         }
-        this._triggerKeyEvent();
     };
     /**
      * @return {?}
@@ -32352,7 +32427,7 @@ MdKeyboardKeyComponent.decorators = [
     { type: _angular_core.Component, args: [{
                 selector: 'md-keyboard-key',
                 template: "\n   <button\n     md-raised-button\n     class=\"mat-keyboard-key\"\n     [class.mat-keyboard-key-active]=\"active\"\n     [ngClass]=\"cssClass\"\n     (mousedown)=\"onMousedown($event)\"\n     (click)=\"onClick()\"\n   >\n     <md-icon *ngIf=\"hasIcon\">{{icon}}</md-icon>\n     <ng-container *ngIf=\"!hasIcon\">{{key}}</ng-container>\n   </button>\n\t",
-                styles: ["\n   /**\n    * Applies styles for users in high contrast mode. Note that this only applies\n    * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n    * attribute, however Chrome handles high contrast differently.\n    */\n   /* Theme for the ripple elements.*/\n   /** The mixins below are shared between md-menu and md-select */\n   /**\n    * This mixin adds the correct panel transform styles based\n    * on the direction that the menu panel opens.\n    */\n   /* stylelint-disable material/no-prefixes */\n   /* stylelint-enable */\n   /**\n    * This mixin contains shared option styles between the select and\n    * autocomplete components.\n    */\n   @font-face {\n     font-family: 'Material Icons';\n     font-style: normal;\n     font-weight: 400;\n     src: url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.eot);\n     /* For IE6-8 */\n     src: local(\"/node_modules/material-design-icons/iconfont/Material Icons\"), local(\"/node_modules/material-design-icons/iconfont/MaterialIcons-Regular\"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format(\"woff2\"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff) format(\"woff\"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.ttf) format(\"truetype\"); }\n\n   .material-icons {\n     font-family: 'Material Icons';\n     font-weight: normal;\n     font-style: normal;\n     font-size: 24px;\n     /* Preferred icon size */\n     display: inline-block;\n     line-height: 1;\n     text-transform: none;\n     letter-spacing: normal;\n     word-wrap: normal;\n     white-space: nowrap;\n     direction: ltr;\n     /* Support for all WebKit browsers. */\n     -webkit-font-smoothing: antialiased;\n     /* Support for Safari and Chrome. */\n     text-rendering: optimizeLegibility;\n     /* Support for Firefox. */\n     -moz-osx-font-smoothing: grayscale;\n     /* Support for IE. */\n     -webkit-font-feature-settings: 'liga';\n             font-feature-settings: 'liga'; }\n\n   :host {\n     display: -webkit-box;\n     display: -ms-flexbox;\n     display: flex;\n     font-family: Roboto, \"Helvetica Neue\", sans-serif;\n     font-size: 14px;\n     -webkit-box-pack: justify;\n         -ms-flex-pack: justify;\n             justify-content: space-between;\n     line-height: 20px; }\n\n   .mat-keyboard-key {\n     min-width: 0;\n     width: 100%; }\n     .mat-keyboard-key-active {\n       background-color: #e0e0e0; }\n\n   :host-context(.dark-theme) .mat-keyboard-key {\n     background-color: #616161;\n     color: whitesmoke; }\n     :host-context(.dark-theme) .mat-keyboard-key-active {\n       background-color: #9e9e9e; }\n\n   :host-context(.debug) .mat-keyboard-key-deadkey {\n     background-color: cadetblue; }\n\n   :host-context(.debug) .mat-keyboard-key-modifier {\n     background-color: aquamarine; }\n\n   :host-context(.dark-theme.debug) .mat-keyboard-key-deadkey {\n     background-color: rebeccapurple; }\n\n   :host-context(.dark-theme.debug) .mat-keyboard-key-modifier {\n     background-color: mediumpurple; }\n\t"],
+                styles: ["\n   /**\n    * Applies styles for users in high contrast mode. Note that this only applies\n    * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n    * attribute, however Chrome handles high contrast differently.\n    */\n   /* Theme for the ripple elements.*/\n   /** The mixins below are shared between md-menu and md-select */\n   /**\n    * This mixin adds the correct panel transform styles based\n    * on the direction that the menu panel opens.\n    */\n   /* stylelint-disable material/no-prefixes */\n   /* stylelint-enable */\n   /**\n    * This mixin contains shared option styles between the select and\n    * autocomplete components.\n    */\n   :host {\n     display: -webkit-box;\n     display: -ms-flexbox;\n     display: flex;\n     font-family: Roboto, \"Helvetica Neue\", sans-serif;\n     font-size: 14px;\n     -webkit-box-pack: justify;\n         -ms-flex-pack: justify;\n             justify-content: space-between;\n     line-height: 20px; }\n     :host.switch-container {\n       -webkit-box-flex: 0;\n           -ms-flex: 0;\n               flex: 0; }\n\n   .mat-keyboard-key {\n     min-width: 0;\n     width: 100%; }\n     .mat-keyboard-key-active {\n       background-color: #e0e0e0; }\n     .mat-keyboard-key.key-switch {\n       background-color: #656; }\n\n   .mat-keyboard-key-switch {\n     width: 85px; }\n\n   .mat-keyboard :host-context(.key-switch) {\n     width: 85px;\n     -webkit-box-flex: 0;\n         -ms-flex: 0;\n             flex: 0; }\n\n   :host-context(.dark-theme) .mat-keyboard-key {\n     background-color: #616161;\n     color: whitesmoke; }\n     :host-context(.dark-theme) .mat-keyboard-key-active {\n       background-color: #9e9e9e; }\n\n   :host-context(.debug) .mat-keyboard-key-deadkey {\n     background-color: cadetblue; }\n\n   :host-context(.debug) .mat-keyboard-key-modifier {\n     background-color: aquamarine; }\n\n   :host-context(.dark-theme.debug) .mat-keyboard-key-deadkey {\n     background-color: rebeccapurple; }\n\n   :host-context(.dark-theme.debug) .mat-keyboard-key-modifier {\n     background-color: mediumpurple; }\n\t"],
                 changeDetection: _angular_core.ChangeDetectionStrategy.OnPush
             },] },
 ];
@@ -32370,6 +32445,9 @@ MdKeyboardKeyComponent.propDecorators = {
     'altClick': [{ type: _angular_core.Output },],
     'capsClick': [{ type: _angular_core.Output },],
     'shiftClick': [{ type: _angular_core.Output },],
+    'enterClick': [{ type: _angular_core.Output },],
+    'keyClick': [{ type: _angular_core.Output },],
+    'switchClick': [{ type: _angular_core.Output },],
 };
 var MdKeyboardDirective = (function () {
     /**
@@ -32388,17 +32466,10 @@ var MdKeyboardDirective = (function () {
             darkTheme: this.darkTheme,
             duration: this.duration,
             hasAction: this.hasAction,
-            isDebug: this.isDebug
+            isDebug: this.isDebug,
+            switches: this.switches
         });
         this._keyboardRef.instance.setInputInstance(this._elementRef);
-    };
-    /**
-     * @return {?}
-     */
-    MdKeyboardDirective.prototype._hideKeyboard = function () {
-        if (this._keyboardRef) {
-            this._keyboardRef.dismiss();
-        }
     };
     return MdKeyboardDirective;
 }());
@@ -32420,8 +32491,8 @@ MdKeyboardDirective.propDecorators = {
     'duration': [{ type: _angular_core.Input },],
     'hasAction': [{ type: _angular_core.Input },],
     'isDebug': [{ type: _angular_core.Input },],
+    'switches': [{ type: _angular_core.Input },],
     '_showKeyboard': [{ type: _angular_core.HostListener, args: ['focus', ['$event'],] },],
-    '_hideKeyboard': [{ type: _angular_core.HostListener, args: ['blur', ['$event'],] },],
 };
 var KebabCasePipe = (function () {
     function KebabCasePipe() {

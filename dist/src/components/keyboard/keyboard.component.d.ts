@@ -15,11 +15,13 @@ export declare class MdKeyboardComponent implements OnInit {
     darkTheme: boolean;
     hasAction: boolean;
     isDebug: boolean;
+    switches: string[];
     locale?: string;
     layout: IKeyboardLayout;
     modifier: KeyboardModifier;
     keyboardRef: MdKeyboardRef<MdKeyboardComponent>;
     private _inputInstance$;
+    private _switchValue;
     readonly inputInstance: Observable<ElementRef>;
     setInputInstance(inputInstance: ElementRef): void;
     constructor(_locale: any, _keyboardService: MdKeyboardService);
@@ -29,4 +31,7 @@ export declare class MdKeyboardComponent implements OnInit {
     onAltClick(): void;
     onCapsClick(): void;
     onShiftClick(): void;
+    onEnterClick(): void;
+    onKeyClick(): void;
+    onSwitchClick(): void;
 }

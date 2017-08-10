@@ -8,4 +8,5 @@ export declare enum KeyboardKeyClass {
     Shift,
     Space,
     Tab,
+    Switch,
 }

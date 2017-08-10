@@ -17,6 +17,7 @@ export declare class MdKeyboardRef<T> {
     darkTheme: boolean;
     hasAction: boolean;
     isDebug: boolean;
+    switches: string[];
     /** Subject for notifying the user that the keyboard has closed. */
     private _afterClosed;
     /** Subject for notifying the user that the keyboard has opened and appeared. */
