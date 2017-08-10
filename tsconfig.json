@@ -19,7 +19,7 @@
       "dom"
     ],
     "paths": {
-      "@ngx-material-keyboard/core": [
+      "ngx-onscreen-keyboard": [
         "./public_api.ts"
       ]
     },

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ngx-material-keyboard/core.svg?branch=master)](https://travis-ci.org/ngx-material-keyboard/core)
+[![Build Status](https://travis-ci.org/devbackend/ngx-onscreen-keyboard.svg?branch=master)](https://travis-ci.org/devbackend/ngx-onscreen-keyboard)
 
 # ngx-material-keyboard
 Onscreen virtual keyboard for [Angular](https://angular.io/) using [Material 2](https://material.angular.io/).

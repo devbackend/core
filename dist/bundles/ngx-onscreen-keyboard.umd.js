@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/AsyncSubject'), require('rxjs/operator/finally'), require('rxjs/operator/catch'), require('rxjs/operator/do'), require('rxjs/operator/map'), require('rxjs/operator/filter'), require('rxjs/operator/share'), require('rxjs/operator/first'), require('rxjs/operator/switchMap'), require('rxjs/operator/startWith'), require('rxjs/operator/debounceTime'), require('rxjs/operator/auditTime'), require('rxjs/operator/takeUntil'), require('@angular/common'), require('rxjs/Subject'), require('@angular/platform-browser'), require('rxjs/observable/merge'), require('rxjs/BehaviorSubject'), require('rxjs/Subscription'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('@angular/forms'), require('@angular/animations'), require('@angular/http'), require('rxjs/Observable'), require('rxjs/observable/throw'), require('rxjs/observable/forkJoin')) :
 	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/AsyncSubject', 'rxjs/operator/finally', 'rxjs/operator/catch', 'rxjs/operator/do', 'rxjs/operator/map', 'rxjs/operator/filter', 'rxjs/operator/share', 'rxjs/operator/first', 'rxjs/operator/switchMap', 'rxjs/operator/startWith', 'rxjs/operator/debounceTime', 'rxjs/operator/auditTime', 'rxjs/operator/takeUntil', '@angular/common', 'rxjs/Subject', '@angular/platform-browser', 'rxjs/observable/merge', 'rxjs/BehaviorSubject', 'rxjs/Subscription', 'rxjs/observable/fromEvent', 'rxjs/observable/of', '@angular/forms', '@angular/animations', '@angular/http', 'rxjs/Observable', 'rxjs/observable/throw', 'rxjs/observable/forkJoin'], factory) :
-	(factory((global.core = {}),global.ng.core,global.Rx,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.common,global.Rx,global.ng.platformBrowser,global.Rx.Observable,global.Rx,global.Rx,global.Rx.Observable,global.Rx.Observable,global.ng.forms,global.ng.animations,global.ng.http,global.Rx,global.Rx.Observable,global.Rx.Observable));
+	(factory((global['ngx-onscreen-keyboard'] = {}),global.ng.core,global.Rx,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.common,global.Rx,global.ng.platformBrowser,global.Rx.Observable,global.Rx,global.Rx,global.Rx.Observable,global.Rx.Observable,global.ng.forms,global.ng.animations,global.ng.http,global.Rx,global.Rx.Observable,global.Rx.Observable));
 }(this, (function (exports,_angular_core,rxjs_AsyncSubject,rxjs_operator_finally,rxjs_operator_catch,rxjs_operator_do,rxjs_operator_map,rxjs_operator_filter,rxjs_operator_share,rxjs_operator_first,rxjs_operator_switchMap,rxjs_operator_startWith,rxjs_operator_debounceTime,rxjs_operator_auditTime,rxjs_operator_takeUntil,_angular_common,rxjs_Subject,_angular_platformBrowser,rxjs_observable_merge,rxjs_BehaviorSubject,rxjs_Subscription,rxjs_observable_fromEvent,rxjs_observable_of,_angular_forms,_angular_animations,_angular_http,rxjs_Observable,rxjs_observable_throw,rxjs_observable_forkJoin) { 'use strict';
 
 var __extends = (this && this.__extends) || (function () {
@@ -32199,11 +32199,11 @@ var MdKeyboardKeyComponent = (function () {
         get: function () {
             var /** @type {?} */ classes = [];
             if (this.isClassKey) {
-                classes.push('mat-keyboard__key--modifier');
-                classes.push("mat-keyboard__key--" + KeyboardKeyClass[this.key]);
+                classes.push('mat-keyboard-key-modifier');
+                classes.push("mat-keyboard-key-" + KeyboardKeyClass[this.key]);
             }
             if (this.isDeadKey) {
-                classes.push('mat-keyboard__key--deadkey');
+                classes.push('mat-keyboard-key-deadkey');
             }
             return classes.join(' ');
         },
@@ -32231,9 +32231,6 @@ var MdKeyboardKeyComponent = (function () {
      * @return {?}
      */
     MdKeyboardKeyComponent.prototype.onClick = function () {
-        // Trigger a global key event
-        // TODO: determine whether an output should bubble the pressed key similar to the keybboard action or not
-        this._triggerKeyEvent();
         // Manipulate the focused input / textarea value
         var /** @type {?} */ value = this.input ? this.input.nativeElement.value : '';
         var /** @type {?} */ caret = this.input ? this._getCursorPosition() : 0;
@@ -32273,13 +32270,14 @@ var MdKeyboardKeyComponent = (function () {
             this.input.nativeElement.value = [value.slice(0, caret), char, value.slice(caret)].join('');
             this._setCursorPosition(caret + 1);
         }
+        this._triggerKeyEvent();
     };
     /**
      * @return {?}
      */
     MdKeyboardKeyComponent.prototype._triggerKeyEvent = function () {
         var /** @type {?} */ keyboardEvent = window.document.createEvent('KeyboardEvent');
-        var /** @type {?} */ initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? 'initKeyboardEvent' : 'initKeyEvent';
+        var /** @type {?} */ initMethod = ('undefined' !== typeof keyboardEvent.initKeyboardEvent ? 'initKeyboardEvent' : 'initKeyEvent');
         keyboardEvent[initMethod]('keydown', // event type : keydown, keyup, keypress
         true, // bubbles
         true, // cancelable
@@ -32292,6 +32290,9 @@ var MdKeyboardKeyComponent = (function () {
         0 // charCodeArgs : unsigned long - the Unicode character associated with the depressed key, else 0
         );
         window.document.dispatchEvent(keyboardEvent);
+        // -- Dispatch input event for two-way binding
+        this.input.nativeElement.dispatchEvent(new Event('input'));
+        // -- -- -- --
         return keyboardEvent;
     };
     /**
@@ -32350,8 +32351,8 @@ var MdKeyboardKeyComponent = (function () {
 MdKeyboardKeyComponent.decorators = [
     { type: _angular_core.Component, args: [{
                 selector: 'md-keyboard-key',
-                template: "\n    <button\n      md-raised-button\n      class=\"mat-keyboard-key\"\n      [class.mat-keyboard-key-active]=\"active\"\n      [ngClass]=\"cssClass\"\n      (mousedown)=\"onMousedown($event)\"\n      (click)=\"onClick()\"\n    >\n      <md-icon *ngIf=\"hasIcon\">{{icon}}</md-icon>\n      <ng-container *ngIf=\"!hasIcon\">{{key}}</ng-container>\n    </button>\n  ",
-                styles: ["\n    /**\n     * Applies styles for users in high contrast mode. Note that this only applies\n     * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n     * attribute, however Chrome handles high contrast differently.\n     */\n    /* Theme for the ripple elements.*/\n    /** The mixins below are shared between md-menu and md-select */\n    /**\n     * This mixin adds the correct panel transform styles based\n     * on the direction that the menu panel opens.\n     */\n    /* stylelint-disable material/no-prefixes */\n    /* stylelint-enable */\n    /**\n     * This mixin contains shared option styles between the select and\n     * autocomplete components.\n     */\n    :host {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      font-family: Roboto, \"Helvetica Neue\", sans-serif;\n      font-size: 14px;\n      -webkit-box-pack: justify;\n          -ms-flex-pack: justify;\n              justify-content: space-between;\n      line-height: 20px; }\n\n    .mat-keyboard-key {\n      min-width: 0;\n      width: 100%; }\n      .mat-keyboard-key-active {\n        background-color: #e0e0e0; }\n\n    :host-context(.dark-theme) .mat-keyboard-key {\n      background-color: #616161;\n      color: whitesmoke; }\n      :host-context(.dark-theme) .mat-keyboard-key-active {\n        background-color: #9e9e9e; }\n\n    :host-context(.debug) .mat-keyboard-key-deadkey {\n      background-color: cadetblue; }\n\n    :host-context(.debug) .mat-keyboard-key-modifier {\n      background-color: aquamarine; }\n\n    :host-context(.dark-theme.debug) .mat-keyboard-key-deadkey {\n      background-color: rebeccapurple; }\n\n    :host-context(.dark-theme.debug) .mat-keyboard-key-modifier {\n      background-color: mediumpurple; }\n  "],
+                template: "\n   <button\n     md-raised-button\n     class=\"mat-keyboard-key\"\n     [class.mat-keyboard-key-active]=\"active\"\n     [ngClass]=\"cssClass\"\n     (mousedown)=\"onMousedown($event)\"\n     (click)=\"onClick()\"\n   >\n     <md-icon *ngIf=\"hasIcon\">{{icon}}</md-icon>\n     <ng-container *ngIf=\"!hasIcon\">{{key}}</ng-container>\n   </button>\n\t",
+                styles: ["\n   /**\n    * Applies styles for users in high contrast mode. Note that this only applies\n    * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n    * attribute, however Chrome handles high contrast differently.\n    */\n   /* Theme for the ripple elements.*/\n   /** The mixins below are shared between md-menu and md-select */\n   /**\n    * This mixin adds the correct panel transform styles based\n    * on the direction that the menu panel opens.\n    */\n   /* stylelint-disable material/no-prefixes */\n   /* stylelint-enable */\n   /**\n    * This mixin contains shared option styles between the select and\n    * autocomplete components.\n    */\n   @font-face {\n     font-family: 'Material Icons';\n     font-style: normal;\n     font-weight: 400;\n     src: url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.eot);\n     /* For IE6-8 */\n     src: local(\"/node_modules/material-design-icons/iconfont/Material Icons\"), local(\"/node_modules/material-design-icons/iconfont/MaterialIcons-Regular\"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format(\"woff2\"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff) format(\"woff\"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.ttf) format(\"truetype\"); }\n\n   .material-icons {\n     font-family: 'Material Icons';\n     font-weight: normal;\n     font-style: normal;\n     font-size: 24px;\n     /* Preferred icon size */\n     display: inline-block;\n     line-height: 1;\n     text-transform: none;\n     letter-spacing: normal;\n     word-wrap: normal;\n     white-space: nowrap;\n     direction: ltr;\n     /* Support for all WebKit browsers. */\n     -webkit-font-smoothing: antialiased;\n     /* Support for Safari and Chrome. */\n     text-rendering: optimizeLegibility;\n     /* Support for Firefox. */\n     -moz-osx-font-smoothing: grayscale;\n     /* Support for IE. */\n     -webkit-font-feature-settings: 'liga';\n             font-feature-settings: 'liga'; }\n\n   :host {\n     display: -webkit-box;\n     display: -ms-flexbox;\n     display: flex;\n     font-family: Roboto, \"Helvetica Neue\", sans-serif;\n     font-size: 14px;\n     -webkit-box-pack: justify;\n         -ms-flex-pack: justify;\n             justify-content: space-between;\n     line-height: 20px; }\n\n   .mat-keyboard-key {\n     min-width: 0;\n     width: 100%; }\n     .mat-keyboard-key-active {\n       background-color: #e0e0e0; }\n\n   :host-context(.dark-theme) .mat-keyboard-key {\n     background-color: #616161;\n     color: whitesmoke; }\n     :host-context(.dark-theme) .mat-keyboard-key-active {\n       background-color: #9e9e9e; }\n\n   :host-context(.debug) .mat-keyboard-key-deadkey {\n     background-color: cadetblue; }\n\n   :host-context(.debug) .mat-keyboard-key-modifier {\n     background-color: aquamarine; }\n\n   :host-context(.dark-theme.debug) .mat-keyboard-key-deadkey {\n     background-color: rebeccapurple; }\n\n   :host-context(.dark-theme.debug) .mat-keyboard-key-modifier {\n     background-color: mediumpurple; }\n\t"],
                 changeDetection: _angular_core.ChangeDetectionStrategy.OnPush
             },] },
 ];
@@ -32531,4 +32532,4 @@ exports.ɵb = MdKeyboardService;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=core.umd.js.map
+//# sourceMappingURL=ngx-onscreen-keyboard.umd.js.map

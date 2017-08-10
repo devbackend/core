@@ -1,13 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 import { ApplicationRef, Attribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, Host, HostBinding, HostListener, Inject, Injectable, InjectionToken, Injector, Input, IterableDiffers, LOCALE_ID, NgModule, NgZone, Optional, Output, Pipe, Renderer2, SecurityContext, Self, SkipSelf, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation, forwardRef, isDevMode } from '@angular/core';
 import { AsyncSubject } from 'rxjs/AsyncSubject';
 import { _finally } from 'rxjs/operator/finally';
@@ -36,7 +26,8 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { _throw } from 'rxjs/observable/throw';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-var KeyboardModifier = {};
+
+let KeyboardModifier = {};
 KeyboardModifier.None = 0;
 KeyboardModifier.Shift = 1;
 KeyboardModifier.Alt = 2;
@@ -45,6 +36,7 @@ KeyboardModifier[KeyboardModifier.None] = "None";
 KeyboardModifier[KeyboardModifier.Shift] = "Shift";
 KeyboardModifier[KeyboardModifier.Alt] = "Alt";
 KeyboardModifier[KeyboardModifier.ShiftAlt] = "ShiftAlt";
+
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -60,16 +52,17 @@ See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
 /* global Reflect, Promise */
+
 var extendStatics = Object.setPrototypeOf ||
     ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-    function (d, b) { for (var p in b)
-        if (b.hasOwnProperty(p))
-            d[p] = b[p]; };
+    function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+
 function __extends(d, b) {
     extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
+
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -93,7 +86,7 @@ var hasV8BreakIterator = (typeof (Intl) !== 'undefined' && ((Intl)).v8BreakItera
  * checking browser-specific global properties.
  * \@docs-private
  */
-var Platform = (function () {
+var Platform = /*@__PURE__*/(function () {
     function Platform() {
         this.isBrowser = typeof document === 'object' && !!document;
         /**
@@ -137,7 +130,7 @@ Platform.ctorParameters = function () { return []; };
  * Utility for checking the interactivity of an element, such as whether is is focusable or
  * tabbable.
  */
-var InteractivityChecker = (function () {
+var InteractivityChecker = /*@__PURE__*/(function () {
     /**
      * @param {?} _platform
      */
@@ -254,11 +247,9 @@ InteractivityChecker.decorators = [
 /**
  * @nocollapse
  */
-InteractivityChecker.ctorParameters = function () {
-    return [
-        { type: Platform, },
-    ];
-};
+InteractivityChecker.ctorParameters = function () { return [
+    { type: Platform, },
+]; };
 /**
  * Checks whether the specified element has any geometry / rectangles.
  * @param {?} element
@@ -387,7 +378,7 @@ function getWindow(node) {
  * is StrictRxChain. The strict chain enforces types on the operators to the same level as
  * the prototype-added equivalents.
  */
-var RxChain = (function () {
+var RxChain = /*@__PURE__*/(function () {
     /**
      * @param {?} _context
      */
@@ -458,7 +449,7 @@ var takeUntil$1 = (takeUntil);
  * Things like tabIndex > 0, flex `order`, and shadow roots can cause to two to misalign.
  * This will be replaced with a more intelligent solution before the library is considered stable.
  */
-var FocusTrap = (function () {
+var FocusTrap = /*@__PURE__*/(function () {
     /**
      * @param {?} _element
      * @param {?} _platform
@@ -467,9 +458,7 @@ var FocusTrap = (function () {
      * @param {?=} deferAnchors
      */
     function FocusTrap(_element, _platform, _checker, _ngZone, deferAnchors) {
-        if (deferAnchors === void 0) {
-            deferAnchors = false;
-        }
+        if (deferAnchors === void 0) { deferAnchors = false; }
         this._element = _element;
         this._platform = _platform;
         this._checker = _checker;
@@ -690,7 +679,7 @@ var FocusTrap = (function () {
 /**
  * Factory that allows easy instantiation of focus traps.
  */
-var FocusTrapFactory = (function () {
+var FocusTrapFactory = /*@__PURE__*/(function () {
     /**
      * @param {?} _checker
      * @param {?} _platform
@@ -707,9 +696,7 @@ var FocusTrapFactory = (function () {
      * @return {?}
      */
     FocusTrapFactory.prototype.create = function (element, deferAnchors) {
-        if (deferAnchors === void 0) {
-            deferAnchors = false;
-        }
+        if (deferAnchors === void 0) { deferAnchors = false; }
         return new FocusTrap(element, this._platform, this._checker, this._ngZone, deferAnchors);
     };
     return FocusTrapFactory;
@@ -720,18 +707,16 @@ FocusTrapFactory.decorators = [
 /**
  * @nocollapse
  */
-FocusTrapFactory.ctorParameters = function () {
-    return [
-        { type: InteractivityChecker, },
-        { type: Platform, },
-        { type: NgZone, },
-    ];
-};
+FocusTrapFactory.ctorParameters = function () { return [
+    { type: InteractivityChecker, },
+    { type: Platform, },
+    { type: NgZone, },
+]; };
 /**
  * Directive for trapping focus within a region.
  * @deprecated
  */
-var FocusTrapDeprecatedDirective = (function () {
+var FocusTrapDeprecatedDirective = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} _focusTrapFactory
@@ -779,19 +764,17 @@ FocusTrapDeprecatedDirective.decorators = [
 /**
  * @nocollapse
  */
-FocusTrapDeprecatedDirective.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: FocusTrapFactory, },
-    ];
-};
+FocusTrapDeprecatedDirective.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: FocusTrapFactory, },
+]; };
 FocusTrapDeprecatedDirective.propDecorators = {
     'disabled': [{ type: Input },],
 };
 /**
  * Directive for trapping focus within a region.
  */
-var FocusTrapDirective = (function () {
+var FocusTrapDirective = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} _focusTrapFactory
@@ -838,17 +821,15 @@ FocusTrapDirective.decorators = [
 /**
  * @nocollapse
  */
-FocusTrapDirective.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: FocusTrapFactory, },
-    ];
-};
+FocusTrapDirective.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: FocusTrapFactory, },
+]; };
 FocusTrapDirective.propDecorators = {
     'enabled': [{ type: Input, args: ['cdkTrapFocus',] },],
 };
 var LIVE_ANNOUNCER_ELEMENT_TOKEN = new InjectionToken('liveAnnouncerElement');
-var LiveAnnouncer = (function () {
+var LiveAnnouncer = /*@__PURE__*/(function () {
     /**
      * @param {?} elementToken
      * @param {?} platform
@@ -870,9 +851,7 @@ var LiveAnnouncer = (function () {
      */
     LiveAnnouncer.prototype.announce = function (message, politeness) {
         var _this = this;
-        if (politeness === void 0) {
-            politeness = 'polite';
-        }
+        if (politeness === void 0) { politeness = 'polite'; }
         this._liveElement.textContent = '';
         // TODO: ensure changing the politeness works on all environments we support.
         this._liveElement.setAttribute('aria-live', politeness);
@@ -911,12 +890,10 @@ LiveAnnouncer.decorators = [
 /**
  * @nocollapse
  */
-LiveAnnouncer.ctorParameters = function () {
-    return [
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [LIVE_ANNOUNCER_ELEMENT_TOKEN,] },] },
-        { type: Platform, },
-    ];
-};
+LiveAnnouncer.ctorParameters = function () { return [
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [LIVE_ANNOUNCER_ELEMENT_TOKEN,] },] },
+    { type: Platform, },
+]; };
 /**
  * @param {?} parentDispatcher
  * @param {?} liveElement
@@ -993,7 +970,7 @@ function getSupportedInputTypes() {
     }));
     return supportedInputTypes;
 }
-var PlatformModule = (function () {
+var PlatformModule = /*@__PURE__*/(function () {
     function PlatformModule() {
     }
     return PlatformModule;
@@ -1035,7 +1012,7 @@ var ESCAPE = 27;
  * This class manages keyboard events for selectable lists. If you pass it a query list
  * of items, it will set the active item correctly when arrow events occur.
  */
-var ListKeyManager = (function () {
+var ListKeyManager = /*@__PURE__*/(function () {
     /**
      * @param {?} _items
      */
@@ -1167,9 +1144,7 @@ var ListKeyManager = (function () {
      * @return {?}
      */
     ListKeyManager.prototype._setActiveItemByDelta = function (delta, items) {
-        if (items === void 0) {
-            items = this._items.toArray();
-        }
+        if (items === void 0) { items = this._items.toArray(); }
         this._wrap ? this._setActiveInWrapMode(delta, items)
             : this._setActiveInDefaultMode(delta, items);
     };
@@ -1214,9 +1189,7 @@ var ListKeyManager = (function () {
      * @return {?}
      */
     ListKeyManager.prototype._setActiveItemByIndex = function (index, fallbackDelta, items) {
-        if (items === void 0) {
-            items = this._items.toArray();
-        }
+        if (items === void 0) { items = this._items.toArray(); }
         if (!items[index]) {
             return;
         }
@@ -1230,7 +1203,7 @@ var ListKeyManager = (function () {
     };
     return ListKeyManager;
 }());
-var ActiveDescendantKeyManager$1 = (function (_super) {
+var ActiveDescendantKeyManager$1 = /*@__PURE__*/(function (_super) {
     __extends(ActiveDescendantKeyManager, _super);
     function ActiveDescendantKeyManager() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -1256,7 +1229,7 @@ var ActiveDescendantKeyManager$1 = (function (_super) {
     };
     return ActiveDescendantKeyManager;
 }(ListKeyManager));
-var FocusKeyManager$1 = (function (_super) {
+var FocusKeyManager$1 = /*@__PURE__*/(function (_super) {
     __extends(FocusKeyManager, _super);
     /**
      * @param {?} items
@@ -1278,7 +1251,7 @@ var FocusKeyManager$1 = (function (_super) {
     };
     return FocusKeyManager;
 }(ListKeyManager));
-var A11yModule = (function () {
+var A11yModule = /*@__PURE__*/(function () {
     function A11yModule() {
     }
     return A11yModule;
@@ -1310,7 +1283,7 @@ var DIR_DOCUMENT = new InjectionToken('md-dir-doc');
  * The directionality (LTR / RTL) context for the application (or a subtree of it).
  * Exposes the current direction and a stream of direction changes.
  */
-var Directionality = (function () {
+var Directionality = /*@__PURE__*/(function () {
     /**
      * @param {?=} _document
      */
@@ -1335,11 +1308,9 @@ Directionality.decorators = [
 /**
  * @nocollapse
  */
-Directionality.ctorParameters = function () {
-    return [
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DIR_DOCUMENT,] },] },
-    ];
-};
+Directionality.ctorParameters = function () { return [
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DIR_DOCUMENT,] },] },
+]; };
 /**
  * @param {?} parentDirectionality
  * @param {?} _document
@@ -1359,7 +1330,7 @@ var DIRECTIONALITY_PROVIDER = {
  *
  * Would provide itself in case a component looks for the Directionality service
  */
-var Dir = (function () {
+var Dir = /*@__PURE__*/(function () {
     function Dir() {
         /**
          * Layout direction of the element.
@@ -1437,7 +1408,7 @@ Dir.propDecorators = {
     'change': [{ type: Output, args: ['dirChange',] },],
     'dir': [{ type: HostBinding, args: ['attr.dir',] }, { type: Input, args: ['dir',] },],
 };
-var BidiModule = (function () {
+var BidiModule = /*@__PURE__*/(function () {
     function BidiModule() {
     }
     return BidiModule;
@@ -1463,9 +1434,7 @@ BidiModule.ctorParameters = function () { return []; };
  * @return {?}
  */
 function coerceNumberProperty(value, fallbackValue) {
-    if (fallbackValue === void 0) {
-        fallbackValue = 0;
-    }
+    if (fallbackValue === void 0) { fallbackValue = 0; }
     // parseFloat(value) handles most of the cases we're interested in (it treats null, empty string,
     // and other non-number values as NaN, where Number just uses 0) but it considers the string
     // '123hello' to be a valid number. Therefore we also check if Number(value) is NaN.
@@ -1481,7 +1450,7 @@ var CDK_ROW_TEMPLATE = "<ng-container cdkCellOutlet></ng-container>";
  * for changes and notifying the table.
  * @abstract
  */
-var BaseRowDef = (function () {
+var BaseRowDef = /*@__PURE__*/(function () {
     /**
      * @param {?} template
      * @param {?} _differs
@@ -1531,7 +1500,7 @@ var BaseRowDef = (function () {
  * Header row definition for the CDK table.
  * Captures the header row's template and other header properties such as the columns to display.
  */
-var CdkHeaderRowDef = (function (_super) {
+var CdkHeaderRowDef = /*@__PURE__*/(function (_super) {
     __extends(CdkHeaderRowDef, _super);
     /**
      * @param {?} template
@@ -1551,17 +1520,15 @@ CdkHeaderRowDef.decorators = [
 /**
  * @nocollapse
  */
-CdkHeaderRowDef.ctorParameters = function () {
-    return [
-        { type: TemplateRef, },
-        { type: IterableDiffers, },
-    ];
-};
+CdkHeaderRowDef.ctorParameters = function () { return [
+    { type: TemplateRef, },
+    { type: IterableDiffers, },
+]; };
 /**
  * Data row definition for the CDK table.
  * Captures the header row's template and other row properties such as the columns to display.
  */
-var CdkRowDef = (function (_super) {
+var CdkRowDef = /*@__PURE__*/(function (_super) {
     __extends(CdkRowDef, _super);
     /**
      * @param {?} template
@@ -1581,17 +1548,15 @@ CdkRowDef.decorators = [
 /**
  * @nocollapse
  */
-CdkRowDef.ctorParameters = function () {
-    return [
-        { type: TemplateRef, },
-        { type: IterableDiffers, },
-    ];
-};
+CdkRowDef.ctorParameters = function () { return [
+    { type: TemplateRef, },
+    { type: IterableDiffers, },
+]; };
 /**
  * Outlet for rendering cells inside of a row or header row.
  * \@docs-private
  */
-var CdkCellOutlet = (function () {
+var CdkCellOutlet = /*@__PURE__*/(function () {
     /**
      * @param {?} _viewContainer
      */
@@ -1607,15 +1572,13 @@ CdkCellOutlet.decorators = [
 /**
  * @nocollapse
  */
-CdkCellOutlet.ctorParameters = function () {
-    return [
-        { type: ViewContainerRef, },
-    ];
-};
+CdkCellOutlet.ctorParameters = function () { return [
+    { type: ViewContainerRef, },
+]; };
 /**
  * Header template container that contains the cell outlet. Adds the right class and role.
  */
-var CdkHeaderRow = (function () {
+var CdkHeaderRow = /*@__PURE__*/(function () {
     function CdkHeaderRow() {
     }
     return CdkHeaderRow;
@@ -1638,7 +1601,7 @@ CdkHeaderRow.ctorParameters = function () { return []; };
 /**
  * Data row template container that contains the cell outlet. Adds the right class and role.
  */
-var CdkRow = (function () {
+var CdkRow = /*@__PURE__*/(function () {
     function CdkRow() {
     }
     return CdkRow;
@@ -1662,7 +1625,7 @@ CdkRow.ctorParameters = function () { return []; };
  * Cell definition for a CDK table.
  * Captures the template of a column's data row cell as well as cell-specific properties.
  */
-var CdkCellDef = (function () {
+var CdkCellDef = /*@__PURE__*/(function () {
     /**
      * @param {?} template
      */
@@ -1677,16 +1640,14 @@ CdkCellDef.decorators = [
 /**
  * @nocollapse
  */
-CdkCellDef.ctorParameters = function () {
-    return [
-        { type: TemplateRef, },
-    ];
-};
+CdkCellDef.ctorParameters = function () { return [
+    { type: TemplateRef, },
+]; };
 /**
  * Header cell definition for a CDK table.
  * Captures the template of a column's header cell and as well as cell-specific properties.
  */
-var CdkHeaderCellDef = (function () {
+var CdkHeaderCellDef = /*@__PURE__*/(function () {
     /**
      * @param {?} template
      */
@@ -1701,16 +1662,14 @@ CdkHeaderCellDef.decorators = [
 /**
  * @nocollapse
  */
-CdkHeaderCellDef.ctorParameters = function () {
-    return [
-        { type: TemplateRef, },
-    ];
-};
+CdkHeaderCellDef.ctorParameters = function () { return [
+    { type: TemplateRef, },
+]; };
 /**
  * Column definition for the CDK table.
  * Defines a set of cells available for a table column.
  */
-var CdkColumnDef = (function () {
+var CdkColumnDef = /*@__PURE__*/(function () {
     function CdkColumnDef() {
     }
     return CdkColumnDef;
@@ -1730,7 +1689,7 @@ CdkColumnDef.propDecorators = {
 /**
  * Header cell template container that adds the right classes and role.
  */
-var CdkHeaderCell = (function () {
+var CdkHeaderCell = /*@__PURE__*/(function () {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -1756,17 +1715,15 @@ CdkHeaderCell.decorators = [
 /**
  * @nocollapse
  */
-CdkHeaderCell.ctorParameters = function () {
-    return [
-        { type: CdkColumnDef, },
-        { type: ElementRef, },
-        { type: Renderer2, },
-    ];
-};
+CdkHeaderCell.ctorParameters = function () { return [
+    { type: CdkColumnDef, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+]; };
 /**
  * Cell template container that adds the right classes and role.
  */
-var CdkCell = (function () {
+var CdkCell = /*@__PURE__*/(function () {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -1792,13 +1749,11 @@ CdkCell.decorators = [
 /**
  * @nocollapse
  */
-CdkCell.ctorParameters = function () {
-    return [
-        { type: CdkColumnDef, },
-        { type: ElementRef, },
-        { type: Renderer2, },
-    ];
-};
+CdkCell.ctorParameters = function () { return [
+    { type: CdkColumnDef, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+]; };
 /**
  * Returns an error to be thrown when attempting to find an unexisting column.
  * \@docs-private
@@ -1812,7 +1767,7 @@ function getTableUnknownColumnError(id) {
  * Provides a handle for the table to grab the view container's ng-container to insert data rows.
  * \@docs-private
  */
-var RowPlaceholder = (function () {
+var RowPlaceholder = /*@__PURE__*/(function () {
     /**
      * @param {?} viewContainer
      */
@@ -1827,16 +1782,14 @@ RowPlaceholder.decorators = [
 /**
  * @nocollapse
  */
-RowPlaceholder.ctorParameters = function () {
-    return [
-        { type: ViewContainerRef, },
-    ];
-};
+RowPlaceholder.ctorParameters = function () { return [
+    { type: ViewContainerRef, },
+]; };
 /**
  * Provides a handle for the table to grab the view container's ng-container to insert the header.
  * \@docs-private
  */
-var HeaderRowPlaceholder = (function () {
+var HeaderRowPlaceholder = /*@__PURE__*/(function () {
     /**
      * @param {?} viewContainer
      */
@@ -1851,11 +1804,9 @@ HeaderRowPlaceholder.decorators = [
 /**
  * @nocollapse
  */
-HeaderRowPlaceholder.ctorParameters = function () {
-    return [
-        { type: ViewContainerRef, },
-    ];
-};
+HeaderRowPlaceholder.ctorParameters = function () { return [
+    { type: ViewContainerRef, },
+]; };
 /**
  * The table template that can be used by the md-table. Should not be used outside of the
  * material library.
@@ -1865,7 +1816,7 @@ var CDK_TABLE_TEMPLATE = "\n  <ng-container headerRowPlaceholder></ng-container>
  * A data table that connects with a data source to retrieve data of type T and renders
  * a header row and data rows. Updates the rows when new data is provided by the data source.
  */
-var CdkTable = (function () {
+var CdkTable = /*@__PURE__*/(function () {
     /**
      * @param {?} _differs
      * @param {?} _changeDetectorRef
@@ -2181,15 +2132,13 @@ CdkTable.decorators = [
 /**
  * @nocollapse
  */
-CdkTable.ctorParameters = function () {
-    return [
-        { type: IterableDiffers, },
-        { type: ChangeDetectorRef, },
-        { type: ElementRef, },
-        { type: Renderer2, },
-        { type: undefined, decorators: [{ type: Attribute, args: ['role',] },] },
-    ];
-};
+CdkTable.ctorParameters = function () { return [
+    { type: IterableDiffers, },
+    { type: ChangeDetectorRef, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+    { type: undefined, decorators: [{ type: Attribute, args: ['role',] },] },
+]; };
 CdkTable.propDecorators = {
     'trackBy': [{ type: Input },],
     'dataSource': [{ type: Input },],
@@ -2214,7 +2163,7 @@ var EXPORTED_DECLARATIONS = [
     RowPlaceholder,
     HeaderRowPlaceholder,
 ];
-var CdkTableModule = (function () {
+var CdkTableModule = /*@__PURE__*/(function () {
     function CdkTableModule() {
     }
     return CdkTableModule;
@@ -2284,7 +2233,7 @@ function throwNoPortalAttachedError() {
  * It can be attach to / detached from a `PortalHost`.
  * @abstract
  */
-var Portal = (function () {
+var Portal = /*@__PURE__*/(function () {
     function Portal() {
     }
     /**
@@ -2341,7 +2290,7 @@ var Portal = (function () {
 /**
  * A `ComponentPortal` is a portal that instantiates some Component upon attachment.
  */
-var ComponentPortal = (function (_super) {
+var ComponentPortal = /*@__PURE__*/(function (_super) {
     __extends(ComponentPortal, _super);
     /**
      * @param {?} component
@@ -2360,7 +2309,7 @@ var ComponentPortal = (function (_super) {
 /**
  * A `TemplatePortal` is a portal that represents some embedded template (TemplateRef).
  */
-var TemplatePortal = (function (_super) {
+var TemplatePortal = /*@__PURE__*/(function (_super) {
     __extends(TemplatePortal, _super);
     /**
      * @param {?} template
@@ -2412,7 +2361,7 @@ var TemplatePortal = (function (_super) {
  * ComponentPortal or a TemplatePortal.
  * @abstract
  */
-var BasePortalHost = (function () {
+var BasePortalHost = /*@__PURE__*/(function () {
     function BasePortalHost() {
         /**
          * Whether this host has already been permanently disposed.
@@ -2507,7 +2456,7 @@ var BasePortalHost = (function () {
  *
  * This is the only part of the portal core that directly touches the DOM.
  */
-var DomPortalHost = (function (_super) {
+var DomPortalHost = /*@__PURE__*/(function (_super) {
     __extends(DomPortalHost, _super);
     /**
      * @param {?} _hostDomElement
@@ -2606,7 +2555,7 @@ var DomPortalHost = (function (_super) {
  *   <p> Hello {{name}} </p>
  * </ng-template>
  */
-var TemplatePortalDirective = (function (_super) {
+var TemplatePortalDirective = /*@__PURE__*/(function (_super) {
     __extends(TemplatePortalDirective, _super);
     /**
      * @param {?} templateRef
@@ -2626,12 +2575,10 @@ TemplatePortalDirective.decorators = [
 /**
  * @nocollapse
  */
-TemplatePortalDirective.ctorParameters = function () {
-    return [
-        { type: TemplateRef, },
-        { type: ViewContainerRef, },
-    ];
-};
+TemplatePortalDirective.ctorParameters = function () { return [
+    { type: TemplateRef, },
+    { type: ViewContainerRef, },
+]; };
 /**
  * Directive version of a PortalHost. Because the directive *is* a PortalHost, portals can be
  * directly attached to it, enabling declarative use.
@@ -2639,7 +2586,7 @@ TemplatePortalDirective.ctorParameters = function () {
  * Usage:
  * <ng-template [cdkPortalHost]="greeting"></ng-template>
  */
-var PortalHostDirective = (function (_super) {
+var PortalHostDirective = /*@__PURE__*/(function (_super) {
     __extends(PortalHostDirective, _super);
     /**
      * @param {?} _componentFactoryResolver
@@ -2745,16 +2692,14 @@ PortalHostDirective.decorators = [
 /**
  * @nocollapse
  */
-PortalHostDirective.ctorParameters = function () {
-    return [
-        { type: ComponentFactoryResolver, },
-        { type: ViewContainerRef, },
-    ];
-};
+PortalHostDirective.ctorParameters = function () { return [
+    { type: ComponentFactoryResolver, },
+    { type: ViewContainerRef, },
+]; };
 PortalHostDirective.propDecorators = {
     '_deprecatedPortal': [{ type: Input, args: ['portalHost',] },],
 };
-var PortalModule = (function () {
+var PortalModule = /*@__PURE__*/(function () {
     function PortalModule() {
     }
     return PortalModule;
@@ -2773,7 +2718,7 @@ PortalModule.ctorParameters = function () { return []; };
  * Factory that creates a new MutationObserver and allows us to stub it out in unit tests.
  * \@docs-private
  */
-var MdMutationObserverFactory = (function () {
+var MdMutationObserverFactory = /*@__PURE__*/(function () {
     function MdMutationObserverFactory() {
     }
     /**
@@ -2796,7 +2741,7 @@ MdMutationObserverFactory.ctorParameters = function () { return []; };
  * Directive that triggers a callback whenever the content of
  * its associated element has changed.
  */
-var ObserveContent = (function () {
+var ObserveContent = /*@__PURE__*/(function () {
     /**
      * @param {?} _mutationObserverFactory
      * @param {?} _elementRef
@@ -2856,17 +2801,15 @@ ObserveContent.decorators = [
 /**
  * @nocollapse
  */
-ObserveContent.ctorParameters = function () {
-    return [
-        { type: MdMutationObserverFactory, },
-        { type: ElementRef, },
-    ];
-};
+ObserveContent.ctorParameters = function () { return [
+    { type: MdMutationObserverFactory, },
+    { type: ElementRef, },
+]; };
 ObserveContent.propDecorators = {
     'event': [{ type: Output, args: ['cdkObserveContent',] },],
     'debounce': [{ type: Input },],
 };
-var ObserveContentModule = (function () {
+var ObserveContentModule = /*@__PURE__*/(function () {
     function ObserveContentModule() {
     }
     return ObserveContentModule;
@@ -2882,6 +2825,7 @@ ObserveContentModule.decorators = [
  * @nocollapse
  */
 ObserveContentModule.ctorParameters = function () { return []; };
+
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -2913,7 +2857,7 @@ var MD_ELEMENTS_SELECTOR = "\n  [md-button],\n  [md-fab],\n  [md-icon-button],\n
 /**
  * Directive that enforces that the `mat-` prefix cannot be used.
  */
-var MatPrefixRejector = (function () {
+var MatPrefixRejector = /*@__PURE__*/(function () {
     /**
      * @param {?} isCompatibilityMode
      * @param {?} elementRef
@@ -2931,16 +2875,14 @@ MatPrefixRejector.decorators = [
 /**
  * @nocollapse
  */
-MatPrefixRejector.ctorParameters = function () {
-    return [
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_COMPATIBILITY_MODE,] },] },
-        { type: ElementRef, },
-    ];
-};
+MatPrefixRejector.ctorParameters = function () { return [
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_COMPATIBILITY_MODE,] },] },
+    { type: ElementRef, },
+]; };
 /**
  * Directive that enforces that the `md-` prefix cannot be used.
  */
-var MdPrefixRejector = (function () {
+var MdPrefixRejector = /*@__PURE__*/(function () {
     /**
      * @param {?} isCompatibilityMode
      * @param {?} elementRef
@@ -2958,18 +2900,16 @@ MdPrefixRejector.decorators = [
 /**
  * @nocollapse
  */
-MdPrefixRejector.ctorParameters = function () {
-    return [
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_COMPATIBILITY_MODE,] },] },
-        { type: ElementRef, },
-    ];
-};
+MdPrefixRejector.ctorParameters = function () { return [
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_COMPATIBILITY_MODE,] },] },
+    { type: ElementRef, },
+]; };
 /**
  * Module that enforces the default compatibility mode settings. When this module is loaded
  * without NoConflictStyleCompatibilityMode also being imported, it will throw an error if
  * there are any uses of the `mat-` prefix.
  */
-var CompatibilityModule = (function () {
+var CompatibilityModule = /*@__PURE__*/(function () {
     function CompatibilityModule() {
     }
     return CompatibilityModule;
@@ -2988,7 +2928,7 @@ CompatibilityModule.ctorParameters = function () { return []; };
  * Module that enforces "no-conflict" compatibility mode settings. When this module is loaded,
  * it will throw an error if there are any uses of the `md-` prefix.
  */
-var NoConflictStyleCompatibilityMode = (function () {
+var NoConflictStyleCompatibilityMode = /*@__PURE__*/(function () {
     function NoConflictStyleCompatibilityMode() {
     }
     return NoConflictStyleCompatibilityMode;
@@ -3014,7 +2954,7 @@ var MATERIAL_SANITY_CHECKS = new InjectionToken('md-sanity-checks');
  *
  * This module should be imported to each top-level component module (e.g., MdTabsModule).
  */
-var MdCommonModule = (function () {
+var MdCommonModule = /*@__PURE__*/(function () {
     /**
      * @param {?} _document
      * @param {?} _sanityChecksEnabled
@@ -3070,18 +3010,16 @@ MdCommonModule.decorators = [
 /**
  * @nocollapse
  */
-MdCommonModule.ctorParameters = function () {
-    return [
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_SANITY_CHECKS,] },] },
-    ];
-};
+MdCommonModule.ctorParameters = function () { return [
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_SANITY_CHECKS,] },] },
+]; };
 /**
  * Shared directive to count lines inside a text area, such as a list item.
  * Line elements can be extracted with a \@ContentChildren(MdLine) query, then
  * counted by checking the query list's length.
  */
-var MdLine = (function () {
+var MdLine = /*@__PURE__*/(function () {
     function MdLine() {
     }
     return MdLine;
@@ -3100,7 +3038,7 @@ MdLine.ctorParameters = function () { return []; };
  * Helper that takes a query list of lines and sets the correct class on the host.
  * \@docs-private
  */
-var MdLineSetter = (function () {
+var MdLineSetter = /*@__PURE__*/(function () {
     /**
      * @param {?} _lines
      * @param {?} _renderer
@@ -3152,7 +3090,7 @@ var MdLineSetter = (function () {
     };
     return MdLineSetter;
 }());
-var MdLineModule = (function () {
+var MdLineModule = /*@__PURE__*/(function () {
     function MdLineModule() {
     }
     return MdLineModule;
@@ -3180,7 +3118,7 @@ RippleState[RippleState.HIDDEN] = "HIDDEN";
 /**
  * Reference to a previously launched ripple element.
  */
-var RippleRef = (function () {
+var RippleRef = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} element
@@ -3219,7 +3157,7 @@ var RIPPLE_FADE_OUT_DURATION = 400;
  * This will eventually become a custom renderer once Angular support exists.
  * \@docs-private
  */
-var RippleRenderer = (function () {
+var RippleRenderer = /*@__PURE__*/(function () {
     /**
      * @param {?} elementRef
      * @param {?} _ngZone
@@ -3269,9 +3207,7 @@ var RippleRenderer = (function () {
      */
     RippleRenderer.prototype.fadeInRipple = function (pageX, pageY, config) {
         var _this = this;
-        if (config === void 0) {
-            config = {};
-        }
+        if (config === void 0) { config = {}; }
         var /** @type {?} */ containerRect = this._containerElement.getBoundingClientRect();
         if (config.centered) {
             pageX = containerRect.left + containerRect.width / 2;
@@ -3405,9 +3341,7 @@ var RippleRenderer = (function () {
      * @return {?}
      */
     RippleRenderer.prototype.runTimeoutOutsideZone = function (fn, delay) {
-        if (delay === void 0) {
-            delay = 0;
-        }
+        if (delay === void 0) { delay = 0; }
         this._ngZone.runOutsideAngular(function () { return setTimeout(fn, delay); });
     };
     return RippleRenderer;
@@ -3442,7 +3376,7 @@ var DEFAULT_SCROLL_TIME = 20;
  * Service contained all registered Scrollable references and emits an event when any one of the
  * Scrollable references emit a scrolled event.
  */
-var ScrollDispatcher = (function () {
+var ScrollDispatcher = /*@__PURE__*/(function () {
     /**
      * @param {?} _ngZone
      * @param {?} _platform
@@ -3501,9 +3435,7 @@ var ScrollDispatcher = (function () {
      */
     ScrollDispatcher.prototype.scrolled = function (auditTimeInMs, callback) {
         var _this = this;
-        if (auditTimeInMs === void 0) {
-            auditTimeInMs = DEFAULT_SCROLL_TIME;
-        }
+        if (auditTimeInMs === void 0) { auditTimeInMs = DEFAULT_SCROLL_TIME; }
         // Scroll events can only happen on the browser, so do nothing if we're not on the browser.
         if (!this._platform.isBrowser) {
             return Subscription.EMPTY;
@@ -3579,12 +3511,10 @@ ScrollDispatcher.decorators = [
 /**
  * @nocollapse
  */
-ScrollDispatcher.ctorParameters = function () {
-    return [
-        { type: NgZone, },
-        { type: Platform, },
-    ];
-};
+ScrollDispatcher.ctorParameters = function () { return [
+    { type: NgZone, },
+    { type: Platform, },
+]; };
 /**
  * @param {?} parentDispatcher
  * @param {?} ngZone
@@ -3604,7 +3534,7 @@ var SCROLL_DISPATCHER_PROVIDER = {
  * Simple utility for getting the bounds of the browser viewport.
  * \@docs-private
  */
-var ViewportRuler = (function () {
+var ViewportRuler = /*@__PURE__*/(function () {
     /**
      * @param {?} scrollDispatcher
      */
@@ -3619,9 +3549,7 @@ var ViewportRuler = (function () {
      * @return {?}
      */
     ViewportRuler.prototype.getViewportRect = function (documentRect) {
-        if (documentRect === void 0) {
-            documentRect = this._documentRect;
-        }
+        if (documentRect === void 0) { documentRect = this._documentRect; }
         // Cache the document bounding rect so that we don't recompute it for multiple calls.
         if (!documentRect) {
             this._cacheViewportGeometry();
@@ -3654,9 +3582,7 @@ var ViewportRuler = (function () {
      * @return {?}
      */
     ViewportRuler.prototype.getViewportScrollPosition = function (documentRect) {
-        if (documentRect === void 0) {
-            documentRect = this._documentRect;
-        }
+        if (documentRect === void 0) { documentRect = this._documentRect; }
         // Cache the document bounding rect so that we don't recompute it for multiple calls.
         if (!documentRect) {
             this._cacheViewportGeometry();
@@ -3689,11 +3615,9 @@ ViewportRuler.decorators = [
 /**
  * @nocollapse
  */
-ViewportRuler.ctorParameters = function () {
-    return [
-        { type: ScrollDispatcher, },
-    ];
-};
+ViewportRuler.ctorParameters = function () { return [
+    { type: ScrollDispatcher, },
+]; };
 /**
  * @param {?} parentRuler
  * @param {?} scrollDispatcher
@@ -3712,7 +3636,7 @@ var VIEWPORT_RULER_PROVIDER = {
  * Injection token that can be used to specify the global ripple options.
  */
 var MD_RIPPLE_GLOBAL_OPTIONS = new InjectionToken('md-ripple-global-options');
-var MdRipple = (function () {
+var MdRipple = /*@__PURE__*/(function () {
     /**
      * @param {?} elementRef
      * @param {?} ngZone
@@ -3762,9 +3686,7 @@ var MdRipple = (function () {
      * @return {?}
      */
     MdRipple.prototype.launch = function (pageX, pageY, config) {
-        if (config === void 0) {
-            config = this.rippleConfig;
-        }
+        if (config === void 0) { config = this.rippleConfig; }
         return this._rippleRenderer.fadeInRipple(pageX, pageY, config);
     };
     /**
@@ -3813,15 +3735,13 @@ MdRipple.decorators = [
 /**
  * @nocollapse
  */
-MdRipple.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: NgZone, },
-        { type: ViewportRuler, },
-        { type: Platform, },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_RIPPLE_GLOBAL_OPTIONS,] },] },
-    ];
-};
+MdRipple.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: NgZone, },
+    { type: ViewportRuler, },
+    { type: Platform, },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_RIPPLE_GLOBAL_OPTIONS,] },] },
+]; };
 MdRipple.propDecorators = {
     'trigger': [{ type: Input, args: ['mdRippleTrigger',] },],
     'centered': [{ type: Input, args: ['mdRippleCentered',] },],
@@ -3836,7 +3756,7 @@ MdRipple.propDecorators = {
  * ScrollDispatcher service to include itself as part of its collection of scrolling events that it
  * can be listened to through the service.
  */
-var Scrollable = (function () {
+var Scrollable = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} _scroll
@@ -3895,14 +3815,12 @@ Scrollable.decorators = [
 /**
  * @nocollapse
  */
-Scrollable.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: ScrollDispatcher, },
-        { type: NgZone, },
-        { type: Renderer2, },
-    ];
-};
+Scrollable.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: ScrollDispatcher, },
+    { type: NgZone, },
+    { type: Renderer2, },
+]; };
 /**
  * Returns an error to be thrown when attempting to attach an already-attached scroll strategy.
  * @return {?}
@@ -3913,7 +3831,7 @@ function getMdScrollStrategyAlreadyAttachedError() {
 /**
  * Strategy that will close the overlay as soon as the user starts scrolling.
  */
-var CloseScrollStrategy = (function () {
+var CloseScrollStrategy = /*@__PURE__*/(function () {
     /**
      * @param {?} _scrollDispatcher
      */
@@ -3959,7 +3877,7 @@ var CloseScrollStrategy = (function () {
 /**
  * Scroll strategy that doesn't do anything.
  */
-var NoopScrollStrategy = (function () {
+var NoopScrollStrategy = /*@__PURE__*/(function () {
     function NoopScrollStrategy() {
     }
     /**
@@ -3979,7 +3897,7 @@ var NoopScrollStrategy = (function () {
 /**
  * Strategy that will prevent the user from scrolling while the overlay is visible.
  */
-var BlockScrollStrategy = (function () {
+var BlockScrollStrategy = /*@__PURE__*/(function () {
     /**
      * @param {?} _viewportRuler
      */
@@ -4041,7 +3959,7 @@ var BlockScrollStrategy = (function () {
 /**
  * Strategy that will update the element position as the user is scrolling.
  */
-var RepositionScrollStrategy = (function () {
+var RepositionScrollStrategy = /*@__PURE__*/(function () {
     /**
      * @param {?} _scrollDispatcher
      * @param {?=} _config
@@ -4090,7 +4008,7 @@ var RepositionScrollStrategy = (function () {
  * Users can provide a custom value for `ScrollStrategyOptions` to replace the default
  * behaviors. This class primarily acts as a factory for ScrollStrategy instances.
  */
-var ScrollStrategyOptions = (function () {
+var ScrollStrategyOptions = /*@__PURE__*/(function () {
     /**
      * @param {?} _scrollDispatcher
      * @param {?} _viewportRuler
@@ -4126,13 +4044,11 @@ ScrollStrategyOptions.decorators = [
 /**
  * @nocollapse
  */
-ScrollStrategyOptions.ctorParameters = function () {
-    return [
-        { type: ScrollDispatcher, },
-        { type: ViewportRuler, },
-    ];
-};
-var ScrollDispatchModule = (function () {
+ScrollStrategyOptions.ctorParameters = function () { return [
+    { type: ScrollDispatcher, },
+    { type: ViewportRuler, },
+]; };
+var ScrollDispatchModule = /*@__PURE__*/(function () {
     function ScrollDispatchModule() {
     }
     return ScrollDispatchModule;
@@ -4149,7 +4065,7 @@ ScrollDispatchModule.decorators = [
  * @nocollapse
  */
 ScrollDispatchModule.ctorParameters = function () { return []; };
-var MdRippleModule = (function () {
+var MdRippleModule = /*@__PURE__*/(function () {
     function MdRippleModule() {
     }
     return MdRippleModule;
@@ -4219,7 +4135,7 @@ function mixinColor(base, defaultColor) {
 /**
  * \@docs-private
  */
-var MdPseudoCheckboxBase = (function () {
+var MdPseudoCheckboxBase = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -4242,7 +4158,7 @@ var _MdPseudoCheckboxBase = mixinColor(MdPseudoCheckboxBase, 'accent');
  * more complex components that appropriately handle selected / checked state.
  * \@docs-private
  */
-var MdPseudoCheckbox = (function (_super) {
+var MdPseudoCheckbox = /*@__PURE__*/(function (_super) {
     __extends(MdPseudoCheckbox, _super);
     /**
      * @param {?} elementRef
@@ -4279,17 +4195,15 @@ MdPseudoCheckbox.decorators = [
 /**
  * @nocollapse
  */
-MdPseudoCheckbox.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: Renderer2, },
-    ];
-};
+MdPseudoCheckbox.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: Renderer2, },
+]; };
 MdPseudoCheckbox.propDecorators = {
     'state': [{ type: Input },],
     'disabled': [{ type: Input },],
 };
-var MdSelectionModule = (function () {
+var MdSelectionModule = /*@__PURE__*/(function () {
     function MdSelectionModule() {
     }
     return MdSelectionModule;
@@ -4344,7 +4258,7 @@ function mixinDisabled(base) {
 /**
  * \@docs-private
  */
-var MdOptgroupBase = (function () {
+var MdOptgroupBase = /*@__PURE__*/(function () {
     function MdOptgroupBase() {
     }
     return MdOptgroupBase;
@@ -4355,7 +4269,7 @@ var _uniqueOptgroupIdCounter = 0;
 /**
  * Component that is used to group instances of `md-option`.
  */
-var MdOptgroup = (function (_super) {
+var MdOptgroup = /*@__PURE__*/(function (_super) {
     __extends(MdOptgroup, _super);
     function MdOptgroup() {
         var _this = _super.apply(this, arguments) || this;
@@ -4396,15 +4310,13 @@ var _uniqueIdCounter = 0;
 /**
  * Event object emitted by MdOption when selected or deselected.
  */
-var MdOptionSelectionChange = (function () {
+var MdOptionSelectionChange = /*@__PURE__*/(function () {
     /**
      * @param {?} source
      * @param {?=} isUserInput
      */
     function MdOptionSelectionChange(source, isUserInput) {
-        if (isUserInput === void 0) {
-            isUserInput = false;
-        }
+        if (isUserInput === void 0) { isUserInput = false; }
         this.source = source;
         this.isUserInput = isUserInput;
     }
@@ -4413,7 +4325,7 @@ var MdOptionSelectionChange = (function () {
 /**
  * Single option inside of a `<md-select>` element.
  */
-var MdOption = (function () {
+var MdOption = /*@__PURE__*/(function () {
     /**
      * @param {?} _element
      * @param {?} group
@@ -4582,9 +4494,7 @@ var MdOption = (function () {
      * @return {?}
      */
     MdOption.prototype._emitSelectionChangeEvent = function (isUserInput) {
-        if (isUserInput === void 0) {
-            isUserInput = false;
-        }
+        if (isUserInput === void 0) { isUserInput = false; }
         this.onSelectionChange.emit(new MdOptionSelectionChange(this, isUserInput));
     };
     return MdOption;
@@ -4612,19 +4522,17 @@ MdOption.decorators = [
 /**
  * @nocollapse
  */
-MdOption.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: MdOptgroup, decorators: [{ type: Optional },] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_COMPATIBILITY_MODE,] },] },
-    ];
-};
+MdOption.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: MdOptgroup, decorators: [{ type: Optional },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_COMPATIBILITY_MODE,] },] },
+]; };
 MdOption.propDecorators = {
     'value': [{ type: Input },],
     'disabled': [{ type: Input },],
     'onSelectionChange': [{ type: Output },],
 };
-var MdOptionModule = (function () {
+var MdOptionModule = /*@__PURE__*/(function () {
     function MdOptionModule() {
     }
     return MdOptionModule;
@@ -4644,7 +4552,7 @@ MdOptionModule.ctorParameters = function () { return []; };
  * OverlayState is a bag of values for either the initial configuration or current state of an
  * overlay.
  */
-var OverlayState = (function () {
+var OverlayState = /*@__PURE__*/(function () {
     function OverlayState() {
         /**
          * Custom class to add to the overlay pane.
@@ -4673,7 +4581,7 @@ var OverlayState = (function () {
  * Reference to an overlay that has been created with the Overlay service.
  * Used to manipulate or dispose of said overlay.
  */
-var OverlayRef = (function () {
+var OverlayRef = /*@__PURE__*/(function () {
     /**
      * @param {?} _portalHost
      * @param {?} _pane
@@ -4927,7 +4835,7 @@ function formatCssUnit(value) {
 /**
  * The points of the origin element and the overlay element to connect.
  */
-var ConnectionPositionPair = (function () {
+var ConnectionPositionPair = /*@__PURE__*/(function () {
     /**
      * @param {?} origin
      * @param {?} overlay
@@ -4963,7 +4871,7 @@ var ConnectionPositionPair = (function () {
  *  |                        |
  *  --------------------------
  */
-var ScrollableViewProperties = (function () {
+var ScrollableViewProperties = /*@__PURE__*/(function () {
     function ScrollableViewProperties() {
     }
     return ScrollableViewProperties;
@@ -4971,7 +4879,7 @@ var ScrollableViewProperties = (function () {
 /**
  * The change event emitted by the strategy when a fallback position is used.
  */
-var ConnectedOverlayPositionChange = (function () {
+var ConnectedOverlayPositionChange = /*@__PURE__*/(function () {
     /**
      * @param {?} connectionPair
      * @param {?} scrollableViewProperties
@@ -4985,12 +4893,10 @@ var ConnectedOverlayPositionChange = (function () {
 /**
  * @nocollapse
  */
-ConnectedOverlayPositionChange.ctorParameters = function () {
-    return [
-        { type: ConnectionPositionPair, },
-        { type: ScrollableViewProperties, decorators: [{ type: Optional },] },
-    ];
-};
+ConnectedOverlayPositionChange.ctorParameters = function () { return [
+    { type: ConnectionPositionPair, },
+    { type: ScrollableViewProperties, decorators: [{ type: Optional },] },
+]; };
 /**
  * A strategy for positioning overlays. Using this strategy, an overlay is given an
  * implicit position relative some origin element. The relative position is defined in terms of
@@ -4998,7 +4904,7 @@ ConnectedOverlayPositionChange.ctorParameters = function () {
  * a basic dropdown is connecting the bottom-left corner of the origin to the top-left corner
  * of the overlay.
  */
-var ConnectedPositionStrategy = (function () {
+var ConnectedPositionStrategy = /*@__PURE__*/(function () {
     /**
      * @param {?} _connectedTo
      * @param {?} _originPos
@@ -5392,7 +5298,7 @@ var ConnectedPositionStrategy = (function () {
  * transforms, in order to avoid issues with subpixel rendering which can cause the
  * element to become blurry.
  */
-var GlobalPositionStrategy = (function () {
+var GlobalPositionStrategy = /*@__PURE__*/(function () {
     function GlobalPositionStrategy() {
         this._cssPosition = 'static';
         this._topOffset = '';
@@ -5411,9 +5317,7 @@ var GlobalPositionStrategy = (function () {
      * @return {?}
      */
     GlobalPositionStrategy.prototype.top = function (value) {
-        if (value === void 0) {
-            value = '';
-        }
+        if (value === void 0) { value = ''; }
         this._bottomOffset = '';
         this._topOffset = value;
         this._alignItems = 'flex-start';
@@ -5425,9 +5329,7 @@ var GlobalPositionStrategy = (function () {
      * @return {?}
      */
     GlobalPositionStrategy.prototype.left = function (value) {
-        if (value === void 0) {
-            value = '';
-        }
+        if (value === void 0) { value = ''; }
         this._rightOffset = '';
         this._leftOffset = value;
         this._justifyContent = 'flex-start';
@@ -5439,9 +5341,7 @@ var GlobalPositionStrategy = (function () {
      * @return {?}
      */
     GlobalPositionStrategy.prototype.bottom = function (value) {
-        if (value === void 0) {
-            value = '';
-        }
+        if (value === void 0) { value = ''; }
         this._topOffset = '';
         this._bottomOffset = value;
         this._alignItems = 'flex-end';
@@ -5453,9 +5353,7 @@ var GlobalPositionStrategy = (function () {
      * @return {?}
      */
     GlobalPositionStrategy.prototype.right = function (value) {
-        if (value === void 0) {
-            value = '';
-        }
+        if (value === void 0) { value = ''; }
         this._leftOffset = '';
         this._rightOffset = value;
         this._justifyContent = 'flex-end';
@@ -5467,9 +5365,7 @@ var GlobalPositionStrategy = (function () {
      * @return {?}
      */
     GlobalPositionStrategy.prototype.width = function (value) {
-        if (value === void 0) {
-            value = '';
-        }
+        if (value === void 0) { value = ''; }
         this._width = value;
         // When the width is 100%, we should reset the `left` and the offset,
         // in order to ensure that the element is flush against the viewport edge.
@@ -5484,9 +5380,7 @@ var GlobalPositionStrategy = (function () {
      * @return {?}
      */
     GlobalPositionStrategy.prototype.height = function (value) {
-        if (value === void 0) {
-            value = '';
-        }
+        if (value === void 0) { value = ''; }
         this._height = value;
         // When the height is 100%, we should reset the `top` and the offset,
         // in order to ensure that the element is flush against the viewport edge.
@@ -5503,9 +5397,7 @@ var GlobalPositionStrategy = (function () {
      * @return {?}
      */
     GlobalPositionStrategy.prototype.centerHorizontally = function (offset) {
-        if (offset === void 0) {
-            offset = '';
-        }
+        if (offset === void 0) { offset = ''; }
         this.left(offset);
         this._justifyContent = 'center';
         return this;
@@ -5518,9 +5410,7 @@ var GlobalPositionStrategy = (function () {
      * @return {?}
      */
     GlobalPositionStrategy.prototype.centerVertically = function (offset) {
-        if (offset === void 0) {
-            offset = '';
-        }
+        if (offset === void 0) { offset = ''; }
         this.top(offset);
         this._alignItems = 'center';
         return this;
@@ -5566,7 +5456,7 @@ var GlobalPositionStrategy = (function () {
 /**
  * Builder for overlay position strategy.
  */
-var OverlayPositionBuilder = (function () {
+var OverlayPositionBuilder = /*@__PURE__*/(function () {
     /**
      * @param {?} _viewportRuler
      */
@@ -5598,16 +5488,14 @@ OverlayPositionBuilder.decorators = [
 /**
  * @nocollapse
  */
-OverlayPositionBuilder.ctorParameters = function () {
-    return [
-        { type: ViewportRuler, },
-    ];
-};
+OverlayPositionBuilder.ctorParameters = function () { return [
+    { type: ViewportRuler, },
+]; };
 /**
  * The OverlayContainer is the container in which all overlays will load.
  * It should be provided in the root component to ensure it is properly shared.
  */
-var OverlayContainer = (function () {
+var OverlayContainer = /*@__PURE__*/(function () {
     function OverlayContainer() {
     }
     Object.defineProperty(OverlayContainer.prototype, "themeClass", {
@@ -5696,7 +5584,7 @@ var defaultState = new OverlayState();
  *
  * An overlay *is* a PortalHost, so any kind of Portal can be loaded into one.
  */
-var Overlay = (function () {
+var Overlay = /*@__PURE__*/(function () {
     /**
      * @param {?} scrollStrategies
      * @param {?} _overlayContainer
@@ -5721,9 +5609,7 @@ var Overlay = (function () {
      * @return {?} Reference to the created overlay.
      */
     Overlay.prototype.create = function (state$$1) {
-        if (state$$1 === void 0) {
-            state$$1 = defaultState;
-        }
+        if (state$$1 === void 0) { state$$1 = defaultState; }
         return this._createOverlayRef(this._createPaneElement(), state$$1);
     };
     /**
@@ -5772,17 +5658,15 @@ Overlay.decorators = [
 /**
  * @nocollapse
  */
-Overlay.ctorParameters = function () {
-    return [
-        { type: ScrollStrategyOptions, },
-        { type: OverlayContainer, },
-        { type: ComponentFactoryResolver, },
-        { type: OverlayPositionBuilder, },
-        { type: ApplicationRef, },
-        { type: Injector, },
-        { type: NgZone, },
-    ];
-};
+Overlay.ctorParameters = function () { return [
+    { type: ScrollStrategyOptions, },
+    { type: OverlayContainer, },
+    { type: ComponentFactoryResolver, },
+    { type: OverlayPositionBuilder, },
+    { type: ApplicationRef, },
+    { type: Injector, },
+    { type: NgZone, },
+]; };
 /**
  * Default set of positions for the overlay. Follows the behavior of a dropdown.
  */
@@ -5794,7 +5678,7 @@ var defaultPositionList = [
  * Directive applied to an element to make it usable as an origin for an Overlay using a
  * ConnectedPositionStrategy.
  */
-var OverlayOrigin = (function () {
+var OverlayOrigin = /*@__PURE__*/(function () {
     /**
      * @param {?} elementRef
      */
@@ -5812,15 +5696,13 @@ OverlayOrigin.decorators = [
 /**
  * @nocollapse
  */
-OverlayOrigin.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-    ];
-};
+OverlayOrigin.ctorParameters = function () { return [
+    { type: ElementRef, },
+]; };
 /**
  * Directive to facilitate declarative creation of an Overlay using a ConnectedPositionStrategy.
  */
-var ConnectedOverlayDirective = (function () {
+var ConnectedOverlayDirective = /*@__PURE__*/(function () {
     /**
      * @param {?} _overlay
      * @param {?} _renderer
@@ -6102,15 +5984,13 @@ ConnectedOverlayDirective.decorators = [
 /**
  * @nocollapse
  */
-ConnectedOverlayDirective.ctorParameters = function () {
-    return [
-        { type: Overlay, },
-        { type: Renderer2, },
-        { type: TemplateRef, },
-        { type: ViewContainerRef, },
-        { type: Directionality, decorators: [{ type: Optional },] },
-    ];
-};
+ConnectedOverlayDirective.ctorParameters = function () { return [
+    { type: Overlay, },
+    { type: Renderer2, },
+    { type: TemplateRef, },
+    { type: ViewContainerRef, },
+    { type: Directionality, decorators: [{ type: Optional },] },
+]; };
 ConnectedOverlayDirective.propDecorators = {
     'origin': [{ type: Input },],
     'positions': [{ type: Input },],
@@ -6138,7 +6018,7 @@ ConnectedOverlayDirective.propDecorators = {
  *   {provide: OverlayContainer, useClass: FullscreenOverlayContainer}
  * ],
  */
-var FullscreenOverlayContainer = (function (_super) {
+var FullscreenOverlayContainer = /*@__PURE__*/(function (_super) {
     __extends(FullscreenOverlayContainer, _super);
     function FullscreenOverlayContainer() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -6208,7 +6088,7 @@ var OVERLAY_PROVIDERS = [
     VIEWPORT_RULER_PROVIDER,
     OVERLAY_CONTAINER_PROVIDER,
 ];
-var OverlayModule = (function () {
+var OverlayModule = /*@__PURE__*/(function () {
     function OverlayModule() {
     }
     return OverlayModule;
@@ -6225,7 +6105,7 @@ OverlayModule.decorators = [
  * @nocollapse
  */
 OverlayModule.ctorParameters = function () { return []; };
-var GestureConfig = (function (_super) {
+var GestureConfig = /*@__PURE__*/(function (_super) {
     __extends(GestureConfig, _super);
     function GestureConfig() {
         var _this = _super.call(this) || this;
@@ -6305,19 +6185,15 @@ GestureConfig.ctorParameters = function () { return []; };
  * Class to be used to power selecting one or more options from a list.
  * \@docs-private
  */
-var SelectionModel = (function () {
+var SelectionModel = /*@__PURE__*/(function () {
     /**
      * @param {?=} _isMulti
      * @param {?=} initiallySelectedValues
      * @param {?=} _emitChanges
      */
     function SelectionModel(_isMulti, initiallySelectedValues, _emitChanges) {
-        if (_isMulti === void 0) {
-            _isMulti = false;
-        }
-        if (_emitChanges === void 0) {
-            _emitChanges = true;
-        }
+        if (_isMulti === void 0) { _isMulti = false; }
+        if (_emitChanges === void 0) { _emitChanges = true; }
         var _this = this;
         this._isMulti = _isMulti;
         this._emitChanges = _emitChanges;
@@ -6488,7 +6364,7 @@ var SelectionModel = (function () {
  * Describes an event emitted when the value of a MdSelectionModel has changed.
  * \@docs-private
  */
-var SelectionChange = (function () {
+var SelectionChange = /*@__PURE__*/(function () {
     /**
      * @param {?=} added
      * @param {?=} removed
@@ -6508,7 +6384,7 @@ var SelectionChange = (function () {
  * This service does not *store* any IDs and names because they may change at any time, so it is
  * less error-prone if they are simply passed through when the events occur.
  */
-var UniqueSelectionDispatcher = (function () {
+var UniqueSelectionDispatcher = /*@__PURE__*/(function () {
     function UniqueSelectionDispatcher() {
         this._listeners = [];
     }
@@ -6567,7 +6443,7 @@ var TOUCH_BUFFER_MS = 650;
 /**
  * Monitors mouse and keyboard events to determine the cause of focus events.
  */
-var FocusOriginMonitor = (function () {
+var FocusOriginMonitor = /*@__PURE__*/(function () {
     /**
      * @param {?} _ngZone
      * @param {?} _platform
@@ -6818,12 +6694,10 @@ FocusOriginMonitor.decorators = [
 /**
  * @nocollapse
  */
-FocusOriginMonitor.ctorParameters = function () {
-    return [
-        { type: NgZone, },
-        { type: Platform, },
-    ];
-};
+FocusOriginMonitor.ctorParameters = function () { return [
+    { type: NgZone, },
+    { type: Platform, },
+]; };
 /**
  * Directive that determines how a particular element was focused (via keyboard, mouse, touch, or
  * programmatically) and adds corresponding classes to the element.
@@ -6833,7 +6707,7 @@ FocusOriginMonitor.ctorParameters = function () {
  *    focused.
  * 2) cdkMonitorSubtreeFocus: considers an element focused if it or any of its children are focused.
  */
-var CdkMonitorFocus = (function () {
+var CdkMonitorFocus = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} _focusOriginMonitor
@@ -6864,13 +6738,11 @@ CdkMonitorFocus.decorators = [
 /**
  * @nocollapse
  */
-CdkMonitorFocus.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: FocusOriginMonitor, },
-        { type: Renderer2, },
-    ];
-};
+CdkMonitorFocus.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: FocusOriginMonitor, },
+    { type: Renderer2, },
+]; };
 CdkMonitorFocus.propDecorators = {
     'cdkFocusChange': [{ type: Output },],
 };
@@ -6902,7 +6774,7 @@ function applyCssTransform(element, transformValue) {
     element.style.transform = value;
     element.style.webkitTransform = value;
 }
-var StyleModule = (function () {
+var StyleModule = /*@__PURE__*/(function () {
     function StyleModule() {
     }
     return StyleModule;
@@ -6922,7 +6794,7 @@ StyleModule.ctorParameters = function () { return []; };
 /**
  * \@docs-private
  */
-var AnimationCurves = (function () {
+var AnimationCurves = /*@__PURE__*/(function () {
     function AnimationCurves() {
     }
     return AnimationCurves;
@@ -6934,7 +6806,7 @@ AnimationCurves.SHARP_CURVE = 'cubic-bezier(0.4,0.0,0.6,1)';
 /**
  * \@docs-private
  */
-var AnimationDurations = (function () {
+var AnimationDurations = /*@__PURE__*/(function () {
     function AnimationDurations() {
     }
     return AnimationDurations;
@@ -6946,7 +6818,7 @@ AnimationDurations.EXITING = '195ms';
  * Adapts type `D` to be usable as a date by cdk-based components that work with dates.
  * @abstract
  */
-var DateAdapter = (function () {
+var DateAdapter = /*@__PURE__*/(function () {
     function DateAdapter() {
     }
     /**
@@ -7187,7 +7059,7 @@ function range(length, valueFunction) {
 /**
  * Adapts the native JS Date for use with cdk-based components that work with dates.
  */
-var NativeDateAdapter = (function (_super) {
+var NativeDateAdapter = /*@__PURE__*/(function (_super) {
     __extends(NativeDateAdapter, _super);
     function NativeDateAdapter() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -7428,7 +7300,7 @@ var MD_NATIVE_DATE_FORMATS = {
         monthYearA11yLabel: { year: 'numeric', month: 'long' },
     }
 };
-var NativeDateModule = (function () {
+var NativeDateModule = /*@__PURE__*/(function () {
     function NativeDateModule() {
     }
     return NativeDateModule;
@@ -7442,7 +7314,7 @@ NativeDateModule.decorators = [
  * @nocollapse
  */
 NativeDateModule.ctorParameters = function () { return []; };
-var MdNativeDateModule = (function () {
+var MdNativeDateModule = /*@__PURE__*/(function () {
     function MdNativeDateModule() {
     }
     return MdNativeDateModule;
@@ -7475,7 +7347,7 @@ function defaultErrorStateMatcher(control, form) {
     var /** @type {?} */ isSubmitted = form && form.submitted;
     return !!(control.invalid && (control.touched || isSubmitted));
 }
-var MdCoreModule = (function () {
+var MdCoreModule = /*@__PURE__*/(function () {
     function MdCoreModule() {
     }
     return MdCoreModule;
@@ -7513,7 +7385,7 @@ MdCoreModule.ctorParameters = function () { return []; };
 /**
  * \@docs-private
  */
-var MdButtonToggleGroupBase = (function () {
+var MdButtonToggleGroupBase = /*@__PURE__*/(function () {
     function MdButtonToggleGroupBase() {
     }
     return MdButtonToggleGroupBase;
@@ -7533,7 +7405,7 @@ var _uniqueIdCounter$1 = 0;
 /**
  * Change event object emitted by MdButtonToggle.
  */
-var MdButtonToggleChange = (function () {
+var MdButtonToggleChange = /*@__PURE__*/(function () {
     function MdButtonToggleChange() {
     }
     return MdButtonToggleChange;
@@ -7541,7 +7413,7 @@ var MdButtonToggleChange = (function () {
 /**
  * Exclusive selection button toggle group that behaves like a radio-button group.
  */
-var MdButtonToggleGroup = (function (_super) {
+var MdButtonToggleGroup = /*@__PURE__*/(function (_super) {
     __extends(MdButtonToggleGroup, _super);
     function MdButtonToggleGroup() {
         var _this = _super.apply(this, arguments) || this;
@@ -7776,7 +7648,7 @@ MdButtonToggleGroup.propDecorators = {
 /**
  * Multiple selection button-toggle group. `ngModel` is not supported in this mode.
  */
-var MdButtonToggleGroupMultiple = (function (_super) {
+var MdButtonToggleGroupMultiple = /*@__PURE__*/(function (_super) {
     __extends(MdButtonToggleGroupMultiple, _super);
     function MdButtonToggleGroupMultiple() {
         var _this = _super.apply(this, arguments) || this;
@@ -7827,7 +7699,7 @@ MdButtonToggleGroupMultiple.propDecorators = {
 /**
  * Single button inside of a toggle group.
  */
-var MdButtonToggle = (function () {
+var MdButtonToggle = /*@__PURE__*/(function () {
     /**
      * @param {?} toggleGroup
      * @param {?} toggleGroupMultiple
@@ -8058,16 +7930,14 @@ MdButtonToggle.decorators = [
 /**
  * @nocollapse
  */
-MdButtonToggle.ctorParameters = function () {
-    return [
-        { type: MdButtonToggleGroup, decorators: [{ type: Optional },] },
-        { type: MdButtonToggleGroupMultiple, decorators: [{ type: Optional },] },
-        { type: UniqueSelectionDispatcher, },
-        { type: Renderer2, },
-        { type: ElementRef, },
-        { type: FocusOriginMonitor, },
-    ];
-};
+MdButtonToggle.ctorParameters = function () { return [
+    { type: MdButtonToggleGroup, decorators: [{ type: Optional },] },
+    { type: MdButtonToggleGroupMultiple, decorators: [{ type: Optional },] },
+    { type: UniqueSelectionDispatcher, },
+    { type: Renderer2, },
+    { type: ElementRef, },
+    { type: FocusOriginMonitor, },
+]; };
 MdButtonToggle.propDecorators = {
     '_inputElement': [{ type: ViewChild, args: ['input',] },],
     'id': [{ type: HostBinding }, { type: Input },],
@@ -8077,7 +7947,7 @@ MdButtonToggle.propDecorators = {
     'disabled': [{ type: HostBinding, args: ['class.mat-button-toggle-disabled',] }, { type: Input },],
     'change': [{ type: Output },],
 };
-var MdButtonToggleModule = (function () {
+var MdButtonToggleModule = /*@__PURE__*/(function () {
     function MdButtonToggleModule() {
     }
     return MdButtonToggleModule;
@@ -8107,7 +7977,7 @@ var DEFAULT_ROUND_BUTTON_COLOR = 'accent';
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdButtonCssMatStyler = (function () {
+var MdButtonCssMatStyler = /*@__PURE__*/(function () {
     function MdButtonCssMatStyler() {
     }
     return MdButtonCssMatStyler;
@@ -8126,7 +7996,7 @@ MdButtonCssMatStyler.ctorParameters = function () { return []; };
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdRaisedButtonCssMatStyler = (function () {
+var MdRaisedButtonCssMatStyler = /*@__PURE__*/(function () {
     function MdRaisedButtonCssMatStyler() {
     }
     return MdRaisedButtonCssMatStyler;
@@ -8146,7 +8016,7 @@ MdRaisedButtonCssMatStyler.ctorParameters = function () { return []; };
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdIconButtonCssMatStyler = (function () {
+var MdIconButtonCssMatStyler = /*@__PURE__*/(function () {
     function MdIconButtonCssMatStyler() {
     }
     return MdIconButtonCssMatStyler;
@@ -8165,7 +8035,7 @@ MdIconButtonCssMatStyler.ctorParameters = function () { return []; };
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdFab = (function () {
+var MdFab = /*@__PURE__*/(function () {
     /**
      * @param {?} button
      * @param {?} anchor
@@ -8185,18 +8055,16 @@ MdFab.decorators = [
 /**
  * @nocollapse
  */
-MdFab.ctorParameters = function () {
-    return [
-        { type: MdButton, decorators: [{ type: Self }, { type: Optional }, { type: Inject, args: [forwardRef(function () { return MdButton; }),] },] },
-        { type: MdAnchor, decorators: [{ type: Self }, { type: Optional }, { type: Inject, args: [forwardRef(function () { return MdAnchor; }),] },] },
-    ];
-};
+MdFab.ctorParameters = function () { return [
+    { type: MdButton, decorators: [{ type: Self }, { type: Optional }, { type: Inject, args: [forwardRef(function () { return MdButton; }),] },] },
+    { type: MdAnchor, decorators: [{ type: Self }, { type: Optional }, { type: Inject, args: [forwardRef(function () { return MdAnchor; }),] },] },
+]; };
 /**
  * Directive that targets mini-fab buttons and anchors. It's used to apply the `mat-` class
  * to all mini-fab buttons and also is responsible for setting the default color palette.
  * \@docs-private
  */
-var MdMiniFab = (function () {
+var MdMiniFab = /*@__PURE__*/(function () {
     /**
      * @param {?} button
      * @param {?} anchor
@@ -8216,16 +8084,14 @@ MdMiniFab.decorators = [
 /**
  * @nocollapse
  */
-MdMiniFab.ctorParameters = function () {
-    return [
-        { type: MdButton, decorators: [{ type: Self }, { type: Optional }, { type: Inject, args: [forwardRef(function () { return MdButton; }),] },] },
-        { type: MdAnchor, decorators: [{ type: Self }, { type: Optional }, { type: Inject, args: [forwardRef(function () { return MdAnchor; }),] },] },
-    ];
-};
+MdMiniFab.ctorParameters = function () { return [
+    { type: MdButton, decorators: [{ type: Self }, { type: Optional }, { type: Inject, args: [forwardRef(function () { return MdButton; }),] },] },
+    { type: MdAnchor, decorators: [{ type: Self }, { type: Optional }, { type: Inject, args: [forwardRef(function () { return MdAnchor; }),] },] },
+]; };
 /**
  * \@docs-private
  */
-var MdButtonBase = (function () {
+var MdButtonBase = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -8240,7 +8106,7 @@ var _MdButtonMixinBase = mixinColor(mixinDisabled(MdButtonBase));
 /**
  * Material design button.
  */
-var MdButton = (function (_super) {
+var MdButton = /*@__PURE__*/(function (_super) {
     __extends(MdButton, _super);
     /**
      * @param {?} renderer
@@ -8349,21 +8215,19 @@ MdButton.decorators = [
 /**
  * @nocollapse
  */
-MdButton.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-        { type: Platform, },
-        { type: FocusOriginMonitor, },
-    ];
-};
+MdButton.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+    { type: Platform, },
+    { type: FocusOriginMonitor, },
+]; };
 MdButton.propDecorators = {
     'disableRipple': [{ type: Input },],
 };
 /**
  * Raised Material design button.
  */
-var MdAnchor = (function (_super) {
+var MdAnchor = /*@__PURE__*/(function (_super) {
     __extends(MdAnchor, _super);
     /**
      * @param {?} platform
@@ -8414,18 +8278,16 @@ MdAnchor.decorators = [
 /**
  * @nocollapse
  */
-MdAnchor.ctorParameters = function () {
-    return [
-        { type: Platform, },
-        { type: FocusOriginMonitor, },
-        { type: ElementRef, },
-        { type: Renderer2, },
-    ];
-};
+MdAnchor.ctorParameters = function () { return [
+    { type: Platform, },
+    { type: FocusOriginMonitor, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+]; };
 MdAnchor.propDecorators = {
     'tabIndex': [{ type: HostBinding, args: ['tabIndex',] },],
 };
-var MdButtonModule = (function () {
+var MdButtonModule = /*@__PURE__*/(function () {
     function MdButtonModule() {
     }
     return MdButtonModule;
@@ -8489,7 +8351,7 @@ TransitionCheckState[TransitionCheckState.Indeterminate] = "Indeterminate";
 /**
  * Change event object emitted by MdCheckbox.
  */
-var MdCheckboxChange = (function () {
+var MdCheckboxChange = /*@__PURE__*/(function () {
     function MdCheckboxChange() {
     }
     return MdCheckboxChange;
@@ -8497,7 +8359,7 @@ var MdCheckboxChange = (function () {
 /**
  * \@docs-private
  */
-var MdCheckboxBase = (function () {
+var MdCheckboxBase = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -8517,7 +8379,7 @@ var _MdCheckboxMixinBase = mixinColor(mixinDisabled(MdCheckboxBase), 'accent');
  * have the checkbox be accessible, you may supply an [aria-label] input.
  * See: https://www.google.com/design/spec/components/selection-controls.html
  */
-var MdCheckbox = (function (_super) {
+var MdCheckbox = /*@__PURE__*/(function (_super) {
     __extends(MdCheckbox, _super);
     /**
      * @param {?} renderer
@@ -8923,14 +8785,12 @@ MdCheckbox.decorators = [
 /**
  * @nocollapse
  */
-MdCheckbox.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-        { type: ChangeDetectorRef, },
-        { type: FocusOriginMonitor, },
-    ];
-};
+MdCheckbox.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+    { type: ChangeDetectorRef, },
+    { type: FocusOriginMonitor, },
+]; };
 MdCheckbox.propDecorators = {
     'ariaLabel': [{ type: Input, args: ['aria-label',] },],
     'ariaLabelledby': [{ type: Input, args: ['aria-labelledby',] },],
@@ -8949,7 +8809,7 @@ MdCheckbox.propDecorators = {
     'checked': [{ type: Input },],
     'indeterminate': [{ type: Input },],
 };
-var MdCheckboxModule = (function () {
+var MdCheckboxModule = /*@__PURE__*/(function () {
     function MdCheckboxModule() {
     }
     return MdCheckboxModule;
@@ -8980,7 +8840,7 @@ var _uniqueIdCounter$2 = 0;
 /**
  * Change event object emitted by MdRadio and MdRadioGroup.
  */
-var MdRadioChange = (function () {
+var MdRadioChange = /*@__PURE__*/(function () {
     function MdRadioChange() {
     }
     return MdRadioChange;
@@ -8988,7 +8848,7 @@ var MdRadioChange = (function () {
 /**
  * \@docs-private
  */
-var MdRadioGroupBase = (function () {
+var MdRadioGroupBase = /*@__PURE__*/(function () {
     function MdRadioGroupBase() {
     }
     return MdRadioGroupBase;
@@ -8997,7 +8857,7 @@ var _MdRadioGroupMixinBase = mixinDisabled(MdRadioGroupBase);
 /**
  * A group of radio buttons. May contain one or more `<md-radio-button>` elements.
  */
-var MdRadioGroup = (function (_super) {
+var MdRadioGroup = /*@__PURE__*/(function (_super) {
     __extends(MdRadioGroup, _super);
     /**
      * @param {?} _changeDetector
@@ -9292,11 +9152,9 @@ MdRadioGroup.decorators = [
 /**
  * @nocollapse
  */
-MdRadioGroup.ctorParameters = function () {
-    return [
-        { type: ChangeDetectorRef, },
-    ];
-};
+MdRadioGroup.ctorParameters = function () { return [
+    { type: ChangeDetectorRef, },
+]; };
 MdRadioGroup.propDecorators = {
     'change': [{ type: Output },],
     '_radios': [{ type: ContentChildren, args: [forwardRef(function () { return MdRadioButton; }),] },],
@@ -9310,7 +9168,7 @@ MdRadioGroup.propDecorators = {
 /**
  * \@docs-private
  */
-var MdRadioButtonBase = (function () {
+var MdRadioButtonBase = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -9327,7 +9185,7 @@ var _MdRadioButtonMixinBase = mixinColor(MdRadioButtonBase, 'accent');
 /**
  * A radio-button. May be inside of
  */
-var MdRadioButton = (function (_super) {
+var MdRadioButton = /*@__PURE__*/(function (_super) {
     __extends(MdRadioButton, _super);
     /**
      * @param {?} radioGroup
@@ -9655,16 +9513,14 @@ MdRadioButton.decorators = [
 /**
  * @nocollapse
  */
-MdRadioButton.ctorParameters = function () {
-    return [
-        { type: MdRadioGroup, decorators: [{ type: Optional },] },
-        { type: ElementRef, },
-        { type: Renderer2, },
-        { type: ChangeDetectorRef, },
-        { type: FocusOriginMonitor, },
-        { type: UniqueSelectionDispatcher, },
-    ];
-};
+MdRadioButton.ctorParameters = function () { return [
+    { type: MdRadioGroup, decorators: [{ type: Optional },] },
+    { type: ElementRef, },
+    { type: Renderer2, },
+    { type: ChangeDetectorRef, },
+    { type: FocusOriginMonitor, },
+    { type: UniqueSelectionDispatcher, },
+]; };
 MdRadioButton.propDecorators = {
     'id': [{ type: Input },],
     'name': [{ type: Input },],
@@ -9680,7 +9536,7 @@ MdRadioButton.propDecorators = {
     '_ripple': [{ type: ViewChild, args: [MdRipple,] },],
     '_inputElement': [{ type: ViewChild, args: ['input',] },],
 };
-var MdRadioModule = (function () {
+var MdRadioModule = /*@__PURE__*/(function () {
     function MdRadioModule() {
     }
     return MdRadioModule;
@@ -9697,7 +9553,7 @@ MdRadioModule.decorators = [
  * @nocollapse
  */
 MdRadioModule.ctorParameters = function () { return []; };
-var FocusKeyManager = (function (_super) {
+var FocusKeyManager = /*@__PURE__*/(function (_super) {
     __extends(FocusKeyManager, _super);
     /**
      * @param {?} items
@@ -9852,7 +9708,7 @@ var SELECT_PANEL_VIEWPORT_PADDING = 8;
 /**
  * Change event object that is emitted when the select value has changed.
  */
-var MdSelectChange = (function () {
+var MdSelectChange = /*@__PURE__*/(function () {
     /**
      * @param {?} source
      * @param {?} value
@@ -9866,7 +9722,7 @@ var MdSelectChange = (function () {
 /**
  * \@docs-private
  */
-var MdSelectBase = (function () {
+var MdSelectBase = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -9878,7 +9734,7 @@ var MdSelectBase = (function () {
     return MdSelectBase;
 }());
 var _MdSelectMixinBase = mixinColor(mixinDisabled(MdSelectBase), 'primary');
-var MdSelect = (function (_super) {
+var MdSelect = /*@__PURE__*/(function (_super) {
     __extends(MdSelect, _super);
     /**
      * @param {?} _viewportRuler
@@ -10347,9 +10203,7 @@ var MdSelect = (function (_super) {
      */
     MdSelect.prototype._setSelectionByValue = function (value, isUserInput) {
         var _this = this;
-        if (isUserInput === void 0) {
-            isUserInput = false;
-        }
+        if (isUserInput === void 0) { isUserInput = false; }
         var /** @type {?} */ isArray = Array.isArray(value);
         if (this.multiple && value && !isArray) {
             throw getMdSelectNonArrayValueError();
@@ -10375,9 +10229,7 @@ var MdSelect = (function (_super) {
      * @return {?} Option that has the corresponding value.
      */
     MdSelect.prototype._selectValue = function (value, isUserInput) {
-        if (isUserInput === void 0) {
-            isUserInput = false;
-        }
+        if (isUserInput === void 0) { isUserInput = false; }
         var /** @type {?} */ optionsArray = this.options.toArray();
         var /** @type {?} */ correspondingOption = optionsArray.find(function (option) {
             return option.value != null && option.value === value;
@@ -10903,18 +10755,16 @@ MdSelect.decorators = [
 /**
  * @nocollapse
  */
-MdSelect.ctorParameters = function () {
-    return [
-        { type: ViewportRuler, },
-        { type: ChangeDetectorRef, },
-        { type: Renderer2, },
-        { type: ElementRef, },
-        { type: Directionality, decorators: [{ type: Optional },] },
-        { type: NgControl, decorators: [{ type: Self }, { type: Optional },] },
-        { type: undefined, decorators: [{ type: Attribute, args: ['tabindex',] },] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_PLACEHOLDER_GLOBAL_OPTIONS,] },] },
-    ];
-};
+MdSelect.ctorParameters = function () { return [
+    { type: ViewportRuler, },
+    { type: ChangeDetectorRef, },
+    { type: Renderer2, },
+    { type: ElementRef, },
+    { type: Directionality, decorators: [{ type: Optional },] },
+    { type: NgControl, decorators: [{ type: Self }, { type: Optional },] },
+    { type: undefined, decorators: [{ type: Attribute, args: ['tabindex',] },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_PLACEHOLDER_GLOBAL_OPTIONS,] },] },
+]; };
 MdSelect.propDecorators = {
     'trigger': [{ type: ViewChild, args: ['trigger',] },],
     'overlayDir': [{ type: ViewChild, args: [ConnectedOverlayDirective,] },],
@@ -10942,7 +10792,7 @@ MdSelect.propDecorators = {
 function clampValue(min, n, max) {
     return Math.min(Math.max(min, n), max);
 }
-var MdSelectModule = (function () {
+var MdSelectModule = /*@__PURE__*/(function () {
     function MdSelectModule() {
     }
     return MdSelectModule;
@@ -10968,7 +10818,7 @@ var MD_SLIDE_TOGGLE_VALUE_ACCESSOR = {
     useExisting: forwardRef(function () { return MdSlideToggle; }),
     multi: true
 };
-var MdSlideToggleChange = (function () {
+var MdSlideToggleChange = /*@__PURE__*/(function () {
     function MdSlideToggleChange() {
     }
     return MdSlideToggleChange;
@@ -10978,7 +10828,7 @@ var nextId$1 = 0;
 /**
  * \@docs-private
  */
-var MdSlideToggleBase = (function () {
+var MdSlideToggleBase = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -10993,7 +10843,7 @@ var _MdSlideToggleMixinBase = mixinColor(mixinDisabled(MdSlideToggleBase), 'acce
 /**
  * Represents a slidable "switch" toggle that can be moved between on and off.
  */
-var MdSlideToggle = (function (_super) {
+var MdSlideToggle = /*@__PURE__*/(function (_super) {
     __extends(MdSlideToggle, _super);
     /**
      * @param {?} elementRef
@@ -11281,15 +11131,13 @@ MdSlideToggle.decorators = [
 /**
  * @nocollapse
  */
-MdSlideToggle.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: Renderer2, },
-        { type: Platform, },
-        { type: FocusOriginMonitor, },
-        { type: ChangeDetectorRef, },
-    ];
-};
+MdSlideToggle.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: Renderer2, },
+    { type: Platform, },
+    { type: FocusOriginMonitor, },
+    { type: ChangeDetectorRef, },
+]; };
 MdSlideToggle.propDecorators = {
     'name': [{ type: Input },],
     'id': [{ type: Input },],
@@ -11307,7 +11155,7 @@ MdSlideToggle.propDecorators = {
 /**
  * Renderer for the Slide Toggle component, which separates DOM modification in its own class
  */
-var SlideToggleRenderer = (function () {
+var SlideToggleRenderer = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} platform
@@ -11379,7 +11227,7 @@ var SlideToggleRenderer = (function () {
     };
     return SlideToggleRenderer;
 }());
-var MdSlideToggleModule = (function () {
+var MdSlideToggleModule = /*@__PURE__*/(function () {
     function MdSlideToggleModule() {
     }
     return MdSlideToggleModule;
@@ -11428,7 +11276,7 @@ var MD_SLIDER_VALUE_ACCESSOR = {
 /**
  * A simple change event emitted by the MdSlider component.
  */
-var MdSliderChange = (function () {
+var MdSliderChange = /*@__PURE__*/(function () {
     function MdSliderChange() {
     }
     return MdSliderChange;
@@ -11436,7 +11284,7 @@ var MdSliderChange = (function () {
 /**
  * \@docs-private
  */
-var MdSliderBase = (function () {
+var MdSliderBase = /*@__PURE__*/(function () {
     function MdSliderBase() {
     }
     return MdSliderBase;
@@ -11446,7 +11294,7 @@ var _MdSliderMixinBase = mixinDisabled(MdSliderBase);
  * Allows users to select from a range of values by moving the slider thumb. It is similar in
  * behavior to the native `<input type="range">` element.
  */
-var MdSlider = (function (_super) {
+var MdSlider = /*@__PURE__*/(function (_super) {
     __extends(MdSlider, _super);
     /**
      * @param {?} renderer
@@ -12092,9 +11940,7 @@ var MdSlider = (function (_super) {
      * @return {?}
      */
     MdSlider.prototype._createChangeEvent = function (value) {
-        if (value === void 0) {
-            value = this.value;
-        }
+        if (value === void 0) { value = this.value; }
         var /** @type {?} */ event = new MdSliderChange();
         event.source = this;
         event.value = value;
@@ -12124,12 +11970,8 @@ var MdSlider = (function (_super) {
      * @return {?}
      */
     MdSlider.prototype._clamp = function (value, min, max) {
-        if (min === void 0) {
-            min = 0;
-        }
-        if (max === void 0) {
-            max = 1;
-        }
+        if (min === void 0) { min = 0; }
+        if (max === void 0) { max = 1; }
         return Math.max(min, Math.min(value, max));
     };
     /**
@@ -12212,14 +12054,12 @@ MdSlider.decorators = [
 /**
  * @nocollapse
  */
-MdSlider.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-        { type: FocusOriginMonitor, },
-        { type: Directionality, decorators: [{ type: Optional },] },
-    ];
-};
+MdSlider.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+    { type: FocusOriginMonitor, },
+    { type: Directionality, decorators: [{ type: Optional },] },
+]; };
 MdSlider.propDecorators = {
     'invert': [{ type: Input },],
     'max': [{ type: Input },],
@@ -12239,7 +12079,7 @@ MdSlider.propDecorators = {
  * Renderer class in order to keep all dom manipulation in one place and outside of the main class.
  * \@docs-private
  */
-var SliderRenderer = (function () {
+var SliderRenderer = /*@__PURE__*/(function () {
     /**
      * @param {?} elementRef
      */
@@ -12266,7 +12106,7 @@ var SliderRenderer = (function () {
     };
     return SliderRenderer;
 }());
-var MdSliderModule = (function () {
+var MdSliderModule = /*@__PURE__*/(function () {
     function MdSliderModule() {
     }
     return MdSliderModule;
@@ -12294,7 +12134,7 @@ function throwMdDuplicatedSidenavError(align) {
 /**
  * Sidenav toggle promise result.
  */
-var MdSidenavToggleResult = (function () {
+var MdSidenavToggleResult = /*@__PURE__*/(function () {
     /**
      * @param {?} type
      * @param {?} animationFinished
@@ -12312,7 +12152,7 @@ var MdSidenavToggleResult = (function () {
  *
  * Please refer to README.md for examples on how to use it.
  */
-var MdSidenav = (function () {
+var MdSidenav = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef The DOM element reference. Used for transition and width calculation.
      *     If not available we do not hook on transitions.
@@ -12502,9 +12342,7 @@ var MdSidenav = (function () {
      */
     MdSidenav.prototype.toggle = function (isOpen) {
         var _this = this;
-        if (isOpen === void 0) {
-            isOpen = !this.opened;
-        }
+        if (isOpen === void 0) { isOpen = !this.opened; }
         // Shortcut it if we're already opened.
         if (isOpen === this.opened) {
             return this._toggleAnimationPromise ||
@@ -12684,13 +12522,11 @@ MdSidenav.decorators = [
 /**
  * @nocollapse
  */
-MdSidenav.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: FocusTrapFactory, },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
-    ];
-};
+MdSidenav.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: FocusTrapFactory, },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
+]; };
 MdSidenav.propDecorators = {
     'align': [{ type: Input },],
     'mode': [{ type: Input },],
@@ -12708,7 +12544,7 @@ MdSidenav.propDecorators = {
  * This is the parent component to one or two <md-sidenav>s that validates the state internally
  * and coordinates the backdrop and content styling.
  */
-var MdSidenavContainer = (function () {
+var MdSidenavContainer = /*@__PURE__*/(function () {
     /**
      * @param {?} _dir
      * @param {?} _element
@@ -12968,19 +12804,17 @@ MdSidenavContainer.decorators = [
 /**
  * @nocollapse
  */
-MdSidenavContainer.ctorParameters = function () {
-    return [
-        { type: Directionality, decorators: [{ type: Optional },] },
-        { type: ElementRef, },
-        { type: Renderer2, },
-        { type: NgZone, },
-    ];
-};
+MdSidenavContainer.ctorParameters = function () { return [
+    { type: Directionality, decorators: [{ type: Optional },] },
+    { type: ElementRef, },
+    { type: Renderer2, },
+    { type: NgZone, },
+]; };
 MdSidenavContainer.propDecorators = {
     '_sidenavs': [{ type: ContentChildren, args: [MdSidenav,] },],
     'backdropClick': [{ type: Output },],
 };
-var MdSidenavModule = (function () {
+var MdSidenavModule = /*@__PURE__*/(function () {
     function MdSidenavModule() {
     }
     return MdSidenavModule;
@@ -12996,7 +12830,7 @@ MdSidenavModule.decorators = [
  * @nocollapse
  */
 MdSidenavModule.ctorParameters = function () { return []; };
-var MdListDivider = (function () {
+var MdListDivider = /*@__PURE__*/(function () {
     function MdListDivider() {
     }
     return MdListDivider;
@@ -13014,7 +12848,7 @@ MdListDivider.decorators = [
  * @nocollapse
  */
 MdListDivider.ctorParameters = function () { return []; };
-var MdList = (function () {
+var MdList = /*@__PURE__*/(function () {
     function MdList() {
         this._disableRipple = false;
     }
@@ -13054,7 +12888,7 @@ MdList.propDecorators = {
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdListCssMatStyler = (function () {
+var MdListCssMatStyler = /*@__PURE__*/(function () {
     function MdListCssMatStyler() {
     }
     return MdListCssMatStyler;
@@ -13073,7 +12907,7 @@ MdListCssMatStyler.ctorParameters = function () { return []; };
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdNavListCssMatStyler = (function () {
+var MdNavListCssMatStyler = /*@__PURE__*/(function () {
     function MdNavListCssMatStyler() {
     }
     return MdNavListCssMatStyler;
@@ -13092,7 +12926,7 @@ MdNavListCssMatStyler.ctorParameters = function () { return []; };
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdDividerCssMatStyler = (function () {
+var MdDividerCssMatStyler = /*@__PURE__*/(function () {
     function MdDividerCssMatStyler() {
     }
     return MdDividerCssMatStyler;
@@ -13111,7 +12945,7 @@ MdDividerCssMatStyler.ctorParameters = function () { return []; };
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdListAvatarCssMatStyler = (function () {
+var MdListAvatarCssMatStyler = /*@__PURE__*/(function () {
     function MdListAvatarCssMatStyler() {
     }
     return MdListAvatarCssMatStyler;
@@ -13130,7 +12964,7 @@ MdListAvatarCssMatStyler.ctorParameters = function () { return []; };
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdListIconCssMatStyler = (function () {
+var MdListIconCssMatStyler = /*@__PURE__*/(function () {
     function MdListIconCssMatStyler() {
     }
     return MdListIconCssMatStyler;
@@ -13149,7 +12983,7 @@ MdListIconCssMatStyler.ctorParameters = function () { return []; };
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdListSubheaderCssMatStyler = (function () {
+var MdListSubheaderCssMatStyler = /*@__PURE__*/(function () {
     function MdListSubheaderCssMatStyler() {
     }
     return MdListSubheaderCssMatStyler;
@@ -13164,7 +12998,7 @@ MdListSubheaderCssMatStyler.decorators = [
  * @nocollapse
  */
 MdListSubheaderCssMatStyler.ctorParameters = function () { return []; };
-var MdListItem = (function () {
+var MdListItem = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _element
@@ -13259,20 +13093,18 @@ MdListItem.decorators = [
 /**
  * @nocollapse
  */
-MdListItem.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-        { type: MdList, decorators: [{ type: Optional },] },
-        { type: MdNavListCssMatStyler, decorators: [{ type: Optional },] },
-    ];
-};
+MdListItem.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+    { type: MdList, decorators: [{ type: Optional },] },
+    { type: MdNavListCssMatStyler, decorators: [{ type: Optional },] },
+]; };
 MdListItem.propDecorators = {
     'disableRipple': [{ type: Input },],
     '_lines': [{ type: ContentChildren, args: [MdLine,] },],
     '_hasAvatar': [{ type: ContentChild, args: [MdListAvatarCssMatStyler,] },],
 };
-var MdListModule = (function () {
+var MdListModule = /*@__PURE__*/(function () {
     function MdListModule() {
     }
     return MdListModule;
@@ -13328,7 +13160,7 @@ function coerceToString(value) {
 function coerceToNumber(value) {
     return typeof value === 'string' ? parseInt(value, 10) : value;
 }
-var MdGridTile = (function () {
+var MdGridTile = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _element
@@ -13393,17 +13225,15 @@ MdGridTile.decorators = [
 /**
  * @nocollapse
  */
-MdGridTile.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-    ];
-};
+MdGridTile.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+]; };
 MdGridTile.propDecorators = {
     'rowspan': [{ type: Input },],
     'colspan': [{ type: Input },],
 };
-var MdGridTileText = (function () {
+var MdGridTileText = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _element
@@ -13428,12 +13258,10 @@ MdGridTileText.decorators = [
 /**
  * @nocollapse
  */
-MdGridTileText.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-    ];
-};
+MdGridTileText.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+]; };
 MdGridTileText.propDecorators = {
     '_lines': [{ type: ContentChildren, args: [MdLine,] },],
 };
@@ -13441,7 +13269,7 @@ MdGridTileText.propDecorators = {
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdGridAvatarCssMatStyler = (function () {
+var MdGridAvatarCssMatStyler = /*@__PURE__*/(function () {
     function MdGridAvatarCssMatStyler() {
     }
     return MdGridAvatarCssMatStyler;
@@ -13460,7 +13288,7 @@ MdGridAvatarCssMatStyler.ctorParameters = function () { return []; };
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdGridTileHeaderCssMatStyler = (function () {
+var MdGridTileHeaderCssMatStyler = /*@__PURE__*/(function () {
     function MdGridTileHeaderCssMatStyler() {
     }
     return MdGridTileHeaderCssMatStyler;
@@ -13479,7 +13307,7 @@ MdGridTileHeaderCssMatStyler.ctorParameters = function () { return []; };
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdGridTileFooterCssMatStyler = (function () {
+var MdGridTileFooterCssMatStyler = /*@__PURE__*/(function () {
     function MdGridTileFooterCssMatStyler() {
     }
     return MdGridTileFooterCssMatStyler;
@@ -13511,7 +13339,7 @@ MdGridTileFooterCssMatStyler.ctorParameters = function () { return []; };
  *
  * \@docs-private
  */
-var TileCoordinator = (function () {
+var TileCoordinator = /*@__PURE__*/(function () {
     /**
      * @param {?} numColumns
      * @param {?} tiles
@@ -13647,7 +13475,7 @@ var TileCoordinator = (function () {
  * Simple data structure for tile position (row, col).
  * \@docs-private
  */
-var TilePosition = (function () {
+var TilePosition = /*@__PURE__*/(function () {
     /**
      * @param {?} row
      * @param {?} col
@@ -13664,7 +13492,7 @@ var TilePosition = (function () {
  * \@docs-private
  * @abstract
  */
-var TileStyler = (function () {
+var TileStyler = /*@__PURE__*/(function () {
     function TileStyler() {
         this._rows = 0;
         this._rowspan = 0;
@@ -13795,7 +13623,7 @@ var TileStyler = (function () {
  * Example <md-grid-list cols="3" rowHeight="100px">
  * \@docs-private
  */
-var FixedTileStyler = (function (_super) {
+var FixedTileStyler = /*@__PURE__*/(function (_super) {
     __extends(FixedTileStyler, _super);
     /**
      * @param {?} fixedRowHeight
@@ -13840,7 +13668,7 @@ var FixedTileStyler = (function (_super) {
  * for the row height.  Example <md-grid-list cols="3" rowHeight="3:1">
  * \@docs-private
  */
-var RatioTileStyler = (function (_super) {
+var RatioTileStyler = /*@__PURE__*/(function (_super) {
     __extends(RatioTileStyler, _super);
     /**
      * @param {?} value
@@ -13894,7 +13722,7 @@ var RatioTileStyler = (function (_super) {
  *
  * \@docs-private
  */
-var FitTileStyler = (function (_super) {
+var FitTileStyler = /*@__PURE__*/(function (_super) {
     __extends(FitTileStyler, _super);
     function FitTileStyler() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -13934,7 +13762,7 @@ function normalizeUnits(value) {
 // TODO(kara): Re-layout on window resize / media change (debounced).
 // TODO(kara): gridTileHeader and gridTileFooter.
 var MD_FIT_MODE = 'fit';
-var MdGridList = (function () {
+var MdGridList = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _element
@@ -14080,20 +13908,18 @@ MdGridList.decorators = [
 /**
  * @nocollapse
  */
-MdGridList.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-        { type: Directionality, decorators: [{ type: Optional },] },
-    ];
-};
+MdGridList.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+    { type: Directionality, decorators: [{ type: Optional },] },
+]; };
 MdGridList.propDecorators = {
     '_tiles': [{ type: ContentChildren, args: [MdGridTile,] },],
     'cols': [{ type: Input },],
     'gutterSize': [{ type: Input },],
     'rowHeight': [{ type: Input },],
 };
-var MdGridListModule = (function () {
+var MdGridListModule = /*@__PURE__*/(function () {
     function MdGridListModule() {
     }
     return MdGridListModule;
@@ -14129,7 +13955,7 @@ MdGridListModule.ctorParameters = function () { return []; };
  * Content of a card, needed as it's used as a selector in the API.
  * \@docs-private
  */
-var MdCardContent = (function () {
+var MdCardContent = /*@__PURE__*/(function () {
     function MdCardContent() {
     }
     return MdCardContent;
@@ -14148,7 +13974,7 @@ MdCardContent.ctorParameters = function () { return []; };
  * Title of a card, needed as it's used as a selector in the API.
  * \@docs-private
  */
-var MdCardTitle = (function () {
+var MdCardTitle = /*@__PURE__*/(function () {
     function MdCardTitle() {
     }
     return MdCardTitle;
@@ -14170,7 +13996,7 @@ MdCardTitle.ctorParameters = function () { return []; };
  * Sub-title of a card, needed as it's used as a selector in the API.
  * \@docs-private
  */
-var MdCardSubtitle = (function () {
+var MdCardSubtitle = /*@__PURE__*/(function () {
     function MdCardSubtitle() {
     }
     return MdCardSubtitle;
@@ -14192,7 +14018,7 @@ MdCardSubtitle.ctorParameters = function () { return []; };
  * Action section of a card, needed as it's used as a selector in the API.
  * \@docs-private
  */
-var MdCardActions = (function () {
+var MdCardActions = /*@__PURE__*/(function () {
     function MdCardActions() {
     }
     return MdCardActions;
@@ -14211,7 +14037,7 @@ MdCardActions.ctorParameters = function () { return []; };
  * Footer of a card, needed as it's used as a selector in the API.
  * \@docs-private
  */
-var MdCardFooter = (function () {
+var MdCardFooter = /*@__PURE__*/(function () {
     function MdCardFooter() {
     }
     return MdCardFooter;
@@ -14230,7 +14056,7 @@ MdCardFooter.ctorParameters = function () { return []; };
  * Image used in a card, needed to add the mat- CSS styling.
  * \@docs-private
  */
-var MdCardImage = (function () {
+var MdCardImage = /*@__PURE__*/(function () {
     function MdCardImage() {
     }
     return MdCardImage;
@@ -14249,7 +14075,7 @@ MdCardImage.ctorParameters = function () { return []; };
  * Image used in a card, needed to add the mat- CSS styling.
  * \@docs-private
  */
-var MdCardSmImage = (function () {
+var MdCardSmImage = /*@__PURE__*/(function () {
     function MdCardSmImage() {
     }
     return MdCardSmImage;
@@ -14268,7 +14094,7 @@ MdCardSmImage.ctorParameters = function () { return []; };
  * Image used in a card, needed to add the mat- CSS styling.
  * \@docs-private
  */
-var MdCardMdImage = (function () {
+var MdCardMdImage = /*@__PURE__*/(function () {
     function MdCardMdImage() {
     }
     return MdCardMdImage;
@@ -14287,7 +14113,7 @@ MdCardMdImage.ctorParameters = function () { return []; };
  * Image used in a card, needed to add the mat- CSS styling.
  * \@docs-private
  */
-var MdCardLgImage = (function () {
+var MdCardLgImage = /*@__PURE__*/(function () {
     function MdCardLgImage() {
     }
     return MdCardLgImage;
@@ -14306,7 +14132,7 @@ MdCardLgImage.ctorParameters = function () { return []; };
  * Large image used in a card, needed to add the mat- CSS styling.
  * \@docs-private
  */
-var MdCardXlImage = (function () {
+var MdCardXlImage = /*@__PURE__*/(function () {
     function MdCardXlImage() {
     }
     return MdCardXlImage;
@@ -14325,7 +14151,7 @@ MdCardXlImage.ctorParameters = function () { return []; };
  * Avatar image used in a card, needed to add the mat- CSS styling.
  * \@docs-private
  */
-var MdCardAvatar = (function () {
+var MdCardAvatar = /*@__PURE__*/(function () {
     function MdCardAvatar() {
     }
     return MdCardAvatar;
@@ -14351,7 +14177,7 @@ MdCardAvatar.ctorParameters = function () { return []; };
  * - md-card-actions
  * - md-card-footer
  */
-var MdCard = (function () {
+var MdCard = /*@__PURE__*/(function () {
     function MdCard() {
     }
     return MdCard;
@@ -14374,7 +14200,7 @@ MdCard.ctorParameters = function () { return []; };
  * preset header section (i.e. a title, subtitle, and avatar layout).
  * \@docs-private
  */
-var MdCardHeader = (function () {
+var MdCardHeader = /*@__PURE__*/(function () {
     function MdCardHeader() {
     }
     return MdCardHeader;
@@ -14396,7 +14222,7 @@ MdCardHeader.ctorParameters = function () { return []; };
  * layout that groups an image with a title section.
  * \@docs-private
  */
-var MdCardTitleGroup = (function () {
+var MdCardTitleGroup = /*@__PURE__*/(function () {
     function MdCardTitleGroup() {
     }
     return MdCardTitleGroup;
@@ -14413,7 +14239,7 @@ MdCardTitleGroup.decorators = [
  * @nocollapse
  */
 MdCardTitleGroup.ctorParameters = function () { return []; };
-var MdCardModule = (function () {
+var MdCardModule = /*@__PURE__*/(function () {
     function MdCardModule() {
     }
     return MdCardModule;
@@ -14452,7 +14278,7 @@ MdCardModule.ctorParameters = function () { return []; };
 /**
  * \@docs-private
  */
-var MdChipBase = (function () {
+var MdChipBase = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -14468,7 +14294,7 @@ var _MdChipMixinBase = mixinColor(mixinDisabled(MdChipBase), 'primary');
  * Dummy directive to add CSS class to basic chips.
  * \@docs-private
  */
-var MdBasicChip = (function () {
+var MdBasicChip = /*@__PURE__*/(function () {
     function MdBasicChip() {
     }
     return MdBasicChip;
@@ -14486,7 +14312,7 @@ MdBasicChip.ctorParameters = function () { return []; };
 /**
  * Material design styled Chip component. Used inside the MdChipList component.
  */
-var MdChip = (function (_super) {
+var MdChip = /*@__PURE__*/(function (_super) {
     __extends(MdChip, _super);
     /**
      * @param {?} renderer
@@ -14593,12 +14419,10 @@ MdChip.decorators = [
 /**
  * @nocollapse
  */
-MdChip.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-    ];
-};
+MdChip.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+]; };
 MdChip.propDecorators = {
     'selected': [{ type: Input },],
     'select': [{ type: Output },],
@@ -14615,7 +14439,7 @@ MdChip.propDecorators = {
  *       <md-chip>Chip 2<md-chip>
  *     </md-chip-list>
  */
-var MdChipList = (function () {
+var MdChipList = /*@__PURE__*/(function () {
     function MdChipList() {
         /**
          * Track which chips we're listening to for focus/destruction.
@@ -14819,7 +14643,7 @@ MdChipList.ctorParameters = function () { return []; };
 MdChipList.propDecorators = {
     'selectable': [{ type: Input },],
 };
-var MdChipsModule = (function () {
+var MdChipsModule = /*@__PURE__*/(function () {
     function MdChipsModule() {
     }
     return MdChipsModule;
@@ -14869,7 +14693,7 @@ function getMdIconFailedToSanitizeError(url) {
  * Configuration for an icon, including the URL and possibly the cached SVG element.
  * \@docs-private
  */
-var SvgIconConfig = (function () {
+var SvgIconConfig = /*@__PURE__*/(function () {
     /**
      * @param {?} url
      */
@@ -14886,7 +14710,7 @@ var SvgIconConfig = (function () {
  * - Registers aliases for CSS classes, for use with icon fonts.
  * - Loads icons from URLs and extracts individual icons from icon sets.
  */
-var MdIconRegistry = (function () {
+var MdIconRegistry = /*@__PURE__*/(function () {
     /**
      * @param {?} _http
      * @param {?} _sanitizer
@@ -14978,9 +14802,7 @@ var MdIconRegistry = (function () {
      * @return {?}
      */
     MdIconRegistry.prototype.registerFontClassAlias = function (alias, className) {
-        if (className === void 0) {
-            className = alias;
-        }
+        if (className === void 0) { className = alias; }
         this._fontCssClassesByAlias.set(alias, className);
         return this;
     };
@@ -15046,9 +14868,7 @@ var MdIconRegistry = (function () {
      * @return {?}
      */
     MdIconRegistry.prototype.getNamedSvgIcon = function (name, namespace) {
-        if (namespace === void 0) {
-            namespace = '';
-        }
+        if (namespace === void 0) { namespace = ''; }
         // Return (copy of) cached icon if possible.
         var /** @type {?} */ key = iconKey(namespace, name);
         var /** @type {?} */ config = this._svgIconConfigs.get(key);
@@ -15305,12 +15125,10 @@ MdIconRegistry.decorators = [
 /**
  * @nocollapse
  */
-MdIconRegistry.ctorParameters = function () {
-    return [
-        { type: Http, decorators: [{ type: Optional },] },
-        { type: DomSanitizer, },
-    ];
-};
+MdIconRegistry.ctorParameters = function () { return [
+    { type: Http, decorators: [{ type: Optional },] },
+    { type: DomSanitizer, },
+]; };
 /**
  * @param {?} parentRegistry
  * @param {?} http
@@ -15346,7 +15164,7 @@ function iconKey(namespace, name) {
 /**
  * \@docs-private
  */
-var MdIconBase = (function () {
+var MdIconBase = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -15391,7 +15209,7 @@ var _MdIconMixinBase = mixinColor(MdIconBase);
  *   Example:
  *     <md-icon fontSet="fa" fontIcon="alarm"></md-icon>
  */
-var MdIcon = (function (_super) {
+var MdIcon = /*@__PURE__*/(function (_super) {
     __extends(MdIcon, _super);
     /**
      * @param {?} renderer
@@ -15533,20 +15351,18 @@ MdIcon.decorators = [
 /**
  * @nocollapse
  */
-MdIcon.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-        { type: MdIconRegistry, },
-        { type: undefined, decorators: [{ type: Attribute, args: ['aria-hidden',] },] },
-    ];
-};
+MdIcon.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+    { type: MdIconRegistry, },
+    { type: undefined, decorators: [{ type: Attribute, args: ['aria-hidden',] },] },
+]; };
 MdIcon.propDecorators = {
     'svgIcon': [{ type: Input },],
     'fontSet': [{ type: Input },],
     'fontIcon': [{ type: Input },],
 };
-var MdIconModule = (function () {
+var MdIconModule = /*@__PURE__*/(function () {
     function MdIconModule() {
     }
     return MdIconModule;
@@ -15599,7 +15415,7 @@ var PROGRESS_SPINNER_STROKE_WIDTH = 10;
  * Directive whose purpose is to add the mat- CSS styling to this selector.
  * \@docs-private
  */
-var MdProgressSpinnerCssMatStyler = (function () {
+var MdProgressSpinnerCssMatStyler = /*@__PURE__*/(function () {
     function MdProgressSpinnerCssMatStyler() {
     }
     return MdProgressSpinnerCssMatStyler;
@@ -15617,7 +15433,7 @@ MdProgressSpinnerCssMatStyler.ctorParameters = function () { return []; };
 /**
  * \@docs-private
  */
-var MdProgressSpinnerBase = (function () {
+var MdProgressSpinnerBase = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -15632,7 +15448,7 @@ var _MdProgressSpinnerMixinBase = mixinColor(MdProgressSpinnerBase, 'primary');
 /**
  * <md-progress-spinner> component.
  */
-var MdProgressSpinner = (function (_super) {
+var MdProgressSpinner = /*@__PURE__*/(function (_super) {
     __extends(MdProgressSpinner, _super);
     /**
      * @param {?} renderer
@@ -15773,15 +15589,9 @@ var MdProgressSpinner = (function (_super) {
      */
     MdProgressSpinner.prototype._animateCircle = function (animateFrom, animateTo, ease, duration, rotation) {
         var _this = this;
-        if (ease === void 0) {
-            ease = linearEase;
-        }
-        if (duration === void 0) {
-            duration = DURATION_DETERMINATE;
-        }
-        if (rotation === void 0) {
-            rotation = 0;
-        }
+        if (ease === void 0) { ease = linearEase; }
+        if (duration === void 0) { duration = DURATION_DETERMINATE; }
+        if (rotation === void 0) { rotation = 0; }
         var /** @type {?} */ id = ++this._lastAnimationId;
         var /** @type {?} */ startTime = Date.now();
         var /** @type {?} */ changeInValue = animateTo - animateFrom;
@@ -15847,9 +15657,7 @@ var MdProgressSpinner = (function (_super) {
      * @return {?}
      */
     MdProgressSpinner.prototype._renderArc = function (currentValue, rotation) {
-        if (rotation === void 0) {
-            rotation = 0;
-        }
+        if (rotation === void 0) { rotation = 0; }
         if (this._path) {
             var /** @type {?} */ svgArc = getSvgArc(currentValue, rotation, this.strokeWidth);
             this._renderer.setAttribute(this._path.nativeElement, 'd', svgArc);
@@ -15873,13 +15681,11 @@ MdProgressSpinner.decorators = [
 /**
  * @nocollapse
  */
-MdProgressSpinner.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-        { type: NgZone, },
-    ];
-};
+MdProgressSpinner.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+    { type: NgZone, },
+]; };
 MdProgressSpinner.propDecorators = {
     '_path': [{ type: ViewChild, args: ['path',] },],
     'strokeWidth': [{ type: Input },],
@@ -15892,7 +15698,7 @@ MdProgressSpinner.propDecorators = {
  * This is a component definition to be used as a convenience reference to create an
  * indeterminate <md-progress-spinner> instance.
  */
-var MdSpinner = (function (_super) {
+var MdSpinner = /*@__PURE__*/(function (_super) {
     __extends(MdSpinner, _super);
     /**
      * @param {?} elementRef
@@ -15929,13 +15735,11 @@ MdSpinner.decorators = [
 /**
  * @nocollapse
  */
-MdSpinner.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: NgZone, },
-        { type: Renderer2, },
-    ];
-};
+MdSpinner.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: NgZone, },
+    { type: Renderer2, },
+]; };
 /**
  * Clamps a value to be between 0 and 100.
  * @param {?} v
@@ -16011,7 +15815,7 @@ function getSvgArc(currentValue, rotation, strokeWidth) {
     }
     return "M" + start + "A" + pathRadius + "," + pathRadius + " 0 " + largeArcFlag + "," + arcSweep + " " + end;
 }
-var MdProgressSpinnerModule = (function () {
+var MdProgressSpinnerModule = /*@__PURE__*/(function () {
     function MdProgressSpinnerModule() {
     }
     return MdProgressSpinnerModule;
@@ -16039,7 +15843,7 @@ MdProgressSpinnerModule.ctorParameters = function () { return []; };
 /**
  * <md-progress-bar> component.
  */
-var MdProgressBar = (function () {
+var MdProgressBar = /*@__PURE__*/(function () {
     function MdProgressBar() {
         /**
          * Color of the progress bar.
@@ -16139,15 +15943,11 @@ MdProgressBar.propDecorators = {
  * @return {?}
  */
 function clamp$1(v, min, max) {
-    if (min === void 0) {
-        min = 0;
-    }
-    if (max === void 0) {
-        max = 100;
-    }
+    if (min === void 0) { min = 0; }
+    if (max === void 0) { max = 100; }
     return Math.max(min, Math.min(max, v));
 }
-var MdProgressBarModule = (function () {
+var MdProgressBarModule = /*@__PURE__*/(function () {
     function MdProgressBarModule() {
     }
     return MdProgressBarModule;
@@ -16212,7 +16012,7 @@ var nextUniqueId$1 = 0;
  * The placeholder directive. The content can declare this to implement more
  * complex placeholders.
  */
-var MdPlaceholder = (function () {
+var MdPlaceholder = /*@__PURE__*/(function () {
     function MdPlaceholder() {
     }
     return MdPlaceholder;
@@ -16229,7 +16029,7 @@ MdPlaceholder.ctorParameters = function () { return []; };
 /**
  * Hint text to be shown underneath the input.
  */
-var MdHint = (function () {
+var MdHint = /*@__PURE__*/(function () {
     function MdHint() {
         /**
          * Whether to align the hint label at the start or end of the line.
@@ -16263,7 +16063,7 @@ MdHint.propDecorators = {
 /**
  * Single error message to be shown underneath the input.
  */
-var MdErrorDirective = (function () {
+var MdErrorDirective = /*@__PURE__*/(function () {
     function MdErrorDirective() {
     }
     return MdErrorDirective;
@@ -16283,7 +16083,7 @@ MdErrorDirective.ctorParameters = function () { return []; };
 /**
  * Prefix to be placed the the front of the input.
  */
-var MdPrefix = (function () {
+var MdPrefix = /*@__PURE__*/(function () {
     function MdPrefix() {
     }
     return MdPrefix;
@@ -16300,7 +16100,7 @@ MdPrefix.ctorParameters = function () { return []; };
 /**
  * Suffix to be placed at the end of the input.
  */
-var MdSuffix = (function () {
+var MdSuffix = /*@__PURE__*/(function () {
     function MdSuffix() {
     }
     return MdSuffix;
@@ -16317,7 +16117,7 @@ MdSuffix.ctorParameters = function () { return []; };
 /**
  * Marker for the input element that `MdInputContainer` is wrapping.
  */
-var MdInputDirective = (function () {
+var MdInputDirective = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} _renderer
@@ -16579,17 +16379,15 @@ MdInputDirective.decorators = [
 /**
  * @nocollapse
  */
-MdInputDirective.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: Renderer2, },
-        { type: Platform, },
-        { type: NgControl, decorators: [{ type: Optional }, { type: Self },] },
-        { type: NgForm, decorators: [{ type: Optional },] },
-        { type: FormGroupDirective, decorators: [{ type: Optional },] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_ERROR_GLOBAL_OPTIONS,] },] },
-    ];
-};
+MdInputDirective.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: Renderer2, },
+    { type: Platform, },
+    { type: NgControl, decorators: [{ type: Optional }, { type: Self },] },
+    { type: NgForm, decorators: [{ type: Optional },] },
+    { type: FormGroupDirective, decorators: [{ type: Optional },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_ERROR_GLOBAL_OPTIONS,] },] },
+]; };
 MdInputDirective.propDecorators = {
     'disabled': [{ type: Input },],
     'id': [{ type: Input },],
@@ -16602,7 +16400,7 @@ MdInputDirective.propDecorators = {
 /**
  * Container for text inputs that applies Material Design styling and behavior.
  */
-var MdInputContainer = (function () {
+var MdInputContainer = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} _changeDetectorRef
@@ -16872,13 +16670,11 @@ MdInputContainer.decorators = [
 /**
  * @nocollapse
  */
-MdInputContainer.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: ChangeDetectorRef, },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_PLACEHOLDER_GLOBAL_OPTIONS,] },] },
-    ];
-};
+MdInputContainer.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: ChangeDetectorRef, },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_PLACEHOLDER_GLOBAL_OPTIONS,] },] },
+]; };
 MdInputContainer.propDecorators = {
     'color': [{ type: Input },],
     'dividerColor': [{ type: Input },],
@@ -16896,7 +16692,7 @@ MdInputContainer.propDecorators = {
 /**
  * Directive to automatically resize a textarea to fit its content.
  */
-var MdTextareaAutosize = (function () {
+var MdTextareaAutosize = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} formControl
@@ -17068,19 +16864,17 @@ MdTextareaAutosize.decorators = [
 /**
  * @nocollapse
  */
-MdTextareaAutosize.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: NgControl, decorators: [{ type: Optional }, { type: Self },] },
-    ];
-};
+MdTextareaAutosize.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: NgControl, decorators: [{ type: Optional }, { type: Self },] },
+]; };
 MdTextareaAutosize.propDecorators = {
     'minRows': [{ type: Input, args: ['mdAutosizeMinRows',] },],
     'maxRows': [{ type: Input, args: ['mdAutosizeMaxRows',] },],
     '_matAutosizeMinRows': [{ type: Input, args: ['matAutosizeMaxRows',] },],
     '_matAutosizeMaxRows': [{ type: Input, args: ['matAutosizeMaxRows',] },],
 };
-var MdInputModule = (function () {
+var MdInputModule = /*@__PURE__*/(function () {
     function MdInputModule() {
     }
     return MdInputModule;
@@ -17121,7 +16915,7 @@ MdInputModule.ctorParameters = function () { return []; };
 /**
  * Configuration used when opening a snack-bar.
  */
-var MdSnackBarConfig = (function () {
+var MdSnackBarConfig = /*@__PURE__*/(function () {
     function MdSnackBarConfig() {
         /**
          * The politeness level for the MdAriaLiveAnnouncer announcement.
@@ -17145,7 +16939,7 @@ var MdSnackBarConfig = (function () {
 /**
  * Reference to a snack bar dispatched from the snack bar service.
  */
-var MdSnackBarRef = (function () {
+var MdSnackBarRef = /*@__PURE__*/(function () {
     /**
      * @param {?} instance
      * @param {?} containerInstance
@@ -17259,7 +17053,7 @@ var HIDE_ANIMATION = '195ms cubic-bezier(0.0,0.0,0.2,1)';
  * Internal component that wraps user-provided snack bar content.
  * \@docs-private
  */
-var MdSnackBarContainer = (function (_super) {
+var MdSnackBarContainer = /*@__PURE__*/(function (_super) {
     __extends(MdSnackBarContainer, _super);
     /**
      * @param {?} _ngZone
@@ -17407,13 +17201,11 @@ MdSnackBarContainer.decorators = [
 /**
  * @nocollapse
  */
-MdSnackBarContainer.ctorParameters = function () {
-    return [
-        { type: NgZone, },
-        { type: Renderer2, },
-        { type: ElementRef, },
-    ];
-};
+MdSnackBarContainer.ctorParameters = function () { return [
+    { type: NgZone, },
+    { type: Renderer2, },
+    { type: ElementRef, },
+]; };
 MdSnackBarContainer.propDecorators = {
     '_portalHost': [{ type: ViewChild, args: [PortalHostDirective,] },],
 };
@@ -17421,7 +17213,7 @@ MdSnackBarContainer.propDecorators = {
  * A component used to open as the default snack bar, matching material spec.
  * This should only be used internally by the snack bar service.
  */
-var SimpleSnackBar = (function () {
+var SimpleSnackBar = /*@__PURE__*/(function () {
     function SimpleSnackBar() {
     }
     /**
@@ -17489,7 +17281,7 @@ function extendObject(dest) {
 /**
  * Service to dispatch Material Design snack bar messages.
  */
-var MdSnackBar = (function () {
+var MdSnackBar = /*@__PURE__*/(function () {
     /**
      * @param {?} _overlay
      * @param {?} _live
@@ -17584,9 +17376,7 @@ var MdSnackBar = (function () {
      * @return {?}
      */
     MdSnackBar.prototype.open = function (message, action, config) {
-        if (action === void 0) {
-            action = '';
-        }
+        if (action === void 0) { action = ''; }
         var /** @type {?} */ _config = _applyConfigDefaults$1(config);
         _config.announcementMessage = message;
         var /** @type {?} */ simpleSnackBarRef = this.openFromComponent(SimpleSnackBar, _config);
@@ -17652,13 +17442,11 @@ MdSnackBar.decorators = [
 /**
  * @nocollapse
  */
-MdSnackBar.ctorParameters = function () {
-    return [
-        { type: Overlay, },
-        { type: LiveAnnouncer, },
-        { type: MdSnackBar, decorators: [{ type: Optional }, { type: SkipSelf },] },
-    ];
-};
+MdSnackBar.ctorParameters = function () { return [
+    { type: Overlay, },
+    { type: LiveAnnouncer, },
+    { type: MdSnackBar, decorators: [{ type: Optional }, { type: SkipSelf },] },
+]; };
 /**
  * Applies default options to the snackbar config.
  * @param {?=} config The configuration to which the defaults will be applied.
@@ -17667,7 +17455,7 @@ MdSnackBar.ctorParameters = function () {
 function _applyConfigDefaults$1(config) {
     return extendObject(new MdSnackBarConfig(), config);
 }
-var MdSnackBarModule = (function () {
+var MdSnackBarModule = /*@__PURE__*/(function () {
     function MdSnackBarModule() {
     }
     return MdSnackBarModule;
@@ -17697,7 +17485,7 @@ var _MdTabLabelBaseClass = TemplatePortalDirective;
 /**
  * Used to flag tab labels for use with the portal directive
  */
-var MdTabLabel = (function (_super) {
+var MdTabLabel = /*@__PURE__*/(function (_super) {
     __extends(MdTabLabel, _super);
     /**
      * @param {?} templateRef
@@ -17716,22 +17504,20 @@ MdTabLabel.decorators = [
 /**
  * @nocollapse
  */
-MdTabLabel.ctorParameters = function () {
-    return [
-        { type: TemplateRef, },
-        { type: ViewContainerRef, },
-    ];
-};
+MdTabLabel.ctorParameters = function () { return [
+    { type: TemplateRef, },
+    { type: ViewContainerRef, },
+]; };
 /**
  * \@docs-private
  */
-var MdTabBase = (function () {
+var MdTabBase = /*@__PURE__*/(function () {
     function MdTabBase() {
     }
     return MdTabBase;
 }());
 var _MdTabMixinBase = mixinDisabled(MdTabBase);
-var MdTab = (function (_super) {
+var MdTab = /*@__PURE__*/(function (_super) {
     __extends(MdTab, _super);
     /**
      * @param {?} _viewContainerRef
@@ -17784,11 +17570,9 @@ MdTab.decorators = [
 /**
  * @nocollapse
  */
-MdTab.ctorParameters = function () {
-    return [
-        { type: ViewContainerRef, },
-    ];
-};
+MdTab.ctorParameters = function () { return [
+    { type: ViewContainerRef, },
+]; };
 MdTab.propDecorators = {
     'templateLabel': [{ type: ContentChild, args: [MdTabLabel,] },],
     '_content': [{ type: ViewChild, args: [TemplateRef,] },],
@@ -17801,7 +17585,7 @@ var nextId$2 = 0;
 /**
  * A simple change event emitted on focus or selection changes.
  */
-var MdTabChangeEvent = (function () {
+var MdTabChangeEvent = /*@__PURE__*/(function () {
     function MdTabChangeEvent() {
     }
     return MdTabChangeEvent;
@@ -17811,7 +17595,7 @@ var MdTabChangeEvent = (function () {
  * animated ink-bar, keyboard navigation, and screen reader.
  * See: https://www.google.com/design/spec/components/tabs.html
  */
-var MdTabGroup = (function () {
+var MdTabGroup = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      */
@@ -18027,11 +17811,9 @@ MdTabGroup.decorators = [
 /**
  * @nocollapse
  */
-MdTabGroup.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-    ];
-};
+MdTabGroup.ctorParameters = function () { return [
+    { type: Renderer2, },
+]; };
 MdTabGroup.propDecorators = {
     '_tabs': [{ type: ContentChildren, args: [MdTab,] },],
     '_tabBodyWrapper': [{ type: ViewChild, args: ['tabBodyWrapper',] },],
@@ -18047,7 +17829,7 @@ MdTabGroup.propDecorators = {
 /**
  * \@docs-private
  */
-var MdTabLabelWrapperBase = (function () {
+var MdTabLabelWrapperBase = /*@__PURE__*/(function () {
     function MdTabLabelWrapperBase() {
     }
     return MdTabLabelWrapperBase;
@@ -18057,7 +17839,7 @@ var _MdTabLabelWrapperMixinBase = mixinDisabled(MdTabLabelWrapperBase);
  * Used in the `md-tab-group` view to display tab labels.
  * \@docs-private
  */
-var MdTabLabelWrapper = (function (_super) {
+var MdTabLabelWrapper = /*@__PURE__*/(function (_super) {
     __extends(MdTabLabelWrapper, _super);
     /**
      * @param {?} elementRef
@@ -18100,16 +17882,14 @@ MdTabLabelWrapper.decorators = [
 /**
  * @nocollapse
  */
-MdTabLabelWrapper.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-    ];
-};
+MdTabLabelWrapper.ctorParameters = function () { return [
+    { type: ElementRef, },
+]; };
 /**
  * The ink-bar is used to display and animate the line underneath the current active tab label.
  * \@docs-private
  */
-var MdInkBar = (function () {
+var MdInkBar = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -18179,18 +17959,16 @@ MdInkBar.decorators = [
 /**
  * @nocollapse
  */
-MdInkBar.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-        { type: NgZone, },
-    ];
-};
+MdInkBar.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+    { type: NgZone, },
+]; };
 /**
  * Navigation component matching the styles of the tab group header.
  * Provides anchored navigation with animated ink bar.
  */
-var MdTabNav = (function () {
+var MdTabNav = /*@__PURE__*/(function () {
     /**
      * @param {?} _dir
      * @param {?} _ngZone
@@ -18265,16 +18043,14 @@ MdTabNav.decorators = [
 /**
  * @nocollapse
  */
-MdTabNav.ctorParameters = function () {
-    return [
-        { type: Directionality, decorators: [{ type: Optional },] },
-        { type: NgZone, },
-    ];
-};
+MdTabNav.ctorParameters = function () { return [
+    { type: Directionality, decorators: [{ type: Optional },] },
+    { type: NgZone, },
+]; };
 MdTabNav.propDecorators = {
     '_inkBar': [{ type: ViewChild, args: [MdInkBar,] },],
 };
-var MdTabLinkBase = (function () {
+var MdTabLinkBase = /*@__PURE__*/(function () {
     function MdTabLinkBase() {
     }
     return MdTabLinkBase;
@@ -18283,7 +18059,7 @@ var _MdTabLinkMixinBase = mixinDisabled(MdTabLinkBase);
 /**
  * Link inside of a `md-tab-nav-bar`.
  */
-var MdTabLink = (function (_super) {
+var MdTabLink = /*@__PURE__*/(function (_super) {
     __extends(MdTabLink, _super);
     /**
      * @param {?} _mdTabNavBar
@@ -18360,16 +18136,14 @@ MdTabLink.decorators = [
 /**
  * @nocollapse
  */
-MdTabLink.ctorParameters = function () {
-    return [
-        { type: MdTabNav, },
-        { type: ElementRef, },
-        { type: NgZone, },
-        { type: ViewportRuler, },
-        { type: Platform, },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_RIPPLE_GLOBAL_OPTIONS,] },] },
-    ];
-};
+MdTabLink.ctorParameters = function () { return [
+    { type: MdTabNav, },
+    { type: ElementRef, },
+    { type: NgZone, },
+    { type: ViewportRuler, },
+    { type: Platform, },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_RIPPLE_GLOBAL_OPTIONS,] },] },
+]; };
 MdTabLink.propDecorators = {
     'active': [{ type: Input },],
     'tabIndex': [{ type: HostBinding, args: ['tabIndex',] },],
@@ -18378,7 +18152,7 @@ MdTabLink.propDecorators = {
  * Wrapper for the contents of a tab.
  * \@docs-private
  */
-var MdTabBody = (function () {
+var MdTabBody = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} _dir
@@ -18529,12 +18303,10 @@ MdTabBody.decorators = [
 /**
  * @nocollapse
  */
-MdTabBody.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: Directionality, decorators: [{ type: Optional },] },
-    ];
-};
+MdTabBody.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: Directionality, decorators: [{ type: Optional },] },
+]; };
 MdTabBody.propDecorators = {
     '_portalHost': [{ type: ViewChild, args: [PortalHostDirective,] },],
     'onCentering': [{ type: Output },],
@@ -18555,7 +18327,7 @@ var EXAGGERATED_OVERSCROLL = 60;
  * left and right across the header.
  * \@docs-private
  */
-var MdTabHeader = (function () {
+var MdTabHeader = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} _ngZone
@@ -18972,14 +18744,12 @@ MdTabHeader.decorators = [
 /**
  * @nocollapse
  */
-MdTabHeader.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: NgZone, },
-        { type: Renderer2, },
-        { type: Directionality, decorators: [{ type: Optional },] },
-    ];
-};
+MdTabHeader.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: NgZone, },
+    { type: Renderer2, },
+    { type: Directionality, decorators: [{ type: Optional },] },
+]; };
 MdTabHeader.propDecorators = {
     '_labelWrappers': [{ type: ContentChildren, args: [MdTabLabelWrapper,] },],
     '_inkBar': [{ type: ViewChild, args: [MdInkBar,] },],
@@ -18990,7 +18760,7 @@ MdTabHeader.propDecorators = {
     'selectFocusedIndex': [{ type: Output },],
     'indexFocused': [{ type: Output },],
 };
-var MdTabsModule = (function () {
+var MdTabsModule = /*@__PURE__*/(function () {
     function MdTabsModule() {
     }
     return MdTabsModule;
@@ -19030,7 +18800,7 @@ MdTabsModule.decorators = [
  * @nocollapse
  */
 MdTabsModule.ctorParameters = function () { return []; };
-var MdToolbarRow = (function () {
+var MdToolbarRow = /*@__PURE__*/(function () {
     function MdToolbarRow() {
     }
     return MdToolbarRow;
@@ -19048,7 +18818,7 @@ MdToolbarRow.ctorParameters = function () { return []; };
 /**
  * \@docs-private
  */
-var MdToolbarBase = (function () {
+var MdToolbarBase = /*@__PURE__*/(function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -19060,7 +18830,7 @@ var MdToolbarBase = (function () {
     return MdToolbarBase;
 }());
 var _MdToolbarMixinBase = mixinColor(MdToolbarBase);
-var MdToolbar = (function (_super) {
+var MdToolbar = /*@__PURE__*/(function (_super) {
     __extends(MdToolbar, _super);
     /**
      * @param {?} renderer
@@ -19087,13 +18857,11 @@ MdToolbar.decorators = [
 /**
  * @nocollapse
  */
-MdToolbar.ctorParameters = function () {
-    return [
-        { type: Renderer2, },
-        { type: ElementRef, },
-    ];
-};
-var MdToolbarModule = (function () {
+MdToolbar.ctorParameters = function () { return [
+    { type: Renderer2, },
+    { type: ElementRef, },
+]; };
+var MdToolbarModule = /*@__PURE__*/(function () {
     function MdToolbarModule() {
     }
     return MdToolbarModule;
@@ -19131,7 +18899,7 @@ function getMdTooltipInvalidPositionError(position) {
  *
  * https://material.google.com/components/tooltips.html
  */
-var MdTooltip = (function () {
+var MdTooltip = /*@__PURE__*/(function () {
     /**
      * @param {?} _overlay
      * @param {?} _elementRef
@@ -19369,9 +19137,7 @@ var MdTooltip = (function () {
      * @return {?}
      */
     MdTooltip.prototype.show = function (delay) {
-        if (delay === void 0) {
-            delay = this.showDelay;
-        }
+        if (delay === void 0) { delay = this.showDelay; }
         if (this.disabled || !this._message || !this._message.trim()) {
             return;
         }
@@ -19388,9 +19154,7 @@ var MdTooltip = (function () {
      * @return {?}
      */
     MdTooltip.prototype.hide = function (delay) {
-        if (delay === void 0) {
-            delay = this.hideDelay;
-        }
+        if (delay === void 0) { delay = this.hideDelay; }
         if (this._tooltipInstance) {
             this._tooltipInstance.hide(delay);
         }
@@ -19556,18 +19320,16 @@ MdTooltip.decorators = [
 /**
  * @nocollapse
  */
-MdTooltip.ctorParameters = function () {
-    return [
-        { type: Overlay, },
-        { type: ElementRef, },
-        { type: ScrollDispatcher, },
-        { type: ViewContainerRef, },
-        { type: NgZone, },
-        { type: Renderer2, },
-        { type: Platform, },
-        { type: Directionality, decorators: [{ type: Optional },] },
-    ];
-};
+MdTooltip.ctorParameters = function () { return [
+    { type: Overlay, },
+    { type: ElementRef, },
+    { type: ScrollDispatcher, },
+    { type: ViewContainerRef, },
+    { type: NgZone, },
+    { type: Renderer2, },
+    { type: Platform, },
+    { type: Directionality, decorators: [{ type: Optional },] },
+]; };
 MdTooltip.propDecorators = {
     'position': [{ type: Input, args: ['mdTooltipPosition',] },],
     'disabled': [{ type: Input, args: ['mdTooltipDisabled',] },],
@@ -19588,7 +19350,7 @@ MdTooltip.propDecorators = {
  * Internal component that wraps the tooltip's content.
  * \@docs-private
  */
-var TooltipComponent = (function () {
+var TooltipComponent = /*@__PURE__*/(function () {
     /**
      * @param {?} _dir
      * @param {?} _changeDetectorRef
@@ -19758,13 +19520,11 @@ TooltipComponent.decorators = [
 /**
  * @nocollapse
  */
-TooltipComponent.ctorParameters = function () {
-    return [
-        { type: Directionality, decorators: [{ type: Optional },] },
-        { type: ChangeDetectorRef, },
-    ];
-};
-var MdTooltipModule = (function () {
+TooltipComponent.ctorParameters = function () { return [
+    { type: Directionality, decorators: [{ type: Optional },] },
+    { type: ChangeDetectorRef, },
+]; };
+var MdTooltipModule = /*@__PURE__*/(function () {
     function MdTooltipModule() {
     }
     return MdTooltipModule;
@@ -19815,7 +19575,7 @@ function throwMdMenuInvalidPositionY() {
 /**
  * \@docs-private
  */
-var MdMenuItemBase = (function () {
+var MdMenuItemBase = /*@__PURE__*/(function () {
     function MdMenuItemBase() {
     }
     return MdMenuItemBase;
@@ -19825,7 +19585,7 @@ var _MdMenuItemMixinBase = mixinDisabled(MdMenuItemBase);
  * This directive is intended to be used inside an md-menu tag.
  * It exists mostly to set the role attribute.
  */
-var MdMenuItem = (function (_super) {
+var MdMenuItem = /*@__PURE__*/(function (_super) {
     __extends(MdMenuItem, _super);
     /**
      * @param {?} _elementRef
@@ -19887,11 +19647,9 @@ MdMenuItem.decorators = [
 /**
  * @nocollapse
  */
-MdMenuItem.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-    ];
-};
+MdMenuItem.ctorParameters = function () { return [
+    { type: ElementRef, },
+]; };
 /**
  * Below are all the animations for the md-menu component.
  * Animation duration and timing values are based on AngularJS Material.
@@ -19932,7 +19690,7 @@ var fadeInItems = trigger('fadeInItems', [
         animate("200ms 100ms cubic-bezier(0.55, 0, 0.55, 0.2)")
     ])
 ]);
-var MdMenu = (function () {
+var MdMenu = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      */
@@ -20068,12 +19826,8 @@ var MdMenu = (function () {
      * @return {?}
      */
     MdMenu.prototype.setPositionClasses = function (posX, posY) {
-        if (posX === void 0) {
-            posX = this.xPosition;
-        }
-        if (posY === void 0) {
-            posY = this.yPosition;
-        }
+        if (posX === void 0) { posX = this.xPosition; }
+        if (posY === void 0) { posY = this.yPosition; }
         this._classList['mat-menu-before'] = posX === 'before';
         this._classList['mat-menu-after'] = posX === 'after';
         this._classList['mat-menu-above'] = posY === 'above';
@@ -20096,11 +19850,9 @@ MdMenu.decorators = [
 /**
  * @nocollapse
  */
-MdMenu.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-    ];
-};
+MdMenu.ctorParameters = function () { return [
+    { type: ElementRef, },
+]; };
 MdMenu.propDecorators = {
     'xPosition': [{ type: Input },],
     'yPosition': [{ type: Input },],
@@ -20114,7 +19866,7 @@ MdMenu.propDecorators = {
  * This directive is intended to be used in conjunction with an md-menu tag.  It is
  * responsible for toggling the display of the provided menu instance.
  */
-var MdMenuTrigger = (function () {
+var MdMenuTrigger = /*@__PURE__*/(function () {
     /**
      * @param {?} _overlay
      * @param {?} _element
@@ -20421,14 +20173,12 @@ MdMenuTrigger.decorators = [
 /**
  * @nocollapse
  */
-MdMenuTrigger.ctorParameters = function () {
-    return [
-        { type: Overlay, },
-        { type: ElementRef, },
-        { type: ViewContainerRef, },
-        { type: Directionality, decorators: [{ type: Optional },] },
-    ];
-};
+MdMenuTrigger.ctorParameters = function () { return [
+    { type: Overlay, },
+    { type: ElementRef, },
+    { type: ViewContainerRef, },
+    { type: Directionality, decorators: [{ type: Optional },] },
+]; };
 MdMenuTrigger.propDecorators = {
     '_deprecatedMdMenuTriggerFor': [{ type: Input, args: ['md-menu-trigger-for',] },],
     '_deprecatedMatMenuTriggerFor': [{ type: Input, args: ['mat-menu-trigger-for',] },],
@@ -20437,7 +20187,7 @@ MdMenuTrigger.propDecorators = {
     'onMenuOpen': [{ type: Output },],
     'onMenuClose': [{ type: Output },],
 };
-var MdMenuModule = (function () {
+var MdMenuModule = /*@__PURE__*/(function () {
     function MdMenuModule() {
     }
     return MdMenuModule;
@@ -20461,7 +20211,7 @@ MdMenuModule.ctorParameters = function () { return []; };
 /**
  * Custom injector type specifically for instantiating components with a dialog.
  */
-var DialogInjector = (function () {
+var DialogInjector = /*@__PURE__*/(function () {
     /**
      * @param {?} _parentInjector
      * @param {?} _customTokens
@@ -20487,7 +20237,7 @@ var DialogInjector = (function () {
 /**
  * Configuration for opening a modal dialog with the MdDialog service.
  */
-var MdDialogConfig = (function () {
+var MdDialogConfig = /*@__PURE__*/(function () {
     function MdDialogConfig() {
         /**
          * The ARIA role of the dialog element.
@@ -20532,7 +20282,7 @@ var MdDialogConfig = (function () {
 /**
  * Reference to a dialog opened via the MdDialog service.
  */
-var MdDialogRef = (function () {
+var MdDialogRef = /*@__PURE__*/(function () {
     /**
      * @param {?} _overlayRef
      * @param {?} _containerInstance
@@ -20602,12 +20352,8 @@ var MdDialogRef = (function () {
      * @return {?}
      */
     MdDialogRef.prototype.updateSize = function (width, height) {
-        if (width === void 0) {
-            width = 'auto';
-        }
-        if (height === void 0) {
-            height = 'auto';
-        }
+        if (width === void 0) { width = 'auto'; }
+        if (height === void 0) { height = 'auto'; }
         this._getPositionStrategy().width(width).height(height);
         this._overlayRef.updatePosition();
         return this;
@@ -20635,7 +20381,7 @@ function throwMdDialogContentAlreadyAttachedError() {
  * Animation is based on https://material.io/guidelines/motion/choreography.html.
  * \@docs-private
  */
-var MdDialogContainer = (function (_super) {
+var MdDialogContainer = /*@__PURE__*/(function (_super) {
     __extends(MdDialogContainer, _super);
     /**
      * @param {?} _ngZone
@@ -20774,14 +20520,12 @@ MdDialogContainer.decorators = [
 /**
  * @nocollapse
  */
-MdDialogContainer.ctorParameters = function () {
-    return [
-        { type: NgZone, },
-        { type: ElementRef, },
-        { type: FocusTrapFactory, },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
-    ];
-};
+MdDialogContainer.ctorParameters = function () { return [
+    { type: NgZone, },
+    { type: ElementRef, },
+    { type: FocusTrapFactory, },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
+]; };
 MdDialogContainer.propDecorators = {
     '_portalHost': [{ type: ViewChild, args: [PortalHostDirective,] },],
 };
@@ -20789,7 +20533,7 @@ var MD_DIALOG_DATA = new InjectionToken('MdDialogData');
 /**
  * Service to open Material Design modal dialogs.
  */
-var MdDialog = (function () {
+var MdDialog = /*@__PURE__*/(function () {
     /**
      * @param {?} _overlay
      * @param {?} _injector
@@ -21018,14 +20762,12 @@ MdDialog.decorators = [
 /**
  * @nocollapse
  */
-MdDialog.ctorParameters = function () {
-    return [
-        { type: Overlay, },
-        { type: Injector, },
-        { type: Location, decorators: [{ type: Optional },] },
-        { type: MdDialog, decorators: [{ type: Optional }, { type: SkipSelf },] },
-    ];
-};
+MdDialog.ctorParameters = function () { return [
+    { type: Overlay, },
+    { type: Injector, },
+    { type: Location, decorators: [{ type: Optional },] },
+    { type: MdDialog, decorators: [{ type: Optional }, { type: SkipSelf },] },
+]; };
 /**
  * Applies default options to the dialog config.
  * @param {?=} config Config to be modified.
@@ -21041,7 +20783,7 @@ var dialogElementUid = 0;
 /**
  * Button that will close the current dialog.
  */
-var MdDialogClose = (function () {
+var MdDialogClose = /*@__PURE__*/(function () {
     /**
      * @param {?} dialogRef
      */
@@ -21078,11 +20820,9 @@ MdDialogClose.decorators = [
 /**
  * @nocollapse
  */
-MdDialogClose.ctorParameters = function () {
-    return [
-        { type: MdDialogRef, },
-    ];
-};
+MdDialogClose.ctorParameters = function () { return [
+    { type: MdDialogRef, },
+]; };
 MdDialogClose.propDecorators = {
     'ariaLabel': [{ type: Input, args: ['aria-label',] },],
     'dialogResult': [{ type: Input, args: ['md-dialog-close',] },],
@@ -21091,7 +20831,7 @@ MdDialogClose.propDecorators = {
 /**
  * Title of a dialog element. Stays fixed to the top of the dialog when scrolling.
  */
-var MdDialogTitle = (function () {
+var MdDialogTitle = /*@__PURE__*/(function () {
     /**
      * @param {?} _container
      */
@@ -21122,18 +20862,16 @@ MdDialogTitle.decorators = [
 /**
  * @nocollapse
  */
-MdDialogTitle.ctorParameters = function () {
-    return [
-        { type: MdDialogContainer, decorators: [{ type: Optional },] },
-    ];
-};
+MdDialogTitle.ctorParameters = function () { return [
+    { type: MdDialogContainer, decorators: [{ type: Optional },] },
+]; };
 MdDialogTitle.propDecorators = {
     'id': [{ type: Input },],
 };
 /**
  * Scrollable content container of a dialog.
  */
-var MdDialogContent = (function () {
+var MdDialogContent = /*@__PURE__*/(function () {
     function MdDialogContent() {
     }
     return MdDialogContent;
@@ -21153,7 +20891,7 @@ MdDialogContent.ctorParameters = function () { return []; };
  * Container for the bottom action buttons in a dialog.
  * Stays fixed to the bottom when scrolling.
  */
-var MdDialogActions = (function () {
+var MdDialogActions = /*@__PURE__*/(function () {
     function MdDialogActions() {
     }
     return MdDialogActions;
@@ -21169,7 +20907,7 @@ MdDialogActions.decorators = [
  * @nocollapse
  */
 MdDialogActions.ctorParameters = function () { return []; };
-var MdDialogModule = (function () {
+var MdDialogModule = /*@__PURE__*/(function () {
     function MdDialogModule() {
     }
     return MdDialogModule;
@@ -21208,7 +20946,7 @@ MdDialogModule.decorators = [
  * @nocollapse
  */
 MdDialogModule.ctorParameters = function () { return []; };
-var ActiveDescendantKeyManager = (function (_super) {
+var ActiveDescendantKeyManager = /*@__PURE__*/(function (_super) {
     __extends(ActiveDescendantKeyManager, _super);
     function ActiveDescendantKeyManager() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -21239,7 +20977,7 @@ var ActiveDescendantKeyManager = (function (_super) {
  * the component definition.
  */
 var _uniqueAutocompleteIdCounter = 0;
-var MdAutocomplete = (function () {
+var MdAutocomplete = /*@__PURE__*/(function () {
     /**
      * @param {?} _changeDetectorRef
      */
@@ -21325,11 +21063,9 @@ MdAutocomplete.decorators = [
 /**
  * @nocollapse
  */
-MdAutocomplete.ctorParameters = function () {
-    return [
-        { type: ChangeDetectorRef, },
-    ];
-};
+MdAutocomplete.ctorParameters = function () { return [
+    { type: ChangeDetectorRef, },
+]; };
 MdAutocomplete.propDecorators = {
     'template': [{ type: ViewChild, args: [TemplateRef,] },],
     'panel': [{ type: ViewChild, args: ['panel',] },],
@@ -21362,7 +21098,7 @@ function getMdAutocompleteMissingPanelError() {
         'Make sure that the id passed to the `mdAutocomplete` is correct and that ' +
         'you\'re attempting to open it after the ngAfterContentInit hook.');
 }
-var MdAutocompleteTrigger = (function () {
+var MdAutocompleteTrigger = /*@__PURE__*/(function () {
     /**
      * @param {?} _element
      * @param {?} _overlay
@@ -21808,23 +21544,21 @@ MdAutocompleteTrigger.decorators = [
 /**
  * @nocollapse
  */
-MdAutocompleteTrigger.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: Overlay, },
-        { type: ViewContainerRef, },
-        { type: NgZone, },
-        { type: ChangeDetectorRef, },
-        { type: Directionality, decorators: [{ type: Optional },] },
-        { type: MdInputContainer, decorators: [{ type: Optional }, { type: Host },] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
-    ];
-};
+MdAutocompleteTrigger.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: Overlay, },
+    { type: ViewContainerRef, },
+    { type: NgZone, },
+    { type: ChangeDetectorRef, },
+    { type: Directionality, decorators: [{ type: Optional },] },
+    { type: MdInputContainer, decorators: [{ type: Optional }, { type: Host },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
+]; };
 MdAutocompleteTrigger.propDecorators = {
     'autocomplete': [{ type: Input, args: ['mdAutocomplete',] },],
     '_matAutocomplete': [{ type: Input, args: ['matAutocomplete',] },],
 };
-var MdAutocompleteModule = (function () {
+var MdAutocompleteModule = /*@__PURE__*/(function () {
     function MdAutocompleteModule() {
     }
     return MdAutocompleteModule;
@@ -21844,7 +21578,7 @@ MdAutocompleteModule.ctorParameters = function () { return []; };
  * An internal class that represents the data corresponding to a single calendar cell.
  * \@docs-private
  */
-var MdCalendarCell = (function () {
+var MdCalendarCell = /*@__PURE__*/(function () {
     /**
      * @param {?} value
      * @param {?} displayValue
@@ -21863,7 +21597,7 @@ var MdCalendarCell = (function () {
  * An internal component used to display calendar data in a table.
  * \@docs-private
  */
-var MdCalendarBody = (function () {
+var MdCalendarBody = /*@__PURE__*/(function () {
     function MdCalendarBody() {
         /**
          * The number of columns in the table.
@@ -21959,7 +21693,7 @@ var DAYS_PER_WEEK = 7;
  * An internal component used to display a single month in the datepicker.
  * \@docs-private
  */
-var MdMonthView = (function () {
+var MdMonthView = /*@__PURE__*/(function () {
     /**
      * @param {?} _dateAdapter
      * @param {?} _dateFormats
@@ -22110,12 +21844,10 @@ MdMonthView.decorators = [
 /**
  * @nocollapse
  */
-MdMonthView.ctorParameters = function () {
-    return [
-        { type: DateAdapter, decorators: [{ type: Optional },] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_DATE_FORMATS,] },] },
-    ];
-};
+MdMonthView.ctorParameters = function () { return [
+    { type: DateAdapter, decorators: [{ type: Optional },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_DATE_FORMATS,] },] },
+]; };
 MdMonthView.propDecorators = {
     'activeDate': [{ type: Input },],
     'selected': [{ type: Input },],
@@ -22126,7 +21858,7 @@ MdMonthView.propDecorators = {
  * An internal component used to display a single year in the datepicker.
  * \@docs-private
  */
-var MdYearView = (function () {
+var MdYearView = /*@__PURE__*/(function () {
     /**
      * @param {?} _dateAdapter
      * @param {?} _dateFormats
@@ -22260,12 +21992,10 @@ MdYearView.decorators = [
 /**
  * @nocollapse
  */
-MdYearView.ctorParameters = function () {
-    return [
-        { type: DateAdapter, decorators: [{ type: Optional },] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_DATE_FORMATS,] },] },
-    ];
-};
+MdYearView.ctorParameters = function () { return [
+    { type: DateAdapter, decorators: [{ type: Optional },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_DATE_FORMATS,] },] },
+]; };
 MdYearView.propDecorators = {
     'activeDate': [{ type: Input },],
     'selected': [{ type: Input },],
@@ -22275,7 +22005,7 @@ MdYearView.propDecorators = {
 /**
  * Datepicker data that requires internationalization.
  */
-var MdDatepickerIntl = (function () {
+var MdDatepickerIntl = /*@__PURE__*/(function () {
     function MdDatepickerIntl() {
         /**
          * A label for the calendar popup (used by screen readers).
@@ -22323,7 +22053,7 @@ MdDatepickerIntl.ctorParameters = function () { return []; };
  * A calendar that is used as part of the datepicker.
  * \@docs-private
  */
-var MdCalendar = (function () {
+var MdCalendar = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} _intl
@@ -22518,11 +22248,9 @@ var MdCalendar = (function () {
      */
     MdCalendar.prototype._focusActiveCell = function () {
         var _this = this;
-        this._ngZone.runOutsideAngular(function () {
-            return first$1.call(_this._ngZone.onStable).subscribe(function () {
-                _this._elementRef.nativeElement.querySelector('.mat-calendar-body-active').focus();
-            });
-        });
+        this._ngZone.runOutsideAngular(function () { return first$1.call(_this._ngZone.onStable).subscribe(function () {
+            _this._elementRef.nativeElement.querySelector('.mat-calendar-body-active').focus();
+        }); });
     };
     /**
      * Whether the two dates represent the same view in the current view mode (month or year).
@@ -22673,16 +22401,14 @@ MdCalendar.decorators = [
 /**
  * @nocollapse
  */
-MdCalendar.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: MdDatepickerIntl, },
-        { type: NgZone, },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_COMPATIBILITY_MODE,] },] },
-        { type: DateAdapter, decorators: [{ type: Optional },] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_DATE_FORMATS,] },] },
-    ];
-};
+MdCalendar.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: MdDatepickerIntl, },
+    { type: NgZone, },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_COMPATIBILITY_MODE,] },] },
+    { type: DateAdapter, decorators: [{ type: Optional },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_DATE_FORMATS,] },] },
+]; };
 MdCalendar.propDecorators = {
     'startAt': [{ type: Input },],
     'startView': [{ type: Input },],
@@ -22703,7 +22429,7 @@ var datepickerUid = 0;
  * future. (e.g. confirmation buttons).
  * \@docs-private
  */
-var MdDatepickerContent = (function () {
+var MdDatepickerContent = /*@__PURE__*/(function () {
     function MdDatepickerContent() {
     }
     /**
@@ -22748,7 +22474,7 @@ MdDatepickerContent.propDecorators = {
 /**
  * Component responsible for managing the datepicker popup/dialog.
  */
-var MdDatepicker = (function () {
+var MdDatepicker = /*@__PURE__*/(function () {
     /**
      * @param {?} _dialog
      * @param {?} _overlay
@@ -22996,17 +22722,15 @@ MdDatepicker.decorators = [
 /**
  * @nocollapse
  */
-MdDatepicker.ctorParameters = function () {
-    return [
-        { type: MdDialog, },
-        { type: Overlay, },
-        { type: NgZone, },
-        { type: ViewContainerRef, },
-        { type: DateAdapter, decorators: [{ type: Optional },] },
-        { type: Directionality, decorators: [{ type: Optional },] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
-    ];
-};
+MdDatepicker.ctorParameters = function () { return [
+    { type: MdDialog, },
+    { type: Overlay, },
+    { type: NgZone, },
+    { type: ViewContainerRef, },
+    { type: DateAdapter, decorators: [{ type: Optional },] },
+    { type: Directionality, decorators: [{ type: Optional },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
+]; };
 MdDatepicker.propDecorators = {
     'startAt': [{ type: Input },],
     'startView': [{ type: Input },],
@@ -23026,7 +22750,7 @@ var MD_DATEPICKER_VALIDATORS = {
 /**
  * Directive used to connect an input to a MdDatepicker.
  */
-var MdDatepickerInput = (function () {
+var MdDatepickerInput = /*@__PURE__*/(function () {
     /**
      * @param {?} _elementRef
      * @param {?} _renderer
@@ -23296,15 +23020,13 @@ MdDatepickerInput.decorators = [
 /**
  * @nocollapse
  */
-MdDatepickerInput.ctorParameters = function () {
-    return [
-        { type: ElementRef, },
-        { type: Renderer2, },
-        { type: DateAdapter, decorators: [{ type: Optional },] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_DATE_FORMATS,] },] },
-        { type: MdInputContainer, decorators: [{ type: Optional },] },
-    ];
-};
+MdDatepickerInput.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: Renderer2, },
+    { type: DateAdapter, decorators: [{ type: Optional },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MD_DATE_FORMATS,] },] },
+    { type: MdInputContainer, decorators: [{ type: Optional },] },
+]; };
 MdDatepickerInput.propDecorators = {
     'mdDatepicker': [{ type: Input },],
     'matDatepicker': [{ type: Input },],
@@ -23314,7 +23036,7 @@ MdDatepickerInput.propDecorators = {
     'min': [{ type: Input },],
     'max': [{ type: Input },],
 };
-var MdDatepickerToggle = (function () {
+var MdDatepickerToggle = /*@__PURE__*/(function () {
     /**
      * @param {?} _intl
      */
@@ -23363,16 +23085,14 @@ MdDatepickerToggle.decorators = [
 /**
  * @nocollapse
  */
-MdDatepickerToggle.ctorParameters = function () {
-    return [
-        { type: MdDatepickerIntl, },
-    ];
-};
+MdDatepickerToggle.ctorParameters = function () { return [
+    { type: MdDatepickerIntl, },
+]; };
 MdDatepickerToggle.propDecorators = {
     'datepicker': [{ type: Input, args: ['mdDatepickerToggle',] },],
     '_datepicker': [{ type: Input, args: ['matDatepickerToggle',] },],
 };
-var MdDatepickerModule = (function () {
+var MdDatepickerModule = /*@__PURE__*/(function () {
     function MdDatepickerModule() {
     }
     return MdDatepickerModule;
@@ -23422,7 +23142,7 @@ var nextId$3 = 0;
 /**
  * Directive whose purpose is to manage the expanded state of CdkAccordionItem children.
  */
-var CdkAccordion = (function () {
+var CdkAccordion = /*@__PURE__*/(function () {
     function CdkAccordion() {
         /**
          * A readonly id value to use for unique selection coordination.
@@ -23487,7 +23207,7 @@ CdkAccordion.propDecorators = {
 /**
  * Directive for a Material Design Accordion.
  */
-var MdAccordion = (function (_super) {
+var MdAccordion = /*@__PURE__*/(function (_super) {
     __extends(MdAccordion, _super);
     function MdAccordion() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -23514,7 +23234,7 @@ var nextId$4 = 0;
  * An abstract class to be extended and decorated as a component.  Sets up all
  * events and attributes needed to be managed by a CdkAccordion parent.
  */
-var AccordionItem = (function () {
+var AccordionItem = /*@__PURE__*/(function () {
     /**
      * @param {?} accordion
      * @param {?} _expansionDispatcher
@@ -23619,12 +23339,10 @@ AccordionItem.decorators = [
 /**
  * @nocollapse
  */
-AccordionItem.ctorParameters = function () {
-    return [
-        { type: CdkAccordion, decorators: [{ type: Optional },] },
-        { type: UniqueSelectionDispatcher, },
-    ];
-};
+AccordionItem.ctorParameters = function () { return [
+    { type: CdkAccordion, decorators: [{ type: Optional },] },
+    { type: UniqueSelectionDispatcher, },
+]; };
 AccordionItem.propDecorators = {
     'closed': [{ type: Output },],
     'opened': [{ type: Output },],
@@ -23643,7 +23361,7 @@ var EXPANSION_PANEL_ANIMATION_TIMING = '225ms cubic-bezier(0.4,0.0,0.2,1)';
  *
  * Please refer to README.md for examples on how to use it.
  */
-var MdExpansionPanel = (function (_super) {
+var MdExpansionPanel = /*@__PURE__*/(function (_super) {
     __extends(MdExpansionPanel, _super);
     /**
      * @param {?} accordion
@@ -23721,16 +23439,14 @@ MdExpansionPanel.decorators = [
 /**
  * @nocollapse
  */
-MdExpansionPanel.ctorParameters = function () {
-    return [
-        { type: MdAccordion, decorators: [{ type: Optional }, { type: Host },] },
-        { type: UniqueSelectionDispatcher, },
-    ];
-};
+MdExpansionPanel.ctorParameters = function () { return [
+    { type: MdAccordion, decorators: [{ type: Optional }, { type: Host },] },
+    { type: UniqueSelectionDispatcher, },
+]; };
 MdExpansionPanel.propDecorators = {
     'hideToggle': [{ type: Input },],
 };
-var MdExpansionPanelActionRow = (function () {
+var MdExpansionPanelActionRow = /*@__PURE__*/(function () {
     function MdExpansionPanelActionRow() {
     }
     return MdExpansionPanelActionRow;
@@ -23754,7 +23470,7 @@ MdExpansionPanelActionRow.ctorParameters = function () { return []; };
  *
  * Please refer to README.md for examples on how to use it.
  */
-var MdExpansionPanelHeader = (function () {
+var MdExpansionPanelHeader = /*@__PURE__*/(function () {
     /**
      * @param {?} panel
      */
@@ -23848,17 +23564,15 @@ MdExpansionPanelHeader.decorators = [
 /**
  * @nocollapse
  */
-MdExpansionPanelHeader.ctorParameters = function () {
-    return [
-        { type: MdExpansionPanel, decorators: [{ type: Host },] },
-    ];
-};
+MdExpansionPanelHeader.ctorParameters = function () { return [
+    { type: MdExpansionPanel, decorators: [{ type: Host },] },
+]; };
 /**
  * <md-panel-description> directive.
  *
  * This direction is to be used inside of the MdExpansionPanelHeader component.
  */
-var MdExpansionPanelDescription = (function () {
+var MdExpansionPanelDescription = /*@__PURE__*/(function () {
     function MdExpansionPanelDescription() {
     }
     return MdExpansionPanelDescription;
@@ -23880,7 +23594,7 @@ MdExpansionPanelDescription.ctorParameters = function () { return []; };
  *
  * This direction is to be used inside of the MdExpansionPanelHeader component.
  */
-var MdExpansionPanelTitle = (function () {
+var MdExpansionPanelTitle = /*@__PURE__*/(function () {
     function MdExpansionPanelTitle() {
     }
     return MdExpansionPanelTitle;
@@ -23897,7 +23611,7 @@ MdExpansionPanelTitle.decorators = [
  * @nocollapse
  */
 MdExpansionPanelTitle.ctorParameters = function () { return []; };
-var MdExpansionModule = (function () {
+var MdExpansionModule = /*@__PURE__*/(function () {
     function MdExpansionModule() {
     }
     return MdExpansionModule;
@@ -23937,7 +23651,7 @@ var _MdTable = CdkTable;
 /**
  * Wrapper for the CdkTable with Material design styles.
  */
-var MdTable = (function (_super) {
+var MdTable = /*@__PURE__*/(function (_super) {
     __extends(MdTable, _super);
     function MdTable() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -23967,7 +23681,7 @@ var _MdCell = CdkCell;
 /**
  * Header cell template container that adds the right classes and role.
  */
-var MdHeaderCell = (function (_super) {
+var MdHeaderCell = /*@__PURE__*/(function (_super) {
     __extends(MdHeaderCell, _super);
     /**
      * @param {?} columnDef
@@ -23993,17 +23707,15 @@ MdHeaderCell.decorators = [
 /**
  * @nocollapse
  */
-MdHeaderCell.ctorParameters = function () {
-    return [
-        { type: CdkColumnDef, },
-        { type: ElementRef, },
-        { type: Renderer2, },
-    ];
-};
+MdHeaderCell.ctorParameters = function () { return [
+    { type: CdkColumnDef, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+]; };
 /**
  * Cell template container that adds the right classes and role.
  */
-var MdCell = (function (_super) {
+var MdCell = /*@__PURE__*/(function (_super) {
     __extends(MdCell, _super);
     /**
      * @param {?} columnDef
@@ -24029,13 +23741,11 @@ MdCell.decorators = [
 /**
  * @nocollapse
  */
-MdCell.ctorParameters = function () {
-    return [
-        { type: CdkColumnDef, },
-        { type: ElementRef, },
-        { type: Renderer2, },
-    ];
-};
+MdCell.ctorParameters = function () { return [
+    { type: CdkColumnDef, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+]; };
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
  */
@@ -24044,7 +23754,7 @@ var _MdRow = CdkRow;
 /**
  * Header template container that contains the cell outlet. Adds the right class and role.
  */
-var MdHeaderRow = (function (_super) {
+var MdHeaderRow = /*@__PURE__*/(function (_super) {
     __extends(MdHeaderRow, _super);
     function MdHeaderRow() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -24069,7 +23779,7 @@ MdHeaderRow.ctorParameters = function () { return []; };
 /**
  * Data row template container that contains the cell outlet. Adds the right class and role.
  */
-var MdRow = (function (_super) {
+var MdRow = /*@__PURE__*/(function (_super) {
     __extends(MdRow, _super);
     function MdRow() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -24091,7 +23801,7 @@ MdRow.decorators = [
  * @nocollapse
  */
 MdRow.ctorParameters = function () { return []; };
-var MdTableModule = (function () {
+var MdTableModule = /*@__PURE__*/(function () {
     function MdTableModule() {
     }
     return MdTableModule;
@@ -24132,7 +23842,7 @@ function getMdSortHeaderMissingIdError() {
 /**
  * Container for MdSortables to manage the sort state and provide default sort parameters.
  */
-var MdSort = (function () {
+var MdSort = /*@__PURE__*/(function () {
     function MdSort() {
         /**
          * Collection of all registered sortables that this directive manages.
@@ -24263,7 +23973,7 @@ function getSortDirectionCycle(start, disableClear) {
  * To modify the labels and text displayed, create a new instance of MdSortHeaderIntl and
  * include it in a custom provider.
  */
-var MdSortHeaderIntl = (function () {
+var MdSortHeaderIntl = /*@__PURE__*/(function () {
     function MdSortHeaderIntl() {
         this.sortButtonLabel = function (id) {
             return "Change sorting for " + id;
@@ -24293,7 +24003,7 @@ MdSortHeaderIntl.ctorParameters = function () { return []; };
  * If used on header cells in a CdkTable, it will automatically default its id from its containing
  * column definition.
  */
-var MdSortHeader = (function () {
+var MdSortHeader = /*@__PURE__*/(function () {
     /**
      * @param {?} _intl
      * @param {?} _changeDetectorRef
@@ -24381,14 +24091,12 @@ MdSortHeader.decorators = [
 /**
  * @nocollapse
  */
-MdSortHeader.ctorParameters = function () {
-    return [
-        { type: MdSortHeaderIntl, },
-        { type: ChangeDetectorRef, },
-        { type: MdSort, decorators: [{ type: Optional },] },
-        { type: CdkColumnDef, decorators: [{ type: Optional },] },
-    ];
-};
+MdSortHeader.ctorParameters = function () { return [
+    { type: MdSortHeaderIntl, },
+    { type: ChangeDetectorRef, },
+    { type: MdSort, decorators: [{ type: Optional },] },
+    { type: CdkColumnDef, decorators: [{ type: Optional },] },
+]; };
 MdSortHeader.propDecorators = {
     'id': [{ type: Input, args: ['md-sort-header',] },],
     'arrowPosition': [{ type: Input },],
@@ -24396,7 +24104,7 @@ MdSortHeader.propDecorators = {
     'disableClear': [{ type: Input },],
     '_id': [{ type: Input, args: ['mat-sort-header',] },],
 };
-var MdSortModule = (function () {
+var MdSortModule = /*@__PURE__*/(function () {
     function MdSortModule() {
     }
     return MdSortModule;
@@ -24417,7 +24125,7 @@ MdSortModule.ctorParameters = function () { return []; };
  * To modify the labels and text displayed, create a new instance of MdPaginatorIntl and
  * include it in a custom provider
  */
-var MdPaginatorIntl = (function () {
+var MdPaginatorIntl = /*@__PURE__*/(function () {
     function MdPaginatorIntl() {
         /**
          * A label for the page size selector.
@@ -24461,7 +24169,7 @@ MdPaginatorIntl.ctorParameters = function () { return []; };
  * page, user-selectable options to change that size, what items are being shown, and
  * navigational button to go to the previous or next page.
  */
-var MdPaginator = (function () {
+var MdPaginator = /*@__PURE__*/(function () {
     /**
      * @param {?} _intl
      */
@@ -24624,11 +24332,9 @@ MdPaginator.decorators = [
 /**
  * @nocollapse
  */
-MdPaginator.ctorParameters = function () {
-    return [
-        { type: MdPaginatorIntl, },
-    ];
-};
+MdPaginator.ctorParameters = function () { return [
+    { type: MdPaginatorIntl, },
+]; };
 MdPaginator.propDecorators = {
     'pageIndex': [{ type: Input },],
     'length': [{ type: Input },],
@@ -24636,7 +24342,7 @@ MdPaginator.propDecorators = {
     'pageSizeOptions': [{ type: Input },],
     'page': [{ type: Output },],
 };
-var MdPaginatorModule = (function () {
+var MdPaginatorModule = /*@__PURE__*/(function () {
     function MdPaginatorModule() {
     }
     return MdPaginatorModule;
@@ -24701,7 +24407,7 @@ var MATERIAL_MODULES = [
 /**
  * @deprecated
  */
-var MaterialModule = (function () {
+var MaterialModule = /*@__PURE__*/(function () {
     function MaterialModule() {
     }
     return MaterialModule;
@@ -24716,6 +24422,7 @@ MaterialModule.decorators = [
  * @nocollapse
  */
 MaterialModule.ctorParameters = function () { return []; };
+
 /*
  * README from http://www.greywyvern.com/code/javascript/keyboard.js
  * ------
@@ -24817,8 +24524,8 @@ MaterialModule.ctorParameters = function () { return []; };
  *   - Dutch and US Int'l keyboard layouts by jerone
  *
  */
-var MD_KEYBOARD_LAYOUTS = new InjectionToken('keyboard-layouts.config');
-var keyboardLayouts = {
+const MD_KEYBOARD_LAYOUTS = new InjectionToken('keyboard-layouts.config');
+const keyboardLayouts = {
     '\u0627\u0644\u0639\u0631\u0628\u064a\u0629': {
         'name': 'Arabic',
         'keys': [
@@ -31185,6 +30892,7 @@ keyboardLayouts['Srpski'] = {
     'keys': keyboardLayouts['Bosanski'].keys.slice(0),
     'lang': ['sr']
 };
+
 /**
  * Error that is thrown when attempting to attach a keyboard that is already attached.
  * \@docs-private
@@ -31198,38 +30906,37 @@ function throwContentAlreadyAttached() {
  * @return {?}
  */
 function throwLayoutNotFound(locale) {
-    throw Error("No layout found for locale " + locale);
+    throw Error(`No layout found for locale ${locale}`);
 }
+
 // TODO(jelbourn): we can't use constants from animation.ts here because you can't use
 // a text interpolation in anything that is analyzed statically with ngc (for AoT compile).
-var SHOW_ANIMATION$1 = '225ms cubic-bezier(0.4,0.0,1,1)';
-var HIDE_ANIMATION$1 = '195ms cubic-bezier(0.0,0.0,0.2,1)';
+const SHOW_ANIMATION$1 = '225ms cubic-bezier(0.4,0.0,1,1)';
+const HIDE_ANIMATION$1 = '195ms cubic-bezier(0.0,0.0,0.2,1)';
 /**
  * Internal component that wraps user-provided keyboard content.
  * \@docs-private
  */
-var MdKeyboardContainerComponent = (function (_super) {
-    __extends(MdKeyboardContainerComponent, _super);
+class MdKeyboardContainerComponent extends BasePortalHost {
     /**
      * @param {?} _ngZone
      */
-    function MdKeyboardContainerComponent(_ngZone) {
-        var _this = _super.call(this) || this;
-        _this._ngZone = _ngZone;
-        _this.attrRole = 'alert';
+    constructor(_ngZone) {
+        super();
+        this._ngZone = _ngZone;
+        this.attrRole = 'alert';
         /**
          * Subject for notifying that the keyboard has exited from view.
          */
-        _this.onExit = new Subject();
+        this.onExit = new Subject();
         /**
          * Subject for notifying that the keyboard has finished entering the view.
          */
-        _this.onEnter = new Subject();
+        this.onEnter = new Subject();
         /**
          * The state of the keyboard animations.
          */
-        _this.animationState = 'initial';
-        return _this;
+        this.animationState = 'initial';
     }
     /**
      * Attach a component portal as content to this keyboard container.
@@ -31237,97 +30944,135 @@ var MdKeyboardContainerComponent = (function (_super) {
      * @param {?} portal
      * @return {?}
      */
-    MdKeyboardContainerComponent.prototype.attachComponentPortal = function (portal) {
+    attachComponentPortal(portal) {
         if (this._portalHost.hasAttached()) {
             throwContentAlreadyAttached();
         }
         return this._portalHost.attachComponentPortal(portal);
-    };
+    }
     /**
      * Attach a template portal as content to this keyboard container.
      * @param {?} portal
      * @return {?}
      */
-    MdKeyboardContainerComponent.prototype.attachTemplatePortal = function (portal) {
+    attachTemplatePortal(portal) {
         throw Error('Not yet implemented');
-    };
+    }
     /**
      * Handle end of animations, updating the state of the keyboard.
      * @param {?} event
      * @return {?}
      */
-    MdKeyboardContainerComponent.prototype.onAnimationEnd = function (event) {
+    onAnimationEnd(event) {
         if (event.toState === 'void' || event.toState === 'complete') {
             this._completeExit();
         }
         if (event.toState === 'visible') {
             // Note: we shouldn't use `this` inside the zone callback,
             // because it can cause a memory leak.
-            var /** @type {?} */ onEnter_2 = this.onEnter;
-            this._ngZone.run(function () {
-                onEnter_2.next();
-                onEnter_2.complete();
+            const /** @type {?} */ onEnter = this.onEnter;
+            this._ngZone.run(() => {
+                onEnter.next();
+                onEnter.complete();
             });
         }
-    };
+    }
     /**
      * Begin animation of keyboard entrance into view.
      * @return {?}
      */
-    MdKeyboardContainerComponent.prototype.enter = function () {
+    enter() {
         this.animationState = 'visible';
-    };
+    }
     /**
      * Returns an observable resolving when the enter animation completes.
      * @return {?}
      */
-    MdKeyboardContainerComponent.prototype._onEnter = function () {
+    _onEnter() {
         this.animationState = 'visible';
         return this.onEnter.asObservable();
-    };
+    }
     /**
      * Begin animation of the keyboard exiting from view.
      * @return {?}
      */
-    MdKeyboardContainerComponent.prototype.exit = function () {
+    exit() {
         this.animationState = 'complete';
         return this._onExit();
-    };
+    }
     /**
      * Returns an observable that completes after the closing animation is done.
      * @return {?}
      */
-    MdKeyboardContainerComponent.prototype._onExit = function () {
+    _onExit() {
         return this.onExit.asObservable();
-    };
+    }
     /**
      * Makes sure the exit callbacks have been invoked when the element is destroyed.
      * @return {?}
      */
-    MdKeyboardContainerComponent.prototype.ngOnDestroy = function () {
+    ngOnDestroy() {
         this._completeExit();
-    };
+    }
     /**
      * Waits for the zone to settle before removing the element. Helps prevent
      * errors where we end up removing an element which is in the middle of an animation.
      * @return {?}
      */
-    MdKeyboardContainerComponent.prototype._completeExit = function () {
+    _completeExit() {
         // Note: we shouldn't use `this` inside the zone callback,
         // because it can cause a memory leak.
-        var /** @type {?} */ onExit = this.onExit;
-        first$1.call(this._ngZone.onMicrotaskEmpty).subscribe(function () {
+        const /** @type {?} */ onExit = this.onExit;
+        first$1.call(this._ngZone.onMicrotaskEmpty).subscribe(() => {
             onExit.next();
             onExit.complete();
         });
-    };
-    return MdKeyboardContainerComponent;
-}(BasePortalHost));
+    }
+}
 MdKeyboardContainerComponent.decorators = [
     { type: Component, args: [{
                 selector: 'md-keyboard-container',
-                template: "\n    <ng-template cdkPortalHost></ng-template>\n  ",
-                styles: ["\n    /**\n     * Applies styles for users in high contrast mode. Note that this only applies\n     * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n     * attribute, however Chrome handles high contrast differently.\n     */\n    /* Theme for the ripple elements.*/\n    /** The mixins below are shared between md-menu and md-select */\n    /**\n     * This mixin adds the correct panel transform styles based\n     * on the direction that the menu panel opens.\n     */\n    /* stylelint-disable material/no-prefixes */\n    /* stylelint-enable */\n    /**\n     * This mixin contains shared option styles between the select and\n     * autocomplete components.\n     */\n    :host {\n      -webkit-box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);\n              box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);\n      background-color: whitesmoke;\n      border-radius: 2px;\n      -webkit-box-sizing: border-box;\n              box-sizing: border-box;\n      display: block;\n      margin: 0 auto;\n      max-width: 960px;\n      min-width: 568px;\n      padding: 14px 24px;\n      -webkit-transform: translateY(100%);\n              transform: translateY(100%); }\n      @media screen and (-ms-high-contrast: active) {\n        :host {\n          border: solid 1px; } }\n      :host.dark-theme {\n        background-color: #424242; }\n  "],
+                template: `
+    <ng-template cdkPortalHost></ng-template>
+  `,
+                styles: [`
+    /**
+     * Applies styles for users in high contrast mode. Note that this only applies
+     * to Microsoft browsers. Chrome can be included by checking for the \`html[hc]\`
+     * attribute, however Chrome handles high contrast differently.
+     */
+    /* Theme for the ripple elements.*/
+    /** The mixins below are shared between md-menu and md-select */
+    /**
+     * This mixin adds the correct panel transform styles based
+     * on the direction that the menu panel opens.
+     */
+    /* stylelint-disable material/no-prefixes */
+    /* stylelint-enable */
+    /**
+     * This mixin contains shared option styles between the select and
+     * autocomplete components.
+     */
+    :host {
+      -webkit-box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+              box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+      background-color: whitesmoke;
+      border-radius: 2px;
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+      display: block;
+      margin: 0 auto;
+      max-width: 960px;
+      min-width: 568px;
+      padding: 14px 24px;
+      -webkit-transform: translateY(100%);
+              transform: translateY(100%); }
+      @media screen and (-ms-high-contrast: active) {
+        :host {
+          border: solid 1px; } }
+      :host.dark-theme {
+        background-color: #424242; }
+  `],
                 animations: [
                     trigger('state', [
                         state('initial', style({ transform: 'translateY(100%)' })),
@@ -31342,9 +31087,9 @@ MdKeyboardContainerComponent.decorators = [
 /**
  * @nocollapse
  */
-MdKeyboardContainerComponent.ctorParameters = function () { return [
+MdKeyboardContainerComponent.ctorParameters = () => [
     { type: NgZone, },
-]; };
+];
 MdKeyboardContainerComponent.propDecorators = {
     'attrRole': [{ type: HostBinding, args: ['attr.role',] },],
     'darkTheme': [{ type: HostBinding, args: ['class.dark-theme',] }, { type: Input },],
@@ -31352,17 +31097,17 @@ MdKeyboardContainerComponent.propDecorators = {
     'animationState': [{ type: HostBinding, args: ['@state',] },],
     'onAnimationEnd': [{ type: HostListener, args: ['@state.done', ['$event'],] },],
 };
+
 /**
  * Reference to a keyboard dispatched from the keyboard service.
  */
-var MdKeyboardRef = (function () {
+class MdKeyboardRef {
     /**
      * @param {?} instance
      * @param {?} containerInstance
      * @param {?} _overlayRef
      */
-    function MdKeyboardRef(instance, containerInstance, _overlayRef) {
-        var _this = this;
+    constructor(instance, containerInstance, _overlayRef) {
         this._overlayRef = _overlayRef;
         /**
          * Subject for notifying the user that the keyboard has closed.
@@ -31376,147 +31121,131 @@ var MdKeyboardRef = (function () {
         this._instance = instance;
         this.containerInstance = containerInstance;
         // Dismiss keyboard on action.
-        this.onAction().subscribe(function () { return _this.dismiss(); });
-        containerInstance._onExit().subscribe(function () { return _this._finishDismiss(); });
+        this.onAction().subscribe(() => this.dismiss());
+        containerInstance._onExit().subscribe(() => this._finishDismiss());
     }
-    Object.defineProperty(MdKeyboardRef.prototype, "instance", {
-        /**
-         * The instance of the component making up the content of the keyboard.
-         * @return {?}
-         */
-        get: function () {
-            return this._instance;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardRef.prototype, "darkTheme", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            if (this.instance instanceof MdKeyboardComponent) {
-                return this.instance.darkTheme;
-            }
-        },
-        /**
-         * @param {?} darkTheme
-         * @return {?}
-         */
-        set: function (darkTheme) {
-            if (this.instance instanceof MdKeyboardComponent) {
-                this.instance.darkTheme = darkTheme;
-            }
-            this.containerInstance.darkTheme = darkTheme;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardRef.prototype, "hasAction", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            if (this.instance instanceof MdKeyboardComponent) {
-                return this.instance.hasAction;
-            }
-        },
-        /**
-         * @param {?} hasAction
-         * @return {?}
-         */
-        set: function (hasAction) {
-            if (this.instance instanceof MdKeyboardComponent) {
-                this.instance.hasAction = hasAction;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardRef.prototype, "isDebug", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            if (this.instance instanceof MdKeyboardComponent) {
-                return this.instance.isDebug;
-            }
-        },
-        /**
-         * @param {?} isDebug
-         * @return {?}
-         */
-        set: function (isDebug) {
-            if (this.instance instanceof MdKeyboardComponent) {
-                this.instance.isDebug = isDebug;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * The instance of the component making up the content of the keyboard.
+     * @return {?}
+     */
+    get instance() {
+        return this._instance;
+    }
+    /**
+     * @return {?}
+     */
+    get darkTheme() {
+        if (this.instance instanceof MdKeyboardComponent) {
+            return this.instance.darkTheme;
+        }
+    }
+    /**
+     * @param {?} darkTheme
+     * @return {?}
+     */
+    set darkTheme(darkTheme) {
+        if (this.instance instanceof MdKeyboardComponent) {
+            this.instance.darkTheme = darkTheme;
+        }
+        this.containerInstance.darkTheme = darkTheme;
+    }
+    /**
+     * @return {?}
+     */
+    get hasAction() {
+        if (this.instance instanceof MdKeyboardComponent) {
+            return this.instance.hasAction;
+        }
+    }
+    /**
+     * @param {?} hasAction
+     * @return {?}
+     */
+    set hasAction(hasAction) {
+        if (this.instance instanceof MdKeyboardComponent) {
+            this.instance.hasAction = hasAction;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    get isDebug() {
+        if (this.instance instanceof MdKeyboardComponent) {
+            return this.instance.isDebug;
+        }
+    }
+    /**
+     * @param {?} isDebug
+     * @return {?}
+     */
+    set isDebug(isDebug) {
+        if (this.instance instanceof MdKeyboardComponent) {
+            this.instance.isDebug = isDebug;
+        }
+    }
     /**
      * Dismisses the keyboard.
      * @return {?}
      */
-    MdKeyboardRef.prototype.dismiss = function () {
+    dismiss() {
         if (!this._afterClosed.closed) {
             this.containerInstance.exit();
         }
-    };
+    }
     /**
      * Marks the keyboard action clicked.
      * @return {?}
      */
-    MdKeyboardRef.prototype._action = function () {
+    _action() {
         if (!this._onAction.closed) {
             this._onAction.next();
             this._onAction.complete();
         }
-    };
+    }
     /**
      * Marks the keyboard as opened
      * @return {?}
      */
-    MdKeyboardRef.prototype._open = function () {
+    _open() {
         if (!this._afterOpened.closed) {
             this._afterOpened.next();
             this._afterOpened.complete();
         }
-    };
+    }
     /**
      * Cleans up the DOM after closing.
      * @return {?}
      */
-    MdKeyboardRef.prototype._finishDismiss = function () {
+    _finishDismiss() {
         this._overlayRef.dispose();
         this._afterClosed.next();
         this._afterClosed.complete();
-    };
+    }
     /**
      * Gets an observable that is notified when the keyboard is finished closing.
      * @return {?}
      */
-    MdKeyboardRef.prototype.afterDismissed = function () {
+    afterDismissed() {
         return this._afterClosed.asObservable();
-    };
+    }
     /**
      * Gets an observable that is notified when the keyboard has opened and appeared.
      * @return {?}
      */
-    MdKeyboardRef.prototype.afterOpened = function () {
+    afterOpened() {
         return this.containerInstance._onEnter();
-    };
+    }
     /**
      * Gets an observable that is notified when the keyboard action is called.
      * @return {?}
      */
-    MdKeyboardRef.prototype.onAction = function () {
+    onAction() {
         return this._onAction.asObservable();
-    };
-    return MdKeyboardRef;
-}());
-var MdKeyboardConfig = (function () {
-    function MdKeyboardConfig() {
+    }
+}
+
+class MdKeyboardConfig {
+    constructor() {
         /**
          * The politeness level for the MdAriaLiveAnnouncer announcement.
          */
@@ -31546,20 +31275,19 @@ var MdKeyboardConfig = (function () {
          */
         this.isDebug = false;
     }
-    return MdKeyboardConfig;
-}());
+}
+
 /**
  * Service to dispatch Material Design keyboard.
  */
-var MdKeyboardService = (function () {
+class MdKeyboardService {
     /**
      * @param {?} _overlay
      * @param {?} _live
      * @param {?} _layouts
      * @param {?} _parentKeyboard
      */
-    function MdKeyboardService(_overlay, _live, _layouts, _parentKeyboard) {
-        var _this = this;
+    constructor(_overlay, _live, _layouts, _parentKeyboard) {
         this._overlay = _overlay;
         this._live = _live;
         this._layouts = _layouts;
@@ -31568,57 +31296,45 @@ var MdKeyboardService = (function () {
         this._availableLocales = {};
         Object
             .keys(this._layouts)
-            .forEach(function (layout) {
-            if (_this._layouts[layout].lang) {
-                _this._layouts[layout].lang.forEach(function (lang) {
-                    _this._availableLocales[lang] = layout;
+            .forEach(layout => {
+            if (this._layouts[layout].lang) {
+                this._layouts[layout].lang.forEach(lang => {
+                    this._availableLocales[lang] = layout;
                 });
             }
         });
     }
-    Object.defineProperty(MdKeyboardService.prototype, "_openedKeyboardRef", {
-        /**
-         * Reference to the currently opened keyboard at *any* level.
-         * @return {?}
-         */
-        get: function () {
-            return this._parentKeyboard ? this._parentKeyboard._openedKeyboardRef : this._keyboardRefAtThisLevel;
-        },
-        /**
-         * @param {?} value
-         * @return {?}
-         */
-        set: function (value) {
-            if (this._parentKeyboard) {
-                this._parentKeyboard._openedKeyboardRef = value;
-            }
-            else {
-                this._keyboardRefAtThisLevel = value;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardService.prototype, "availableLocales", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return this._availableLocales;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardService.prototype, "isOpened", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return !!this._openedKeyboardRef;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * Reference to the currently opened keyboard at *any* level.
+     * @return {?}
+     */
+    get _openedKeyboardRef() {
+        return this._parentKeyboard ? this._parentKeyboard._openedKeyboardRef : this._keyboardRefAtThisLevel;
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set _openedKeyboardRef(value) {
+        if (this._parentKeyboard) {
+            this._parentKeyboard._openedKeyboardRef = value;
+        }
+        else {
+            this._keyboardRefAtThisLevel = value;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    get availableLocales() {
+        return this._availableLocales;
+    }
+    /**
+     * @return {?}
+     */
+    get isOpened() {
+        return !!this._openedKeyboardRef;
+    }
     /**
      * Creates and dispatches a keyboard with a custom component for the content, removing any
      * currently opened keyboards.
@@ -31628,24 +31344,23 @@ var MdKeyboardService = (function () {
      * @param {?=} config Extra configuration for the keyboard.
      * @return {?}
      */
-    MdKeyboardService.prototype._openFromComponent = function (component, config) {
-        var _this = this;
+    _openFromComponent(component, config) {
         config = _applyConfigDefaults(config);
-        var /** @type {?} */ overlayRef = this._createOverlay();
-        var /** @type {?} */ keyboardContainer = this._attachKeyboardContainer(overlayRef, config);
-        var /** @type {?} */ keyboardRef = this._attachKeyboardContent(component, keyboardContainer, overlayRef);
+        const /** @type {?} */ overlayRef = this._createOverlay();
+        const /** @type {?} */ keyboardContainer = this._attachKeyboardContainer(overlayRef, config);
+        const /** @type {?} */ keyboardRef = this._attachKeyboardContent(component, keyboardContainer, overlayRef);
         keyboardContainer.darkTheme = config.darkTheme;
         // When the keyboard is dismissed, clear the reference to it.
-        keyboardRef.afterDismissed().subscribe(function () {
+        keyboardRef.afterDismissed().subscribe(() => {
             // Clear the keyboard ref if it hasn't already been replaced by a newer keyboard.
-            if (_this._openedKeyboardRef === keyboardRef) {
-                _this._openedKeyboardRef = null;
+            if (this._openedKeyboardRef === keyboardRef) {
+                this._openedKeyboardRef = null;
             }
         });
         // If a keyboard is already in view, dismiss it and enter the new keyboard after exit
         // animation is complete.
         if (this._openedKeyboardRef) {
-            this._openedKeyboardRef.afterDismissed().subscribe(function () {
+            this._openedKeyboardRef.afterDismissed().subscribe(() => {
                 keyboardRef.containerInstance.enter();
             });
             this._openedKeyboardRef.dismiss();
@@ -31663,16 +31378,15 @@ var MdKeyboardService = (function () {
         this._live.announce(config.announcementMessage, config.politeness);
         this._openedKeyboardRef = keyboardRef;
         return this._openedKeyboardRef;
-    };
+    }
     /**
      * Opens a keyboard with a message and an optional action.
      * @param {?=} layoutOrLocale [Optional] A string representing the locale or the layout name to be used.
      * @param {?=} config Additional configuration options for the keyboard.
      * @return {?}
      */
-    MdKeyboardService.prototype.open = function (layoutOrLocale, config) {
-        if (config === void 0) { config = {}; }
-        var /** @type {?} */ keyboardComponentRef = this._openFromComponent(MdKeyboardComponent, config);
+    open(layoutOrLocale, config = {}) {
+        const /** @type {?} */ keyboardComponentRef = this._openFromComponent(MdKeyboardComponent, config);
         keyboardComponentRef.instance.keyboardRef = keyboardComponentRef;
         keyboardComponentRef.darkTheme = config.darkTheme;
         keyboardComponentRef.hasAction = config.hasAction;
@@ -31689,23 +31403,23 @@ var MdKeyboardService = (function () {
                 this._layouts[layoutOrLocale].lang.pop();
         }
         return keyboardComponentRef;
-    };
+    }
     /**
      * Dismisses the currently-visible keyboard.
      * @return {?}
      */
-    MdKeyboardService.prototype.dismiss = function () {
+    dismiss() {
         if (this._openedKeyboardRef) {
             this._openedKeyboardRef.dismiss();
         }
-    };
+    }
     /**
      * @param {?} locale
      * @return {?}
      */
-    MdKeyboardService.prototype.mapLocale = function (locale) {
-        var /** @type {?} */ layout;
-        var /** @type {?} */ country = locale.split('-').shift();
+    mapLocale(locale) {
+        let /** @type {?} */ layout;
+        const /** @type {?} */ country = locale.split('-').shift();
         // search for layout matching the
         // first part, the country code
         if (this.availableLocales[country]) {
@@ -31719,26 +31433,26 @@ var MdKeyboardService = (function () {
             throwLayoutNotFound(locale);
         }
         return layout;
-    };
+    }
     /**
      * @param {?} locale
      * @return {?}
      */
-    MdKeyboardService.prototype.getLayoutForLocale = function (locale) {
+    getLayoutForLocale(locale) {
         return this._layouts[this.mapLocale(locale)];
-    };
+    }
     /**
      * Attaches the keyboard container component to the overlay.
      * @param {?} overlayRef
      * @param {?} config
      * @return {?}
      */
-    MdKeyboardService.prototype._attachKeyboardContainer = function (overlayRef, config) {
-        var /** @type {?} */ containerPortal = new ComponentPortal(MdKeyboardContainerComponent, config.viewContainerRef);
-        var /** @type {?} */ containerRef = overlayRef.attach(containerPortal);
+    _attachKeyboardContainer(overlayRef, config) {
+        const /** @type {?} */ containerPortal = new ComponentPortal(MdKeyboardContainerComponent, config.viewContainerRef);
+        const /** @type {?} */ containerRef = overlayRef.attach(containerPortal);
         containerRef.instance.keyboardConfig = config;
         return containerRef.instance;
-    };
+    }
     /**
      * Places a new component as the content of the keyboard container.
      * @template T
@@ -31747,37 +31461,36 @@ var MdKeyboardService = (function () {
      * @param {?} overlayRef
      * @return {?}
      */
-    MdKeyboardService.prototype._attachKeyboardContent = function (component, container, overlayRef) {
-        var /** @type {?} */ portal = new ComponentPortal(component);
-        var /** @type {?} */ contentRef = container.attachComponentPortal(portal);
+    _attachKeyboardContent(component, container, overlayRef) {
+        const /** @type {?} */ portal = new ComponentPortal(component);
+        const /** @type {?} */ contentRef = container.attachComponentPortal(portal);
         return (new MdKeyboardRef(contentRef.instance, container, overlayRef));
-    };
+    }
     /**
      * Creates a new overlay and places it in the correct location.
      * @return {?}
      */
-    MdKeyboardService.prototype._createOverlay = function () {
-        var /** @type {?} */ state$$1 = new OverlayState();
+    _createOverlay() {
+        const /** @type {?} */ state$$1 = new OverlayState();
         state$$1.positionStrategy = this._overlay.position().global()
             .centerHorizontally()
             .bottom('0')
             .width('100%');
         return this._overlay.create(state$$1);
-    };
-    return MdKeyboardService;
-}());
+    }
+}
 MdKeyboardService.decorators = [
     { type: Injectable },
 ];
 /**
  * @nocollapse
  */
-MdKeyboardService.ctorParameters = function () { return [
+MdKeyboardService.ctorParameters = () => [
     { type: Overlay, },
     { type: LiveAnnouncer, },
     { type: undefined, decorators: [{ type: Inject, args: [MD_KEYBOARD_LAYOUTS,] },] },
     { type: MdKeyboardService, decorators: [{ type: Optional }, { type: SkipSelf },] },
-]; };
+];
 /**
  * Applies default options to the keyboard configs.
  * @param {?} config The configuration to which the defaults will be applied.
@@ -31786,16 +31499,17 @@ MdKeyboardService.ctorParameters = function () { return [
 function _applyConfigDefaults(config) {
     return Object.assign(new MdKeyboardConfig(), config);
 }
+
 /**
  * A component used to open as the default keyboard, matching material spec.
  * This should only be used internally by the keyboard service.
  */
-var MdKeyboardComponent = (function () {
+class MdKeyboardComponent {
     /**
      * @param {?} _locale
      * @param {?} _keyboardService
      */
-    function MdKeyboardComponent(_locale, _keyboardService) {
+    constructor(_locale, _keyboardService) {
         this._locale = _locale;
         this._keyboardService = _keyboardService;
         this.cssClass = true;
@@ -31803,51 +31517,47 @@ var MdKeyboardComponent = (function () {
         this.modifier = KeyboardModifier.None;
         this._inputInstance$ = new AsyncSubject();
     }
-    Object.defineProperty(MdKeyboardComponent.prototype, "inputInstance", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return this._inputInstance$.asObservable();
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * @return {?}
+     */
+    get inputInstance() {
+        return this._inputInstance$.asObservable();
+    }
     /**
      * @param {?} inputInstance
      * @return {?}
      */
-    MdKeyboardComponent.prototype.setInputInstance = function (inputInstance) {
+    setInputInstance(inputInstance) {
         this._inputInstance$.next(inputInstance);
         this._inputInstance$.complete();
-    };
+    }
     /**
      * @return {?}
      */
-    MdKeyboardComponent.prototype.ngOnInit = function () {
+    ngOnInit() {
         // set a fallback using the locale
         if (!this.layout) {
             this.locale = this._keyboardService.mapLocale(this._locale) ? this._locale : 'en-US';
             this.layout = this._keyboardService.getLayoutForLocale(this.locale);
         }
-    };
+    }
     /**
      * @return {?}
      */
-    MdKeyboardComponent.prototype.dismiss = function () {
+    dismiss() {
         this.keyboardRef._action();
-    };
+    }
     /**
      * @param {?} key
      * @return {?}
      */
-    MdKeyboardComponent.prototype.isActive = function (key) {
+    isActive(key) {
         return this.modifier === KeyboardModifier[key] || (this.modifier === KeyboardModifier.ShiftAlt && KeyboardModifier[key] > KeyboardModifier.None);
-    };
+    }
     /**
      * @return {?}
      */
-    MdKeyboardComponent.prototype.onAltClick = function () {
+    onAltClick() {
         if (this.modifier === KeyboardModifier.None) {
             this.modifier = KeyboardModifier.Alt;
         }
@@ -31860,15 +31570,15 @@ var MdKeyboardComponent = (function () {
         else if (this.modifier === KeyboardModifier.Alt) {
             this.modifier = KeyboardModifier.None;
         }
-    };
+    }
     /**
      * @return {?}
      */
-    MdKeyboardComponent.prototype.onCapsClick = function () { };
+    onCapsClick() { }
     /**
      * @return {?}
      */
-    MdKeyboardComponent.prototype.onShiftClick = function () {
+    onShiftClick() {
         if (this.modifier === KeyboardModifier.None) {
             this.modifier = KeyboardModifier.Shift;
         }
@@ -31881,31 +31591,148 @@ var MdKeyboardComponent = (function () {
         else if (this.modifier === KeyboardModifier.Shift) {
             this.modifier = KeyboardModifier.None;
         }
-    };
-    return MdKeyboardComponent;
-}());
+    }
+}
 MdKeyboardComponent.decorators = [
     { type: Component, args: [{
                 selector: 'md-keyboard',
-                template: "\n    <nav class=\"mat-keyboard-layout\">\n      <div\n        class=\"mat-keyboard-row\"\n        *ngFor=\"let row of layout.keys\"\n      >\n        <ng-container *ngFor=\"let key of row\">\n          <md-keyboard-key\n            class=\"mat-keyboard-col\"\n            *ngIf=\"key[modifier]\"\n            [key]=\"key[modifier]\"\n            [active]=\"isActive(key[modifier])\"\n            [input]=\"inputInstance | async\"\n            (altClick)=\"onAltClick()\"\n            (capsClick)=\"onCapsClick()\"\n            (shiftClick)=\"onShiftClick()\"\n          ></md-keyboard-key>\n        </ng-container>\n      </div>\n    </nav>\n\n    <button\n      md-icon-button\n      class=\"mat-keyboard-action\"\n      *ngIf=\"hasAction\"\n      (click)=\"dismiss()\"\n    >\n      <md-icon>close</md-icon>\n    </button>\n  ",
-                styles: ["\n    /**\n     * Applies styles for users in high contrast mode. Note that this only applies\n     * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n     * attribute, however Chrome handles high contrast differently.\n     */\n    /* Theme for the ripple elements.*/\n    /** The mixins below are shared between md-menu and md-select */\n    /**\n     * This mixin adds the correct panel transform styles based\n     * on the direction that the menu panel opens.\n     */\n    /* stylelint-disable material/no-prefixes */\n    /* stylelint-enable */\n    /**\n     * This mixin contains shared option styles between the select and\n     * autocomplete components.\n     */\n    :host {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      font-family: Roboto, \"Helvetica Neue\", sans-serif;\n      font-size: 14px;\n      -webkit-box-pack: justify;\n          -ms-flex-pack: justify;\n              justify-content: space-between;\n      line-height: 20px; }\n\n    .mat-keyboard-action {\n      background: none;\n      color: inherit;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n      font-family: inherit;\n      font-size: inherit;\n      font-weight: 600;\n      line-height: 1;\n      margin-left: 8px;\n      text-transform: uppercase; }\n\n    /deep/ .mat-keyboard.dark-theme .mat-keyboard-action {\n      color: whitesmoke; }\n\n    .mat-keyboard-layout {\n      width: 100%; }\n\n    .mat-keyboard-row {\n      -webkit-box-align: stretch;\n          -ms-flex-align: stretch;\n              align-items: stretch;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      -ms-flex-wrap: nowrap;\n          flex-wrap: nowrap; }\n\n    .mat-keyboard-col {\n      -webkit-box-sizing: border-box;\n              box-sizing: border-box;\n      -webkit-box-flex: 1;\n          -ms-flex: 1 1 auto;\n              flex: 1 1 auto;\n      padding: 4px; }\n\n    .mat-keyboard-key {\n      min-width: 0;\n      width: 100%; }\n\n    /deep/ .mat-keyboard.dark-theme .mat-keyboard-key {\n      background-color: #616161;\n      color: whitesmoke; }\n\n    /deep/ .mat-keyboard.debug .mat-keyboard-key-deadkey {\n      background-color: cadetblue; }\n\n    /deep/ .mat-keyboard.debug .mat-keyboard-key-modifier {\n      background-color: aquamarine; }\n\n    /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-deadkey {\n      background-color: rebeccapurple; }\n\n    /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-modifier {\n      background-color: mediumpurple; }\n  "],
+                template: `
+    <nav class="mat-keyboard-layout">
+      <div
+        class="mat-keyboard-row"
+        *ngFor="let row of layout.keys"
+      >
+        <ng-container *ngFor="let key of row">
+          <md-keyboard-key
+            class="mat-keyboard-col"
+            *ngIf="key[modifier]"
+            [key]="key[modifier]"
+            [active]="isActive(key[modifier])"
+            [input]="inputInstance | async"
+            (altClick)="onAltClick()"
+            (capsClick)="onCapsClick()"
+            (shiftClick)="onShiftClick()"
+          ></md-keyboard-key>
+        </ng-container>
+      </div>
+    </nav>
+
+    <button
+      md-icon-button
+      class="mat-keyboard-action"
+      *ngIf="hasAction"
+      (click)="dismiss()"
+    >
+      <md-icon>close</md-icon>
+    </button>
+  `,
+                styles: [`
+    /**
+     * Applies styles for users in high contrast mode. Note that this only applies
+     * to Microsoft browsers. Chrome can be included by checking for the \`html[hc]\`
+     * attribute, however Chrome handles high contrast differently.
+     */
+    /* Theme for the ripple elements.*/
+    /** The mixins below are shared between md-menu and md-select */
+    /**
+     * This mixin adds the correct panel transform styles based
+     * on the direction that the menu panel opens.
+     */
+    /* stylelint-disable material/no-prefixes */
+    /* stylelint-enable */
+    /**
+     * This mixin contains shared option styles between the select and
+     * autocomplete components.
+     */
+    :host {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      font-size: 14px;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      line-height: 20px; }
+
+    .mat-keyboard-action {
+      background: none;
+      color: inherit;
+      -ms-flex-negative: 0;
+          flex-shrink: 0;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: 600;
+      line-height: 1;
+      margin-left: 8px;
+      text-transform: uppercase; }
+
+    /deep/ .mat-keyboard.dark-theme .mat-keyboard-action {
+      color: whitesmoke; }
+
+    .mat-keyboard-layout {
+      width: 100%; }
+
+    .mat-keyboard-row {
+      -webkit-box-align: stretch;
+          -ms-flex-align: stretch;
+              align-items: stretch;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -ms-flex-wrap: nowrap;
+          flex-wrap: nowrap; }
+
+    .mat-keyboard-col {
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+      -webkit-box-flex: 1;
+          -ms-flex: 1 1 auto;
+              flex: 1 1 auto;
+      padding: 4px; }
+
+    .mat-keyboard-key {
+      min-width: 0;
+      width: 100%; }
+
+    /deep/ .mat-keyboard.dark-theme .mat-keyboard-key {
+      background-color: #616161;
+      color: whitesmoke; }
+
+    /deep/ .mat-keyboard.debug .mat-keyboard-key-deadkey {
+      background-color: cadetblue; }
+
+    /deep/ .mat-keyboard.debug .mat-keyboard-key-modifier {
+      background-color: aquamarine; }
+
+    /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-deadkey {
+      background-color: rebeccapurple; }
+
+    /deep/ .mat-keyboard.debug.dark-theme .mat-keyboard-key-modifier {
+      background-color: mediumpurple; }
+  `],
                 changeDetection: ChangeDetectionStrategy.OnPush
             },] },
 ];
 /**
  * @nocollapse
  */
-MdKeyboardComponent.ctorParameters = function () { return [
+MdKeyboardComponent.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Inject, args: [LOCALE_ID,] },] },
     { type: MdKeyboardService, },
-]; };
+];
 MdKeyboardComponent.propDecorators = {
     'cssClass': [{ type: HostBinding, args: ['class.mat-keyboard',] },],
     'darkTheme': [{ type: HostBinding, args: ['class.dark-theme',] },],
     'hasAction': [{ type: HostBinding, args: ['class.has-action',] },],
     'isDebug': [{ type: HostBinding, args: ['class.debug',] },],
 };
-var KeyboardKeyClass = {};
+
+let KeyboardKeyClass = {};
 KeyboardKeyClass.Alt = ('alt');
 KeyboardKeyClass.AltGr = ('altgr');
 KeyboardKeyClass.AltLk = ('altlk');
@@ -31924,6 +31751,7 @@ KeyboardKeyClass[KeyboardKeyClass.Enter] = "Enter";
 KeyboardKeyClass[KeyboardKeyClass.Shift] = "Shift";
 KeyboardKeyClass[KeyboardKeyClass.Space] = "Space";
 KeyboardKeyClass[KeyboardKeyClass.Tab] = "Tab";
+
 // - Lay out each dead key set as an object of property/value
 //   pairs.  The rows below are wrapped so uppercase letters are
 //   below their lowercase equivalents.
@@ -31934,8 +31762,8 @@ KeyboardKeyClass[KeyboardKeyClass.Tab] = "Tab";
 // - Note that if you have created a new keyboard layout and want
 //   it included in the distributed script, PLEASE TELL ME if you
 //   have added additional dead keys to the ones below.
-var MD_KEYBOARD_DEADKEYS = new InjectionToken('keyboard-deadkey.config');
-var keyboardDeadkeys = {
+const MD_KEYBOARD_DEADKEYS = new InjectionToken('keyboard-deadkey.config');
+const keyboardDeadkeys = {
     '"': {
         'a': '\u00e4',
         'e': '\u00eb',
@@ -32130,20 +31958,22 @@ keyboardDeadkeys['\u00b4'] = keyboardDeadkeys['\u0384'] = keyboardDeadkeys['\'']
 // Ring
 keyboardDeadkeys['\u00ba'] = keyboardDeadkeys['\u00b0'];
 keyboardDeadkeys['\u201a'] = keyboardDeadkeys['\u00B8'];
-var MD_KEYBOARD_ICONS = new InjectionToken('keyboard-icons.config');
-var keyboardIcons = {
+
+const MD_KEYBOARD_ICONS = new InjectionToken('keyboard-icons.config');
+const keyboardIcons = {
     'bksp': 'keyboard_backspace',
     'caps': 'keyboard_capslock',
     'enter': 'keyboard_return',
     'space': '',
     'tab': 'keyboard_tab'
 };
-var MdKeyboardKeyComponent = (function () {
+
+class MdKeyboardKeyComponent {
     /**
      * @param {?} _deadkeys
      * @param {?} _icons
      */
-    function MdKeyboardKeyComponent(_deadkeys, _icons) {
+    constructor(_deadkeys, _icons) {
         this._deadkeys = _deadkeys;
         this._icons = _icons;
         this._deadkeyKeys = [];
@@ -32152,114 +31982,81 @@ var MdKeyboardKeyComponent = (function () {
         this.capsClick = new EventEmitter();
         this.shiftClick = new EventEmitter();
     }
-    Object.defineProperty(MdKeyboardKeyComponent.prototype, "lowerKey", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return this.key.toLowerCase();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardKeyComponent.prototype, "charCode", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return this.key.charCodeAt(0);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardKeyComponent.prototype, "isClassKey", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return !!KeyboardKeyClass[this.key];
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardKeyComponent.prototype, "isDeadKey", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            var _this = this;
-            return !!this._deadkeyKeys.find(function (deadKey) { return deadKey === _this.key; });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardKeyComponent.prototype, "hasIcon", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            var _this = this;
-            return !!this._iconKeys.find(function (iconKey) { return iconKey === _this.lowerKey; });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardKeyComponent.prototype, "icon", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return this._icons[this.lowerKey];
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MdKeyboardKeyComponent.prototype, "cssClass", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            var /** @type {?} */ classes = [];
-            if (this.isClassKey) {
-                classes.push('mat-keyboard__key--modifier');
-                classes.push("mat-keyboard__key--" + KeyboardKeyClass[this.key]);
-            }
-            if (this.isDeadKey) {
-                classes.push('mat-keyboard__key--deadkey');
-            }
-            return classes.join(' ');
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * @return {?}
      */
-    MdKeyboardKeyComponent.prototype.ngOnInit = function () {
+    get lowerKey() {
+        return this.key.toLowerCase();
+    }
+    /**
+     * @return {?}
+     */
+    get charCode() {
+        return this.key.charCodeAt(0);
+    }
+    /**
+     * @return {?}
+     */
+    get isClassKey() {
+        return !!KeyboardKeyClass[this.key];
+    }
+    /**
+     * @return {?}
+     */
+    get isDeadKey() {
+        return !!this._deadkeyKeys.find((deadKey) => deadKey === this.key);
+    }
+    /**
+     * @return {?}
+     */
+    get hasIcon() {
+        return !!this._iconKeys.find((iconKey) => iconKey === this.lowerKey);
+    }
+    /**
+     * @return {?}
+     */
+    get icon() {
+        return this._icons[this.lowerKey];
+    }
+    /**
+     * @return {?}
+     */
+    get cssClass() {
+        const /** @type {?} */ classes = [];
+        if (this.isClassKey) {
+            classes.push('mat-keyboard-key-modifier');
+            classes.push(`mat-keyboard-key-${KeyboardKeyClass[this.key]}`);
+        }
+        if (this.isDeadKey) {
+            classes.push('mat-keyboard-key-deadkey');
+        }
+        return classes.join(' ');
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
         //   console.log('configured deadkeys:', this._deadkeys);
         // read the deadkeys
         this._deadkeyKeys = Object.keys(this._deadkeys);
         // read the icons
         this._iconKeys = Object.keys(this._icons);
-    };
+    }
     /**
      * @param {?} ev
      * @return {?}
      */
-    MdKeyboardKeyComponent.prototype.onMousedown = function (ev) {
+    onMousedown(ev) {
         ev.preventDefault();
-    };
+    }
     /**
      * @return {?}
      */
-    MdKeyboardKeyComponent.prototype.onClick = function () {
-        // Trigger a global key event
-        // TODO: determine whether an output should bubble the pressed key similar to the keybboard action or not
-        this._triggerKeyEvent();
+    onClick() {
         // Manipulate the focused input / textarea value
-        var /** @type {?} */ value = this.input ? this.input.nativeElement.value : '';
-        var /** @type {?} */ caret = this.input ? this._getCursorPosition() : 0;
-        var /** @type {?} */ char;
+        const /** @type {?} */ value = this.input ? this.input.nativeElement.value : '';
+        const /** @type {?} */ caret = this.input ? this._getCursorPosition() : 0;
+        let /** @type {?} */ char;
         switch (this.key) {
             // this keys have no actions yet
             // TODO: add deadkeys and modifiers
@@ -32295,13 +32092,14 @@ var MdKeyboardKeyComponent = (function () {
             this.input.nativeElement.value = [value.slice(0, caret), char, value.slice(caret)].join('');
             this._setCursorPosition(caret + 1);
         }
-    };
+        this._triggerKeyEvent();
+    }
     /**
      * @return {?}
      */
-    MdKeyboardKeyComponent.prototype._triggerKeyEvent = function () {
-        var /** @type {?} */ keyboardEvent = window.document.createEvent('KeyboardEvent');
-        var /** @type {?} */ initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? 'initKeyboardEvent' : 'initKeyEvent';
+    _triggerKeyEvent() {
+        const /** @type {?} */ keyboardEvent = window.document.createEvent('KeyboardEvent');
+        const /** @type {?} */ initMethod = ('undefined' !== typeof keyboardEvent.initKeyboardEvent ? 'initKeyboardEvent' : 'initKeyEvent');
         keyboardEvent[initMethod]('keydown', // event type : keydown, keyup, keypress
         true, // bubbles
         true, // cancelable
@@ -32314,12 +32112,15 @@ var MdKeyboardKeyComponent = (function () {
         0 // charCodeArgs : unsigned long - the Unicode character associated with the depressed key, else 0
         );
         window.document.dispatchEvent(keyboardEvent);
+        // -- Dispatch input event for two-way binding
+        this.input.nativeElement.dispatchEvent(new Event('input'));
+        // -- -- -- --
         return keyboardEvent;
-    };
+    }
     /**
      * @return {?}
      */
-    MdKeyboardKeyComponent.prototype._getCursorPosition = function () {
+    _getCursorPosition() {
         if (!this.input) {
             return;
         }
@@ -32330,17 +32131,17 @@ var MdKeyboardKeyComponent = (function () {
         else if (window.document['selection']) {
             // IE
             this.input.nativeElement.focus();
-            var /** @type {?} */ sel = window.document['selection'].createRange();
-            var /** @type {?} */ selLen = window.document['selection'].createRange().text.length;
+            const /** @type {?} */ sel = window.document['selection'].createRange();
+            const /** @type {?} */ selLen = window.document['selection'].createRange().text.length;
             sel.moveStart('character', -this.input.nativeElement.value.length);
             return sel.text.length - selLen;
         }
-    };
+    }
     /**
      * @param {?} position
      * @return {?}
      */
-    MdKeyboardKeyComponent.prototype._setCursorPosition = function (position) {
+    _setCursorPosition(position) {
         if (!this.input) {
             return;
         }
@@ -32349,9 +32150,9 @@ var MdKeyboardKeyComponent = (function () {
         // to make sure we don't have it everything -selected-
         // (it causes an issue in chrome, and having it doesn't hurt any other browser)
         if ('createTextRange' in this.input.nativeElement) {
-            var /** @type {?} */ range_1 = this.input.nativeElement.createTextRange();
-            range_1.move('character', position);
-            range_1.select();
+            const /** @type {?} */ range = this.input.nativeElement.createTextRange();
+            range.move('character', position);
+            range.select();
             return true;
         }
         else {
@@ -32366,24 +32167,118 @@ var MdKeyboardKeyComponent = (function () {
                 return false;
             }
         }
-    };
-    return MdKeyboardKeyComponent;
-}());
+    }
+}
 MdKeyboardKeyComponent.decorators = [
     { type: Component, args: [{
                 selector: 'md-keyboard-key',
-                template: "\n    <button\n      md-raised-button\n      class=\"mat-keyboard-key\"\n      [class.mat-keyboard-key-active]=\"active\"\n      [ngClass]=\"cssClass\"\n      (mousedown)=\"onMousedown($event)\"\n      (click)=\"onClick()\"\n    >\n      <md-icon *ngIf=\"hasIcon\">{{icon}}</md-icon>\n      <ng-container *ngIf=\"!hasIcon\">{{key}}</ng-container>\n    </button>\n  ",
-                styles: ["\n    /**\n     * Applies styles for users in high contrast mode. Note that this only applies\n     * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n     * attribute, however Chrome handles high contrast differently.\n     */\n    /* Theme for the ripple elements.*/\n    /** The mixins below are shared between md-menu and md-select */\n    /**\n     * This mixin adds the correct panel transform styles based\n     * on the direction that the menu panel opens.\n     */\n    /* stylelint-disable material/no-prefixes */\n    /* stylelint-enable */\n    /**\n     * This mixin contains shared option styles between the select and\n     * autocomplete components.\n     */\n    :host {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      font-family: Roboto, \"Helvetica Neue\", sans-serif;\n      font-size: 14px;\n      -webkit-box-pack: justify;\n          -ms-flex-pack: justify;\n              justify-content: space-between;\n      line-height: 20px; }\n\n    .mat-keyboard-key {\n      min-width: 0;\n      width: 100%; }\n      .mat-keyboard-key-active {\n        background-color: #e0e0e0; }\n\n    :host-context(.dark-theme) .mat-keyboard-key {\n      background-color: #616161;\n      color: whitesmoke; }\n      :host-context(.dark-theme) .mat-keyboard-key-active {\n        background-color: #9e9e9e; }\n\n    :host-context(.debug) .mat-keyboard-key-deadkey {\n      background-color: cadetblue; }\n\n    :host-context(.debug) .mat-keyboard-key-modifier {\n      background-color: aquamarine; }\n\n    :host-context(.dark-theme.debug) .mat-keyboard-key-deadkey {\n      background-color: rebeccapurple; }\n\n    :host-context(.dark-theme.debug) .mat-keyboard-key-modifier {\n      background-color: mediumpurple; }\n  "],
+                template: `
+   <button
+     md-raised-button
+     class="mat-keyboard-key"
+     [class.mat-keyboard-key-active]="active"
+     [ngClass]="cssClass"
+     (mousedown)="onMousedown($event)"
+     (click)="onClick()"
+   >
+     <md-icon *ngIf="hasIcon">{{icon}}</md-icon>
+     <ng-container *ngIf="!hasIcon">{{key}}</ng-container>
+   </button>
+	`,
+                styles: [`
+   /**
+    * Applies styles for users in high contrast mode. Note that this only applies
+    * to Microsoft browsers. Chrome can be included by checking for the \`html[hc]\`
+    * attribute, however Chrome handles high contrast differently.
+    */
+   /* Theme for the ripple elements.*/
+   /** The mixins below are shared between md-menu and md-select */
+   /**
+    * This mixin adds the correct panel transform styles based
+    * on the direction that the menu panel opens.
+    */
+   /* stylelint-disable material/no-prefixes */
+   /* stylelint-enable */
+   /**
+    * This mixin contains shared option styles between the select and
+    * autocomplete components.
+    */
+   @font-face {
+     font-family: 'Material Icons';
+     font-style: normal;
+     font-weight: 400;
+     src: url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.eot);
+     /* For IE6-8 */
+     src: local("/node_modules/material-design-icons/iconfont/Material Icons"), local("/node_modules/material-design-icons/iconfont/MaterialIcons-Regular"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format("woff2"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff) format("woff"), url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.ttf) format("truetype"); }
+
+   .material-icons {
+     font-family: 'Material Icons';
+     font-weight: normal;
+     font-style: normal;
+     font-size: 24px;
+     /* Preferred icon size */
+     display: inline-block;
+     line-height: 1;
+     text-transform: none;
+     letter-spacing: normal;
+     word-wrap: normal;
+     white-space: nowrap;
+     direction: ltr;
+     /* Support for all WebKit browsers. */
+     -webkit-font-smoothing: antialiased;
+     /* Support for Safari and Chrome. */
+     text-rendering: optimizeLegibility;
+     /* Support for Firefox. */
+     -moz-osx-font-smoothing: grayscale;
+     /* Support for IE. */
+     -webkit-font-feature-settings: 'liga';
+             font-feature-settings: 'liga'; }
+
+   :host {
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     font-family: Roboto, "Helvetica Neue", sans-serif;
+     font-size: 14px;
+     -webkit-box-pack: justify;
+         -ms-flex-pack: justify;
+             justify-content: space-between;
+     line-height: 20px; }
+
+   .mat-keyboard-key {
+     min-width: 0;
+     width: 100%; }
+     .mat-keyboard-key-active {
+       background-color: #e0e0e0; }
+
+   :host-context(.dark-theme) .mat-keyboard-key {
+     background-color: #616161;
+     color: whitesmoke; }
+     :host-context(.dark-theme) .mat-keyboard-key-active {
+       background-color: #9e9e9e; }
+
+   :host-context(.debug) .mat-keyboard-key-deadkey {
+     background-color: cadetblue; }
+
+   :host-context(.debug) .mat-keyboard-key-modifier {
+     background-color: aquamarine; }
+
+   :host-context(.dark-theme.debug) .mat-keyboard-key-deadkey {
+     background-color: rebeccapurple; }
+
+   :host-context(.dark-theme.debug) .mat-keyboard-key-modifier {
+     background-color: mediumpurple; }
+	`],
                 changeDetection: ChangeDetectionStrategy.OnPush
             },] },
 ];
 /**
  * @nocollapse
  */
-MdKeyboardKeyComponent.ctorParameters = function () { return [
+MdKeyboardKeyComponent.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Inject, args: [MD_KEYBOARD_DEADKEYS,] },] },
     { type: undefined, decorators: [{ type: Inject, args: [MD_KEYBOARD_ICONS,] },] },
-]; };
+];
 MdKeyboardKeyComponent.propDecorators = {
     'key': [{ type: Input },],
     'active': [{ type: Input },],
@@ -32392,19 +32287,20 @@ MdKeyboardKeyComponent.propDecorators = {
     'capsClick': [{ type: Output },],
     'shiftClick': [{ type: Output },],
 };
-var MdKeyboardDirective = (function () {
+
+class MdKeyboardDirective {
     /**
      * @param {?} _elementRef
      * @param {?} _keyboardService
      */
-    function MdKeyboardDirective(_elementRef, _keyboardService) {
+    constructor(_elementRef, _keyboardService) {
         this._elementRef = _elementRef;
         this._keyboardService = _keyboardService;
     }
     /**
      * @return {?}
      */
-    MdKeyboardDirective.prototype._showKeyboard = function () {
+    _showKeyboard() {
         this._keyboardRef = this._keyboardService.open(this.mdKeyboard, {
             darkTheme: this.darkTheme,
             duration: this.duration,
@@ -32412,17 +32308,16 @@ var MdKeyboardDirective = (function () {
             isDebug: this.isDebug
         });
         this._keyboardRef.instance.setInputInstance(this._elementRef);
-    };
+    }
     /**
      * @return {?}
      */
-    MdKeyboardDirective.prototype._hideKeyboard = function () {
+    _hideKeyboard() {
         if (this._keyboardRef) {
             this._keyboardRef.dismiss();
         }
-    };
-    return MdKeyboardDirective;
-}());
+    }
+}
 MdKeyboardDirective.decorators = [
     { type: Directive, args: [{
                 selector: 'input[mdKeyboard], textarea[mdKeyboard], input[matKeyboard], textarea[matKeyboard]'
@@ -32431,10 +32326,10 @@ MdKeyboardDirective.decorators = [
 /**
  * @nocollapse
  */
-MdKeyboardDirective.ctorParameters = function () { return [
+MdKeyboardDirective.ctorParameters = () => [
     { type: ElementRef, },
     { type: MdKeyboardService, },
-]; };
+];
 MdKeyboardDirective.propDecorators = {
     'mdKeyboard': [{ type: Input },],
     'darkTheme': [{ type: Input },],
@@ -32444,20 +32339,18 @@ MdKeyboardDirective.propDecorators = {
     '_showKeyboard': [{ type: HostListener, args: ['focus', ['$event'],] },],
     '_hideKeyboard': [{ type: HostListener, args: ['blur', ['$event'],] },],
 };
-var KebabCasePipe = (function () {
-    function KebabCasePipe() {
-    }
+
+class KebabCasePipe {
     /**
      * @param {?} value
      * @return {?}
      */
-    KebabCasePipe.prototype.transform = function (value) {
+    transform(value) {
         return value.replace(/([a-z])([A-Z])/g, '$1-$2')
             .replace(/\s+/g, '-')
             .toLowerCase();
-    };
-    return KebabCasePipe;
-}());
+    }
+}
 KebabCasePipe.decorators = [
     { type: Pipe, args: [{
                 name: 'kebabCase',
@@ -32467,12 +32360,10 @@ KebabCasePipe.decorators = [
 /**
  * @nocollapse
  */
-KebabCasePipe.ctorParameters = function () { return []; };
-var MdKeyboardModule = (function () {
-    function MdKeyboardModule() {
-    }
-    return MdKeyboardModule;
-}());
+KebabCasePipe.ctorParameters = () => [];
+
+class MdKeyboardModule {
+}
 MdKeyboardModule.decorators = [
     { type: NgModule, args: [{
                 imports: [
@@ -32514,15 +32405,19 @@ MdKeyboardModule.decorators = [
 /**
  * @nocollapse
  */
-MdKeyboardModule.ctorParameters = function () { return []; };
+MdKeyboardModule.ctorParameters = () => [];
+
 /**
  * @module
  * @description
  * Entry point for all public APIs of the material-gui-kit package.
  */
+
 // This file only reexports content of the `src` folder. Keep it that way.
+
 /**
  * Generated bundle index. Do not edit.
  */
+
 export { MdKeyboardComponent, SHOW_ANIMATION$1 as SHOW_ANIMATION, HIDE_ANIMATION$1 as HIDE_ANIMATION, MdKeyboardContainerComponent, MdKeyboardKeyComponent, MdKeyboardConfig, MD_KEYBOARD_DEADKEYS, keyboardDeadkeys, MD_KEYBOARD_ICONS, keyboardIcons, keyboardLayouts, MD_KEYBOARD_LAYOUTS, MdKeyboardDirective, KeyboardKeyClass, KeyboardModifier, KebabCasePipe, MdKeyboardService, throwContentAlreadyAttached, throwLayoutNotFound, MdKeyboardRef, MdKeyboardModule, MdKeyboardContainerComponent as ɵe, MdKeyboardKeyComponent as ɵf, MdKeyboardComponent as ɵa, MD_KEYBOARD_DEADKEYS as ɵg, keyboardDeadkeys as ɵh, MD_KEYBOARD_ICONS as ɵi, keyboardIcons as ɵj, MD_KEYBOARD_LAYOUTS as ɵc, keyboardLayouts as ɵd, MdKeyboardDirective as ɵk, KebabCasePipe as ɵl, MdKeyboardService as ɵb };
-//# sourceMappingURL=core.es5.js.map
+//# sourceMappingURL=ngx-onscreen-keyboard.js.map
