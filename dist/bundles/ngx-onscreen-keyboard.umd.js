@@ -32471,6 +32471,14 @@ var MdKeyboardDirective = (function () {
         });
         this._keyboardRef.instance.setInputInstance(this._elementRef);
     };
+    /**
+     * @return {?}
+     */
+    MdKeyboardDirective.prototype._hideKeyboard = function () {
+        if (this._keyboardRef) {
+            this._keyboardRef.dismiss();
+        }
+    };
     return MdKeyboardDirective;
 }());
 MdKeyboardDirective.decorators = [
@@ -32493,6 +32501,7 @@ MdKeyboardDirective.propDecorators = {
     'isDebug': [{ type: _angular_core.Input },],
     'switches': [{ type: _angular_core.Input },],
     '_showKeyboard': [{ type: _angular_core.HostListener, args: ['focus', ['$event'],] },],
+    '_hideKeyboard': [{ type: _angular_core.HostListener, args: ['blur', ['$event'],] },],
 };
 var KebabCasePipe = (function () {
     function KebabCasePipe() {

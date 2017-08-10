@@ -32372,6 +32372,14 @@ class MdKeyboardDirective {
         });
         this._keyboardRef.instance.setInputInstance(this._elementRef);
     }
+    /**
+     * @return {?}
+     */
+    _hideKeyboard() {
+        if (this._keyboardRef) {
+            this._keyboardRef.dismiss();
+        }
+    }
 }
 MdKeyboardDirective.decorators = [
     { type: Directive, args: [{
@@ -32393,6 +32401,7 @@ MdKeyboardDirective.propDecorators = {
     'isDebug': [{ type: Input },],
     'switches': [{ type: Input },],
     '_showKeyboard': [{ type: HostListener, args: ['focus', ['$event'],] },],
+    '_hideKeyboard': [{ type: HostListener, args: ['blur', ['$event'],] },],
 };
 
 class KebabCasePipe {

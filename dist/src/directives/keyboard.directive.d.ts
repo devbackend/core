@@ -11,6 +11,6 @@ export declare class MdKeyboardDirective {
     isDebug: boolean;
     switches: string[];
     private _showKeyboard();
-    /** @todo-10.08.17-krivonos.iv  */
+    private _hideKeyboard();
     constructor(_elementRef: ElementRef, _keyboardService: MdKeyboardService);
 }
