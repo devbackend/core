@@ -68,16 +68,18 @@ export class MdKeyboardService {
 	 * Creates and dispatches a keyboard with a custom component for the content, removing any
 	 * currently opened keyboards.
 	 *
-	 * @param component Component to be instantiated.
-	 * @param config Extra configuration for the keyboard.
+	 * @param component         Component to be instantiated.
+	 * @param config            Extra configuration for the keyboard.
+	 * @param layoutOrLocale    Layout or locale name for keyboard
 	 */
-	private _openFromComponent<T>(component: ComponentType<T>, config?: MdKeyboardConfig): MdKeyboardRef<T> {
+	private _openFromComponent<T>(component: ComponentType<T>, config?: MdKeyboardConfig, layoutOrLocale?: string): MdKeyboardRef<T> {
 		config = _applyConfigDefaults(config);
 		const overlayRef = this._createOverlay();
 		const keyboardContainer = this._attachKeyboardContainer(overlayRef, config);
 		const keyboardRef = this._attachKeyboardContent(component, keyboardContainer, overlayRef);
 
-		keyboardContainer.darkTheme = config.darkTheme;
+		keyboardContainer.darkTheme     = config.darkTheme;
+		keyboardContainer.layoutName    = layoutOrLocale;
 
 		// When the keyboard is dismissed, clear the reference to it.
 		keyboardRef.afterDismissed().subscribe(() => {
@@ -117,17 +119,17 @@ export class MdKeyboardService {
 	 * @param config Additional configuration options for the keyboard.
 	 */
 	open(layoutOrLocale?: string, config: MdKeyboardConfig = {}): MdKeyboardRef<MdKeyboardComponent> {
-		const keyboardComponentRef = this._openFromComponent<MdKeyboardComponent>(MdKeyboardComponent, config);
+		if ('' === layoutOrLocale && 0 !== config.switches.length) {
+			layoutOrLocale = config.switches[0];
+		}
+
+		const keyboardComponentRef = this._openFromComponent<MdKeyboardComponent>(MdKeyboardComponent, config, layoutOrLocale);
 		keyboardComponentRef.instance.keyboardRef = keyboardComponentRef;
 
 		keyboardComponentRef.darkTheme = config.darkTheme;
 		keyboardComponentRef.hasAction = config.hasAction;
 		keyboardComponentRef.isDebug   = config.isDebug;
 		keyboardComponentRef.switches  = config.switches;
-
-		if ('' === layoutOrLocale && 0 !== config.switches.length) {
-			layoutOrLocale = config.switches[0];
-		}
 
 		// a locale is provided
 		if (this.availableLocales[layoutOrLocale]) {

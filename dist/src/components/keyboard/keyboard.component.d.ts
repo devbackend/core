@@ -32,6 +32,5 @@ export declare class MdKeyboardComponent implements OnInit {
     onCapsClick(): void;
     onShiftClick(): void;
     onEnterClick(): void;
-    onKeyClick(): void;
     onSwitchClick(): void;
 }

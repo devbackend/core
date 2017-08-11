@@ -14,6 +14,8 @@ export declare class MdKeyboardContainerComponent extends BasePortalHost impleme
     private _ngZone;
     attrRole: string;
     darkTheme: boolean;
+    private _layoutName;
+    layoutName: string;
     /** The portal host inside of this container into which the keyboard content will be loaded. */
     _portalHost: PortalHostDirective;
     /** Subject for notifying that the keyboard has exited from view. */

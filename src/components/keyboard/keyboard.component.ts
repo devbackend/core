@@ -119,12 +119,6 @@ export class MdKeyboardComponent implements OnInit {
 		});
 	}
 
-	onKeyClick() {
-		if (this.modifier === KeyboardModifier.Shift) {
-			this.modifier = KeyboardModifier.None;
-		}
-	}
-
 	onSwitchClick() {
 		this._switchValue++;
 		if (this._switchValue >= this.switches.length) {

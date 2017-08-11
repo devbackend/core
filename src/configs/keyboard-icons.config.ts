@@ -10,6 +10,7 @@ const keyboardIcons: IKeyboardIcons = {
 	'caps':     'keyboard_capslock',
 	'enter':    'keyboard_return',
 	'space':    '',
+	'shift':    'keyboard_arrow_up',
 	'tab':      'keyboard_tab',
 	'switch':   'language'
 };

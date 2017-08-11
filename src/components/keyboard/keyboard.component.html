@@ -1,4 +1,4 @@
-<nav class="mat-keyboard-layout">
+<nav class="mat-keyboard-layout" [attr.data-locale]="layout.name.toLowerCase()">
   <div
     class="mat-keyboard-row"
     *ngFor="let row of layout.keys"
@@ -8,14 +8,12 @@
         class="mat-keyboard-col"
         *ngIf="key[modifier]"
         [key]="key[modifier]"
-        [class.switch-container]="'switch' === key[modifier].toLowerCase()"
         [active]="isActive(key[modifier])"
         [input]="inputInstance | async"
         (altClick)="onAltClick()"
         (capsClick)="onCapsClick()"
         (shiftClick)="onShiftClick()"
         (enterClick)="onEnterClick()"
-        (keyClick)="onKeyClick()"
         (switchClick)="onSwitchClick()"
       ></md-keyboard-key>
     </ng-container>

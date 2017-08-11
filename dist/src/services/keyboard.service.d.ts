@@ -30,10 +30,11 @@ export declare class MdKeyboardService {
      * Creates and dispatches a keyboard with a custom component for the content, removing any
      * currently opened keyboards.
      *
-     * @param component Component to be instantiated.
-     * @param config Extra configuration for the keyboard.
+     * @param component         Component to be instantiated.
+     * @param config            Extra configuration for the keyboard.
+     * @param layoutOrLocale    Layout or locale name for keyboard
      */
-    private _openFromComponent<T>(component, config?);
+    private _openFromComponent<T>(component, config?, layoutOrLocale?);
     /**
      * Opens a keyboard with a message and an optional action.
      * @param layoutOrLocale [Optional] A string representing the locale or the layout name to be used.

@@ -30941,6 +30941,19 @@ class MdKeyboardContainerComponent extends BasePortalHost {
         this.animationState = 'initial';
     }
     /**
+     * @return {?}
+     */
+    get layoutName() {
+        return this._layoutName;
+    }
+    /**
+     * @param {?} layoutName
+     * @return {?}
+     */
+    set layoutName(layoutName) {
+        this._layoutName = layoutName;
+    }
+    /**
      * Attach a component portal as content to this keyboard container.
      * @template T
      * @param {?} portal
@@ -31035,46 +31048,46 @@ MdKeyboardContainerComponent.decorators = [
     { type: Component, args: [{
                 selector: 'md-keyboard-container',
                 template: `
-    <ng-template cdkPortalHost></ng-template>
-  `,
+   <ng-template cdkPortalHost></ng-template>
+	`,
                 styles: [`
-    /**
-     * Applies styles for users in high contrast mode. Note that this only applies
-     * to Microsoft browsers. Chrome can be included by checking for the \`html[hc]\`
-     * attribute, however Chrome handles high contrast differently.
-     */
-    /* Theme for the ripple elements.*/
-    /** The mixins below are shared between md-menu and md-select */
-    /**
-     * This mixin adds the correct panel transform styles based
-     * on the direction that the menu panel opens.
-     */
-    /* stylelint-disable material/no-prefixes */
-    /* stylelint-enable */
-    /**
-     * This mixin contains shared option styles between the select and
-     * autocomplete components.
-     */
-    :host {
-      -webkit-box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
-              box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
-      background-color: whitesmoke;
-      border-radius: 2px;
-      -webkit-box-sizing: border-box;
-              box-sizing: border-box;
-      display: block;
-      margin: 0 auto;
-      max-width: 960px;
-      min-width: 568px;
-      padding: 14px 24px;
-      -webkit-transform: translateY(100%);
-              transform: translateY(100%); }
-      @media screen and (-ms-high-contrast: active) {
-        :host {
-          border: solid 1px; } }
-      :host.dark-theme {
-        background-color: #424242; }
-  `],
+   /**
+    * Applies styles for users in high contrast mode. Note that this only applies
+    * to Microsoft browsers. Chrome can be included by checking for the \`html[hc]\`
+    * attribute, however Chrome handles high contrast differently.
+    */
+   /* Theme for the ripple elements.*/
+   /** The mixins below are shared between md-menu and md-select */
+   /**
+    * This mixin adds the correct panel transform styles based
+    * on the direction that the menu panel opens.
+    */
+   /* stylelint-disable material/no-prefixes */
+   /* stylelint-enable */
+   /**
+    * This mixin contains shared option styles between the select and
+    * autocomplete components.
+    */
+   :host {
+     -webkit-box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+             box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+     background-color: whitesmoke;
+     border-radius: 2px;
+     -webkit-box-sizing: border-box;
+             box-sizing: border-box;
+     display: block;
+     margin: 0 auto;
+     max-width: 960px;
+     min-width: 568px;
+     padding: 14px 24px;
+     -webkit-transform: translateY(100%);
+             transform: translateY(100%); }
+     @media screen and (-ms-high-contrast: active) {
+       :host {
+         border: solid 1px; } }
+     :host.dark-theme {
+       background-color: #424242; }
+	`],
                 animations: [
                     trigger('state', [
                         state('initial', style({ transform: 'translateY(100%)' })),
@@ -31095,6 +31108,7 @@ MdKeyboardContainerComponent.ctorParameters = () => [
 MdKeyboardContainerComponent.propDecorators = {
     'attrRole': [{ type: HostBinding, args: ['attr.role',] },],
     'darkTheme': [{ type: HostBinding, args: ['class.dark-theme',] }, { type: Input },],
+    'layoutName': [{ type: HostBinding, args: ['attr.data-layout-name',] },],
     '_portalHost': [{ type: ViewChild, args: [PortalHostDirective,] },],
     'animationState': [{ type: HostBinding, args: ['@state',] },],
     'onAnimationEnd': [{ type: HostListener, args: ['@state.done', ['$event'],] },],
@@ -31363,16 +31377,18 @@ class MdKeyboardService {
      * currently opened keyboards.
      *
      * @template T
-     * @param {?} component Component to be instantiated.
-     * @param {?=} config Extra configuration for the keyboard.
+     * @param {?} component         Component to be instantiated.
+     * @param {?=} config            Extra configuration for the keyboard.
+     * @param {?=} layoutOrLocale    Layout or locale name for keyboard
      * @return {?}
      */
-    _openFromComponent(component, config) {
+    _openFromComponent(component, config, layoutOrLocale) {
         config = _applyConfigDefaults(config);
         const /** @type {?} */ overlayRef = this._createOverlay();
         const /** @type {?} */ keyboardContainer = this._attachKeyboardContainer(overlayRef, config);
         const /** @type {?} */ keyboardRef = this._attachKeyboardContent(component, keyboardContainer, overlayRef);
         keyboardContainer.darkTheme = config.darkTheme;
+        keyboardContainer.layoutName = layoutOrLocale;
         // When the keyboard is dismissed, clear the reference to it.
         keyboardRef.afterDismissed().subscribe(() => {
             // Clear the keyboard ref if it hasn't already been replaced by a newer keyboard.
@@ -31409,15 +31425,15 @@ class MdKeyboardService {
      * @return {?}
      */
     open(layoutOrLocale, config = {}) {
-        const /** @type {?} */ keyboardComponentRef = this._openFromComponent(MdKeyboardComponent, config);
+        if ('' === layoutOrLocale && 0 !== config.switches.length) {
+            layoutOrLocale = config.switches[0];
+        }
+        const /** @type {?} */ keyboardComponentRef = this._openFromComponent(MdKeyboardComponent, config, layoutOrLocale);
         keyboardComponentRef.instance.keyboardRef = keyboardComponentRef;
         keyboardComponentRef.darkTheme = config.darkTheme;
         keyboardComponentRef.hasAction = config.hasAction;
         keyboardComponentRef.isDebug = config.isDebug;
         keyboardComponentRef.switches = config.switches;
-        if ('' === layoutOrLocale && 0 !== config.switches.length) {
-            layoutOrLocale = config.switches[0];
-        }
         // a locale is provided
         if (this.availableLocales[layoutOrLocale]) {
             keyboardComponentRef.instance.locale = layoutOrLocale;
@@ -31636,14 +31652,6 @@ class MdKeyboardComponent {
     /**
      * @return {?}
      */
-    onKeyClick() {
-        if (this.modifier === KeyboardModifier.Shift) {
-            this.modifier = KeyboardModifier.None;
-        }
-    }
-    /**
-     * @return {?}
-     */
     onSwitchClick() {
         this._switchValue++;
         if (this._switchValue >= this.switches.length) {
@@ -31657,7 +31665,7 @@ MdKeyboardComponent.decorators = [
     { type: Component, args: [{
                 selector: 'md-keyboard',
                 template: `
-   <nav class="mat-keyboard-layout">
+   <nav class="mat-keyboard-layout" [attr.data-locale]="layout.name.toLowerCase()">
      <div
        class="mat-keyboard-row"
        *ngFor="let row of layout.keys"
@@ -31667,14 +31675,12 @@ MdKeyboardComponent.decorators = [
            class="mat-keyboard-col"
            *ngIf="key[modifier]"
            [key]="key[modifier]"
-           [class.switch-container]="'switch' === key[modifier].toLowerCase()"
            [active]="isActive(key[modifier])"
            [input]="inputInstance | async"
            (altClick)="onAltClick()"
            (capsClick)="onCapsClick()"
            (shiftClick)="onShiftClick()"
            (enterClick)="onEnterClick()"
-           (keyClick)="onKeyClick()"
            (switchClick)="onSwitchClick()"
          ></md-keyboard-key>
        </ng-container>
@@ -32031,6 +32037,7 @@ const keyboardIcons = {
     'caps': 'keyboard_capslock',
     'enter': 'keyboard_return',
     'space': '',
+    'shift': 'keyboard_arrow_up',
     'tab': 'keyboard_tab',
     'switch': 'language'
 };
@@ -32300,15 +32307,6 @@ MdKeyboardKeyComponent.decorators = [
        background-color: #e0e0e0; }
      .mat-keyboard-key.key-switch {
        background-color: #656; }
-
-   .mat-keyboard-key-switch {
-     width: 85px; }
-
-   .mat-keyboard :host-context(.key-switch) {
-     width: 85px;
-     -webkit-box-flex: 0;
-         -ms-flex: 0;
-             flex: 0; }
 
    :host-context(.dark-theme) .mat-keyboard-key {
      background-color: #616161;
