@@ -25,4 +25,7 @@ export class MdKeyboardConfig {
 
 	/** Keyboard layouts for switch **/
 	switches? = [];
+
+	/** Enable keyboard screen drag */
+	draggable? = false;
 }

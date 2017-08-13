@@ -14,7 +14,13 @@ export declare class MdKeyboardContainerComponent extends BasePortalHost impleme
     private _ngZone;
     attrRole: string;
     darkTheme: boolean;
+    draggable: boolean;
     private _layoutName;
+    private _fixedPositionX;
+    private _fixedPositionY;
+    private _deltaPositionX;
+    private _deltaPositionY;
+    readonly currentPosition: string;
     layoutName: string;
     /** The portal host inside of this container into which the keyboard content will be loaded. */
     _portalHost: PortalHostDirective;
@@ -50,4 +56,6 @@ export declare class MdKeyboardContainerComponent extends BasePortalHost impleme
      * errors where we end up removing an element which is in the middle of an animation.
      */
     private _completeExit();
+    private _dragKeyboard($event);
+    private _fixPosition();
 }

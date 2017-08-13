@@ -30927,6 +30927,10 @@ class MdKeyboardContainerComponent extends BasePortalHost {
         super();
         this._ngZone = _ngZone;
         this.attrRole = 'alert';
+        this._fixedPositionX = 0;
+        this._fixedPositionY = 0;
+        this._deltaPositionX = 0;
+        this._deltaPositionY = 0;
         /**
          * Subject for notifying that the keyboard has exited from view.
          */
@@ -30939,6 +30943,12 @@ class MdKeyboardContainerComponent extends BasePortalHost {
          * The state of the keyboard animations.
          */
         this.animationState = 'initial';
+    }
+    /**
+     * @return {?}
+     */
+    get currentPosition() {
+        return 'translate(' + this._deltaPositionX + 'px, ' + this._deltaPositionY + 'px)';
     }
     /**
      * @return {?}
@@ -31043,11 +31053,29 @@ class MdKeyboardContainerComponent extends BasePortalHost {
             onExit.complete();
         });
     }
+    /**
+     * @param {?} $event
+     * @return {?}
+     */
+    _dragKeyboard($event) {
+        this._deltaPositionX = this._fixedPositionX + $event.deltaX;
+        this._deltaPositionY = this._fixedPositionY + $event.deltaY;
+    }
+    /**
+     * @return {?}
+     */
+    _fixPosition() {
+        this._fixedPositionX = this._deltaPositionX;
+        this._fixedPositionY = this._deltaPositionY;
+    }
 }
 MdKeyboardContainerComponent.decorators = [
     { type: Component, args: [{
                 selector: 'md-keyboard-container',
                 template: `
+   <div class="drag-manipulate" *ngIf="draggable" (panmove)="_dragKeyboard($event)" (panend)="_fixPosition()">
+   	<md-icon>open_with</md-icon>
+   </div>
    <ng-template cdkPortalHost></ng-template>
 	`,
                 styles: [`
@@ -31071,7 +31099,6 @@ MdKeyboardContainerComponent.decorators = [
    :host {
      -webkit-box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
              box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
-     background-color: whitesmoke;
      border-radius: 2px;
      -webkit-box-sizing: border-box;
              box-sizing: border-box;
@@ -31085,8 +31112,22 @@ MdKeyboardContainerComponent.decorators = [
      @media screen and (-ms-high-contrast: active) {
        :host {
          border: solid 1px; } }
-     :host.dark-theme {
+     :host, :host .drag-manipulate {
+       background-color: whitesmoke; }
+     :host.dark-theme, :host.dark-theme .drag-manipulate {
        background-color: #424242; }
+     :host .drag-manipulate {
+       position: absolute;
+       top: -25px;
+       right: -25px;
+       color: #fff;
+       width: 50px;
+       height: 50px;
+       font-size: 40px;
+       text-align: center;
+       border-radius: 25px; }
+       :host .drag-manipulate:hover, :host .drag-manipulate:focus, :host .drag-manipulate:active {
+         cursor: move; }
 	`],
                 animations: [
                     trigger('state', [
@@ -31108,6 +31149,8 @@ MdKeyboardContainerComponent.ctorParameters = () => [
 MdKeyboardContainerComponent.propDecorators = {
     'attrRole': [{ type: HostBinding, args: ['attr.role',] },],
     'darkTheme': [{ type: HostBinding, args: ['class.dark-theme',] }, { type: Input },],
+    'draggable': [{ type: Input },],
+    'currentPosition': [{ type: HostBinding, args: ['style.transform',] },],
     'layoutName': [{ type: HostBinding, args: ['attr.data-layout-name',] },],
     '_portalHost': [{ type: ViewChild, args: [PortalHostDirective,] },],
     'animationState': [{ type: HostBinding, args: ['@state',] },],
@@ -31311,6 +31354,10 @@ class MdKeyboardConfig {
          * Keyboard layouts for switch *
          */
         this.switches = [];
+        /**
+         * Enable keyboard screen drag
+         */
+        this.draggable = false;
     }
 }
 
@@ -31388,6 +31435,7 @@ class MdKeyboardService {
         const /** @type {?} */ keyboardContainer = this._attachKeyboardContainer(overlayRef, config);
         const /** @type {?} */ keyboardRef = this._attachKeyboardContent(component, keyboardContainer, overlayRef);
         keyboardContainer.darkTheme = config.darkTheme;
+        keyboardContainer.draggable = config.draggable;
         keyboardContainer.layoutName = layoutOrLocale;
         // When the keyboard is dismissed, clear the reference to it.
         keyboardRef.afterDismissed().subscribe(() => {
@@ -32366,6 +32414,7 @@ class MdKeyboardDirective {
             duration: this.duration,
             hasAction: this.hasAction,
             isDebug: this.isDebug,
+            draggable: this.draggable,
             switches: this.switches
         });
         this._keyboardRef.instance.setInputInstance(this._elementRef);
@@ -32397,6 +32446,7 @@ MdKeyboardDirective.propDecorators = {
     'duration': [{ type: Input },],
     'hasAction': [{ type: Input },],
     'isDebug': [{ type: Input },],
+    'draggable': [{ type: Input },],
     'switches': [{ type: Input },],
     '_showKeyboard': [{ type: HostListener, args: ['focus', ['$event'],] },],
     '_hideKeyboard': [{ type: HostListener, args: ['blur', ['$event'],] },],

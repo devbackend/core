@@ -20,6 +20,8 @@ export class MdKeyboardDirective {
 
 	@Input() isDebug: boolean;
 
+	@Input() draggable: boolean;
+
 	@Input() switches: string[];
 
 	@HostListener('focus', ['$event'])
@@ -29,6 +31,7 @@ export class MdKeyboardDirective {
 			duration:   this.duration,
 			hasAction:  this.hasAction,
 			isDebug:    this.isDebug,
+			draggable:  this.draggable,
 			switches:   this.switches
 		});
 		this._keyboardRef.instance.setInputInstance(this._elementRef);

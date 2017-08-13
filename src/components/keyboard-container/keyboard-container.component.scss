@@ -5,23 +5,44 @@ $mat-keyboard-min-width: 568px !default;
 $mat-keyboard-max-width: 960px !default;
 
 :host {
-  @include mat-elevation(6);
-  background-color: mat-color($mat-grey, 100);
-  border-radius: 2px;
-  box-sizing: border-box;
-  display: block;
-  margin: 0 auto;
-  max-width: $mat-keyboard-max-width;
-  min-width: $mat-keyboard-min-width;
-  padding: $mat-keyboard-padding;
-  // Initial transformation is applied to start keyboard out of view.
-  transform: translateY(100%);
+	@include mat-elevation(6);
+	border-radius:    2px;
+	box-sizing:       border-box;
+	display:          block;
+	margin:           0 auto;
+	max-width:        $mat-keyboard-max-width;
+	min-width:        $mat-keyboard-min-width;
+	padding:          $mat-keyboard-padding;
+	// Initial transformation is applied to start keyboard out of view.
+	transform:        translateY(100%);
 
-  @include cdk-high-contrast {
-    border: solid 1px;
-  }
+	@include cdk-high-contrast {
+		border: solid 1px;
+	}
 
-  &.dark-theme {
-    background-color: mat-color($mat-grey, 800);
-  }
+	&, .drag-manipulate {
+		background-color: mat-color($mat-grey, 100);
+	}
+
+	&.dark-theme {
+		&, .drag-manipulate {
+			background-color: mat-color($mat-grey, 800);
+		}
+	}
+
+	.drag-manipulate {
+		position:         absolute;
+		top:              -25px;
+		right:            -25px;
+		color:            #fff;
+		width:            50px;
+		height:           50px;
+		font-size:        40px;
+		text-align:       center;
+		border-radius:    25px;
+
+		&:hover, &:focus, &:active {
+			cursor: move;
+		}
+	}
 }

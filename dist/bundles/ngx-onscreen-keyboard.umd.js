@@ -31197,6 +31197,10 @@ var MdKeyboardContainerComponent = (function (_super) {
         var _this = _super.call(this) || this;
         _this._ngZone = _ngZone;
         _this.attrRole = 'alert';
+        _this._fixedPositionX = 0;
+        _this._fixedPositionY = 0;
+        _this._deltaPositionX = 0;
+        _this._deltaPositionY = 0;
         /**
          * Subject for notifying that the keyboard has exited from view.
          */
@@ -31211,6 +31215,16 @@ var MdKeyboardContainerComponent = (function (_super) {
         _this.animationState = 'initial';
         return _this;
     }
+    Object.defineProperty(MdKeyboardContainerComponent.prototype, "currentPosition", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return 'translate(' + this._deltaPositionX + 'px, ' + this._deltaPositionY + 'px)';
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(MdKeyboardContainerComponent.prototype, "layoutName", {
         /**
          * @return {?}
@@ -31318,13 +31332,28 @@ var MdKeyboardContainerComponent = (function (_super) {
             onExit.complete();
         });
     };
+    /**
+     * @param {?} $event
+     * @return {?}
+     */
+    MdKeyboardContainerComponent.prototype._dragKeyboard = function ($event) {
+        this._deltaPositionX = this._fixedPositionX + $event.deltaX;
+        this._deltaPositionY = this._fixedPositionY + $event.deltaY;
+    };
+    /**
+     * @return {?}
+     */
+    MdKeyboardContainerComponent.prototype._fixPosition = function () {
+        this._fixedPositionX = this._deltaPositionX;
+        this._fixedPositionY = this._deltaPositionY;
+    };
     return MdKeyboardContainerComponent;
 }(BasePortalHost));
 MdKeyboardContainerComponent.decorators = [
     { type: _angular_core.Component, args: [{
                 selector: 'md-keyboard-container',
-                template: "\n   <ng-template cdkPortalHost></ng-template>\n\t",
-                styles: ["\n   /**\n    * Applies styles for users in high contrast mode. Note that this only applies\n    * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n    * attribute, however Chrome handles high contrast differently.\n    */\n   /* Theme for the ripple elements.*/\n   /** The mixins below are shared between md-menu and md-select */\n   /**\n    * This mixin adds the correct panel transform styles based\n    * on the direction that the menu panel opens.\n    */\n   /* stylelint-disable material/no-prefixes */\n   /* stylelint-enable */\n   /**\n    * This mixin contains shared option styles between the select and\n    * autocomplete components.\n    */\n   :host {\n     -webkit-box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);\n             box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);\n     background-color: whitesmoke;\n     border-radius: 2px;\n     -webkit-box-sizing: border-box;\n             box-sizing: border-box;\n     display: block;\n     margin: 0 auto;\n     max-width: 960px;\n     min-width: 568px;\n     padding: 14px 24px;\n     -webkit-transform: translateY(100%);\n             transform: translateY(100%); }\n     @media screen and (-ms-high-contrast: active) {\n       :host {\n         border: solid 1px; } }\n     :host.dark-theme {\n       background-color: #424242; }\n\t"],
+                template: "\n   <div class=\"drag-manipulate\" *ngIf=\"draggable\" (panmove)=\"_dragKeyboard($event)\" (panend)=\"_fixPosition()\">\n   \t<md-icon>open_with</md-icon>\n   </div>\n   <ng-template cdkPortalHost></ng-template>\n\t",
+                styles: ["\n   /**\n    * Applies styles for users in high contrast mode. Note that this only applies\n    * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`\n    * attribute, however Chrome handles high contrast differently.\n    */\n   /* Theme for the ripple elements.*/\n   /** The mixins below are shared between md-menu and md-select */\n   /**\n    * This mixin adds the correct panel transform styles based\n    * on the direction that the menu panel opens.\n    */\n   /* stylelint-disable material/no-prefixes */\n   /* stylelint-enable */\n   /**\n    * This mixin contains shared option styles between the select and\n    * autocomplete components.\n    */\n   :host {\n     -webkit-box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);\n             box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);\n     border-radius: 2px;\n     -webkit-box-sizing: border-box;\n             box-sizing: border-box;\n     display: block;\n     margin: 0 auto;\n     max-width: 960px;\n     min-width: 568px;\n     padding: 14px 24px;\n     -webkit-transform: translateY(100%);\n             transform: translateY(100%); }\n     @media screen and (-ms-high-contrast: active) {\n       :host {\n         border: solid 1px; } }\n     :host, :host .drag-manipulate {\n       background-color: whitesmoke; }\n     :host.dark-theme, :host.dark-theme .drag-manipulate {\n       background-color: #424242; }\n     :host .drag-manipulate {\n       position: absolute;\n       top: -25px;\n       right: -25px;\n       color: #fff;\n       width: 50px;\n       height: 50px;\n       font-size: 40px;\n       text-align: center;\n       border-radius: 25px; }\n       :host .drag-manipulate:hover, :host .drag-manipulate:focus, :host .drag-manipulate:active {\n         cursor: move; }\n\t"],
                 animations: [
                     _angular_animations.trigger('state', [
                         _angular_animations.state('initial', _angular_animations.style({ transform: 'translateY(100%)' })),
@@ -31345,6 +31374,8 @@ MdKeyboardContainerComponent.ctorParameters = function () { return [
 MdKeyboardContainerComponent.propDecorators = {
     'attrRole': [{ type: _angular_core.HostBinding, args: ['attr.role',] },],
     'darkTheme': [{ type: _angular_core.HostBinding, args: ['class.dark-theme',] }, { type: _angular_core.Input },],
+    'draggable': [{ type: _angular_core.Input },],
+    'currentPosition': [{ type: _angular_core.HostBinding, args: ['style.transform',] },],
     'layoutName': [{ type: _angular_core.HostBinding, args: ['attr.data-layout-name',] },],
     '_portalHost': [{ type: _angular_core.ViewChild, args: [PortalHostDirective,] },],
     'animationState': [{ type: _angular_core.HostBinding, args: ['@state',] },],
@@ -31568,6 +31599,10 @@ var MdKeyboardConfig = (function () {
          * Keyboard layouts for switch *
          */
         this.switches = [];
+        /**
+         * Enable keyboard screen drag
+         */
+        this.draggable = false;
     }
     return MdKeyboardConfig;
 }());
@@ -31659,6 +31694,7 @@ var MdKeyboardService = (function () {
         var /** @type {?} */ keyboardContainer = this._attachKeyboardContainer(overlayRef, config);
         var /** @type {?} */ keyboardRef = this._attachKeyboardContent(component, keyboardContainer, overlayRef);
         keyboardContainer.darkTheme = config.darkTheme;
+        keyboardContainer.draggable = config.draggable;
         keyboardContainer.layoutName = layoutOrLocale;
         // When the keyboard is dismissed, clear the reference to it.
         keyboardRef.afterDismissed().subscribe(function () {
@@ -32480,6 +32516,7 @@ var MdKeyboardDirective = (function () {
             duration: this.duration,
             hasAction: this.hasAction,
             isDebug: this.isDebug,
+            draggable: this.draggable,
             switches: this.switches
         });
         this._keyboardRef.instance.setInputInstance(this._elementRef);
@@ -32512,6 +32549,7 @@ MdKeyboardDirective.propDecorators = {
     'duration': [{ type: _angular_core.Input },],
     'hasAction': [{ type: _angular_core.Input },],
     'isDebug': [{ type: _angular_core.Input },],
+    'draggable': [{ type: _angular_core.Input },],
     'switches': [{ type: _angular_core.Input },],
     '_showKeyboard': [{ type: _angular_core.HostListener, args: ['focus', ['$event'],] },],
     '_hideKeyboard': [{ type: _angular_core.HostListener, args: ['blur', ['$event'],] },],

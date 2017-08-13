@@ -79,6 +79,7 @@ export class MdKeyboardService {
 		const keyboardRef = this._attachKeyboardContent(component, keyboardContainer, overlayRef);
 
 		keyboardContainer.darkTheme     = config.darkTheme;
+		keyboardContainer.draggable     = config.draggable;
 		keyboardContainer.layoutName    = layoutOrLocale;
 
 		// When the keyboard is dismissed, clear the reference to it.

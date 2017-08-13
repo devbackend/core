@@ -34,13 +34,25 @@ export const HIDE_ANIMATION = '195ms cubic-bezier(0.0,0.0,0.2,1)';
 	],
 })
 export class MdKeyboardContainerComponent extends BasePortalHost implements OnDestroy {
-
 	@HostBinding('attr.role') attrRole = 'alert';
 
 	@HostBinding('class.dark-theme')
 	@Input() darkTheme: boolean;
 
+	@Input() draggable: boolean;
+
 	private _layoutName: string;
+
+	private _fixedPositionX = 0;
+	private _fixedPositionY = 0;
+
+	private _deltaPositionX = 0;
+	private _deltaPositionY = 0;
+
+	@HostBinding('style.transform')
+	get currentPosition(): string {
+		return 'translate(' + this._deltaPositionX + 'px, ' + this._deltaPositionY + 'px)';
+	}
 
 	@HostBinding('attr.data-layout-name') get layoutName() {
 		return this._layoutName;
@@ -145,5 +157,15 @@ export class MdKeyboardContainerComponent extends BasePortalHost implements OnDe
 			onExit.next();
 			onExit.complete();
 		});
+	}
+
+	private _dragKeyboard($event) {
+		this._deltaPositionX = this._fixedPositionX + $event.deltaX;
+		this._deltaPositionY = this._fixedPositionY + $event.deltaY;
+	}
+
+	private _fixPosition() {
+		this._fixedPositionX = this._deltaPositionX;
+		this._fixedPositionY = this._deltaPositionY;
 	}
 }

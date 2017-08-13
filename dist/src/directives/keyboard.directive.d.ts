@@ -9,6 +9,7 @@ export declare class MdKeyboardDirective {
     duration: number;
     hasAction: boolean;
     isDebug: boolean;
+    draggable: boolean;
     switches: string[];
     private _showKeyboard();
     private _hideKeyboard();

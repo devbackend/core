@@ -1,1 +1,4 @@
+<div class="drag-manipulate" *ngIf="draggable" (panmove)="_dragKeyboard($event)" (panend)="_fixPosition()">
+	<md-icon>open_with</md-icon>
+</div>
 <ng-template cdkPortalHost></ng-template>

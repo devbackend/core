@@ -17,4 +17,6 @@ export declare class MdKeyboardConfig {
     isDebug?: boolean;
     /** Keyboard layouts for switch **/
     switches?: any[];
+    /** Enable keyboard screen drag */
+    draggable?: boolean;
 }
