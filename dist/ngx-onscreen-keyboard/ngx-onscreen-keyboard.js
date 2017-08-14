@@ -31691,9 +31691,10 @@ class MdKeyboardComponent {
      */
     onEnterClick() {
         this.inputInstance.subscribe((elRef) => {
-            const /** @type {?} */ enterEvent = document.createEvent('KeyboardEvent');
-            const /** @type {?} */ initMethod = ('undefined' !== typeof enterEvent.initKeyboardEvent ? 'initKeyboardEvent' : 'initKeyEvent');
-            enterEvent[initMethod]('keydown', true, true, window, false, false, false, false, 13, 0);
+            const /** @type {?} */ enterEvent = new KeyboardEvent('keydown', {
+                key: 'Enter',
+                bubbles: true,
+            });
             elRef.nativeElement.dispatchEvent(enterEvent);
         });
     }

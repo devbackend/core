@@ -110,10 +110,10 @@ export class MdKeyboardComponent implements OnInit {
 
 	onEnterClick() {
 		this.inputInstance.subscribe((elRef: ElementRef) => {
-			const enterEvent = document.createEvent('KeyboardEvent');
-			const initMethod = ('undefined' !== typeof enterEvent.initKeyboardEvent ? 'initKeyboardEvent' : 'initKeyEvent');
-
-			enterEvent[initMethod]('keydown', true, true, window, false, false, false, false, 13, 0);
+			const enterEvent = new KeyboardEvent('keydown', {
+				key:    'Enter',
+				bubbles: true,
+			});
 
 			elRef.nativeElement.dispatchEvent(enterEvent);
 		});

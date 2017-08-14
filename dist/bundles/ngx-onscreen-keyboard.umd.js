@@ -31955,9 +31955,10 @@ var MdKeyboardComponent = (function () {
      */
     MdKeyboardComponent.prototype.onEnterClick = function () {
         this.inputInstance.subscribe(function (elRef) {
-            var /** @type {?} */ enterEvent = document.createEvent('KeyboardEvent');
-            var /** @type {?} */ initMethod = ('undefined' !== typeof enterEvent.initKeyboardEvent ? 'initKeyboardEvent' : 'initKeyEvent');
-            enterEvent[initMethod]('keydown', true, true, window, false, false, false, false, 13, 0);
+            var /** @type {?} */ enterEvent = new KeyboardEvent('keydown', {
+                key: 'Enter',
+                bubbles: true,
+            });
             elRef.nativeElement.dispatchEvent(enterEvent);
         });
     };
