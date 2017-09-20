@@ -12,9 +12,9 @@ import { startWith } from 'rxjs/operator/startWith';
 import { debounceTime } from 'rxjs/operator/debounceTime';
 import { auditTime } from 'rxjs/operator/auditTime';
 import { takeUntil } from 'rxjs/operator/takeUntil';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule, DOCUMENT, Location } from '@angular/common';
 import { Subject } from 'rxjs/Subject';
-import { DOCUMENT, DomSanitizer, HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
+import { DOCUMENT as DOCUMENT$1, DomSanitizer, HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 import { merge } from 'rxjs/observable/merge';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
@@ -1324,7 +1324,7 @@ function DIRECTIONALITY_PROVIDER_FACTORY(parentDirectionality, _document) {
 var DIRECTIONALITY_PROVIDER = {
     // If there is already a Directionality available, use that. Otherwise, provide a new one.
     provide: Directionality,
-    deps: [[new Optional(), new SkipSelf(), Directionality], [new Optional(), DOCUMENT]],
+    deps: [[new Optional(), new SkipSelf(), Directionality], [new Optional(), DOCUMENT$1]],
     useFactory: DIRECTIONALITY_PROVIDER_FACTORY
 };
 /**
@@ -1420,7 +1420,7 @@ BidiModule.decorators = [
                 exports: [Dir],
                 declarations: [Dir],
                 providers: [
-                    { provide: DIR_DOCUMENT, useExisting: DOCUMENT },
+                    { provide: DIR_DOCUMENT, useExisting: DOCUMENT$1 },
                     Directionality,
                 ]
             },] },
@@ -3013,7 +3013,7 @@ MdCommonModule.decorators = [
  * @nocollapse
  */
 MdCommonModule.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT$1,] },] },
     { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [MATERIAL_SANITY_CHECKS,] },] },
 ]; };
 /**
@@ -12527,7 +12527,7 @@ MdSidenav.decorators = [
 MdSidenav.ctorParameters = function () { return [
     { type: ElementRef, },
     { type: FocusTrapFactory, },
-    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT$1,] },] },
 ]; };
 MdSidenav.propDecorators = {
     'align': [{ type: Input },],
@@ -20526,7 +20526,7 @@ MdDialogContainer.ctorParameters = function () { return [
     { type: NgZone, },
     { type: ElementRef, },
     { type: FocusTrapFactory, },
-    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT$1,] },] },
 ]; };
 MdDialogContainer.propDecorators = {
     '_portalHost': [{ type: ViewChild, args: [PortalHostDirective,] },],
@@ -21554,7 +21554,7 @@ MdAutocompleteTrigger.ctorParameters = function () { return [
     { type: ChangeDetectorRef, },
     { type: Directionality, decorators: [{ type: Optional },] },
     { type: MdInputContainer, decorators: [{ type: Optional }, { type: Host },] },
-    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT$1,] },] },
 ]; };
 MdAutocompleteTrigger.propDecorators = {
     'autocomplete': [{ type: Input, args: ['mdAutocomplete',] },],
@@ -22731,7 +22731,7 @@ MdDatepicker.ctorParameters = function () { return [
     { type: ViewContainerRef, },
     { type: DateAdapter, decorators: [{ type: Optional },] },
     { type: Directionality, decorators: [{ type: Optional },] },
-    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT$1,] },] },
 ]; };
 MdDatepicker.propDecorators = {
     'startAt': [{ type: Input },],
@@ -30922,15 +30922,15 @@ const HIDE_ANIMATION$1 = '195ms cubic-bezier(0.0,0.0,0.2,1)';
 class MdKeyboardContainerComponent extends BasePortalHost {
     /**
      * @param {?} _ngZone
+     * @param {?} el
+     * @param {?} document
      */
-    constructor(_ngZone) {
+    constructor(_ngZone, el, document) {
         super();
         this._ngZone = _ngZone;
+        this.el = el;
+        this.document = document;
         this.attrRole = 'alert';
-        this._fixedPositionX = 0;
-        this._fixedPositionY = 0;
-        this._deltaPositionX = 0;
-        this._deltaPositionY = 0;
         /**
          * Subject for notifying that the keyboard has exited from view.
          */
@@ -30947,8 +30947,14 @@ class MdKeyboardContainerComponent extends BasePortalHost {
     /**
      * @return {?}
      */
-    get currentPosition() {
-        return 'translate(' + this._deltaPositionX + 'px, ' + this._deltaPositionY + 'px)';
+    get currentPositionTop() {
+        return this._deltaPositionTop + 'px';
+    }
+    /**
+     * @return {?}
+     */
+    get currentPositionLeft() {
+        return this._deltaPositionLeft + 'px';
     }
     /**
      * @return {?}
@@ -31058,22 +31064,60 @@ class MdKeyboardContainerComponent extends BasePortalHost {
      * @return {?}
      */
     _dragKeyboard($event) {
-        this._deltaPositionX = this._fixedPositionX + $event.deltaX;
-        this._deltaPositionY = this._fixedPositionY + $event.deltaY;
+        // -- Выставляем начальные значения на основе текущих данных
+        const /** @type {?} */ rects = this.el.nativeElement.getBoundingClientRect();
+        if (undefined === this._deltaPositionLeft) {
+            this._deltaPositionLeft = this._fixedPositionLeft = rects.left;
+        }
+        if (undefined === this._deltaPositionTop) {
+            this._deltaPositionTop = this._fixedPositionTop = rects.top;
+        }
+        // -- -- -- --
+        // -- Определяем границы, за которые нельзя двигать клавиатуру
+        const /** @type {?} */ bounds = {
+            top: 40,
+            right: this.el.nativeElement.parentElement.offsetWidth - this.el.nativeElement.offsetWidth - 40,
+            bottom: this.el.nativeElement.parentElement.offsetHeight - this.el.nativeElement.offsetHeight,
+            left: 0
+        };
+        // -- -- -- --
+        let /** @type {?} */ newLeftDelta = this._fixedPositionLeft + $event.deltaX;
+        let /** @type {?} */ newTopDelta = this._fixedPositionTop + $event.deltaY;
+        if (newLeftDelta > bounds.right) {
+            newLeftDelta = bounds.right;
+        }
+        else if (newLeftDelta < bounds.left) {
+            newLeftDelta = bounds.left;
+        }
+        if (newTopDelta > bounds.bottom) {
+            newTopDelta = bounds.bottom;
+        }
+        else if (newTopDelta < bounds.top) {
+            newTopDelta = bounds.top;
+        }
+        this._deltaPositionLeft = newLeftDelta;
+        this._deltaPositionTop = newTopDelta;
     }
     /**
      * @return {?}
      */
     _fixPosition() {
-        this._fixedPositionX = this._deltaPositionX;
-        this._fixedPositionY = this._deltaPositionY;
+        this._fixedPositionLeft = this._deltaPositionLeft;
+        this._fixedPositionTop = this._deltaPositionTop;
+    }
+    /**
+     * @param {?} ev
+     * @return {?}
+     */
+    _onMousedown(ev) {
+        ev.preventDefault();
     }
 }
 MdKeyboardContainerComponent.decorators = [
     { type: Component, args: [{
                 selector: 'md-keyboard-container',
                 template: `
-   <div class="drag-manipulate" *ngIf="draggable" (panmove)="_dragKeyboard($event)" (panend)="_fixPosition()">
+   <div class="drag-manipulate" *ngIf="draggable" (panmove)="_dragKeyboard($event)" (panend)="_fixPosition()" (mousedown)="_onMousedown($event)">
    	<md-icon>open_with</md-icon>
    </div>
    <ng-template cdkPortalHost></ng-template>
@@ -31107,8 +31151,8 @@ MdKeyboardContainerComponent.decorators = [
      max-width: 960px;
      min-width: 568px;
      padding: 14px 24px;
-     -webkit-transform: translateY(100%);
-             transform: translateY(100%); }
+     position: absolute;
+     top: 100%; }
      @media screen and (-ms-high-contrast: active) {
        :host {
          border: solid 1px; } }
@@ -31131,9 +31175,9 @@ MdKeyboardContainerComponent.decorators = [
 	`],
                 animations: [
                     trigger('state', [
-                        state('initial', style({ transform: 'translateY(100%)' })),
-                        state('visible', style({ transform: 'translateY(0%)' })),
-                        state('complete', style({ transform: 'translateY(100%)' })),
+                        state('initial', style({ top: '100%' })),
+                        state('visible', style({ top: '50%' })),
+                        state('complete', style({ top: '100%' })),
                         transition('visible => complete', animate(HIDE_ANIMATION$1)),
                         transition('initial => visible, void => visible', animate(SHOW_ANIMATION$1)),
                     ])
@@ -31145,12 +31189,15 @@ MdKeyboardContainerComponent.decorators = [
  */
 MdKeyboardContainerComponent.ctorParameters = () => [
     { type: NgZone, },
+    { type: ElementRef, },
+    { type: Document, decorators: [{ type: Inject, args: [DOCUMENT,] },] },
 ];
 MdKeyboardContainerComponent.propDecorators = {
     'attrRole': [{ type: HostBinding, args: ['attr.role',] },],
     'darkTheme': [{ type: HostBinding, args: ['class.dark-theme',] }, { type: Input },],
     'draggable': [{ type: Input },],
-    'currentPosition': [{ type: HostBinding, args: ['style.transform',] },],
+    'currentPositionTop': [{ type: HostBinding, args: ['style.top',] },],
+    'currentPositionLeft': [{ type: HostBinding, args: ['style.left',] },],
     'layoutName': [{ type: HostBinding, args: ['attr.data-layout-name',] },],
     '_portalHost': [{ type: ViewChild, args: [PortalHostDirective,] },],
     'animationState': [{ type: HostBinding, args: ['@state',] },],
@@ -32194,6 +32241,8 @@ class MdKeyboardKeyComponent {
             case 'Bksp':
                 this.input.nativeElement.value = [value.slice(0, caret - 1), value.slice(caret)].join('');
                 this._setCursorPosition(caret - 1);
+                char = '';
+                this.keyClick.emit();
                 break;
             case 'Caps':
                 this.capsClick.emit();
@@ -32219,9 +32268,11 @@ class MdKeyboardKeyComponent {
                 this.keyClick.emit();
                 break;
         }
-        if (char && this.input) {
-            this.input.nativeElement.value = [value.slice(0, caret), char, value.slice(caret)].join('');
-            this._setCursorPosition(caret + 1);
+        if (undefined !== char && this.input) {
+            if ('' !== char) {
+                this.input.nativeElement.value = [value.slice(0, caret), char, value.slice(caret)].join('');
+                this._setCursorPosition(caret + 1);
+            }
             this._triggerKeyEvent();
         }
     }

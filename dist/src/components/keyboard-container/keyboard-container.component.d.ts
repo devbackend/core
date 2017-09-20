@@ -1,5 +1,5 @@
 import { AnimationEvent } from '@angular/animations/src/animation_event';
-import { ComponentRef, NgZone, OnDestroy } from '@angular/core';
+import { ComponentRef, ElementRef, NgZone, OnDestroy } from '@angular/core';
 import { BasePortalHost, ComponentPortal, PortalHostDirective, TemplatePortal } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { MdKeyboardConfig } from '../../configs/keyboard.config';
@@ -12,15 +12,18 @@ export declare const HIDE_ANIMATION = "195ms cubic-bezier(0.0,0.0,0.2,1)";
  */
 export declare class MdKeyboardContainerComponent extends BasePortalHost implements OnDestroy {
     private _ngZone;
+    private el;
+    private document;
     attrRole: string;
     darkTheme: boolean;
     draggable: boolean;
     private _layoutName;
-    private _fixedPositionX;
-    private _fixedPositionY;
-    private _deltaPositionX;
-    private _deltaPositionY;
-    readonly currentPosition: string;
+    private _fixedPositionLeft;
+    private _fixedPositionTop;
+    private _deltaPositionLeft;
+    private _deltaPositionTop;
+    readonly currentPositionTop: string;
+    readonly currentPositionLeft: string;
     layoutName: string;
     /** The portal host inside of this container into which the keyboard content will be loaded. */
     _portalHost: PortalHostDirective;
@@ -32,7 +35,7 @@ export declare class MdKeyboardContainerComponent extends BasePortalHost impleme
     animationState: KeyboardState;
     /** The keyboard configuration. */
     keyboardConfig: MdKeyboardConfig;
-    constructor(_ngZone: NgZone);
+    constructor(_ngZone: NgZone, el: ElementRef, document: Document);
     /** Attach a component portal as content to this keyboard container. */
     attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T>;
     /** Attach a template portal as content to this keyboard container. */
@@ -58,4 +61,5 @@ export declare class MdKeyboardContainerComponent extends BasePortalHost impleme
     private _completeExit();
     private _dragKeyboard($event);
     private _fixPosition();
+    private _onMousedown(ev);
 }

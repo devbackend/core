@@ -6,15 +6,15 @@ $mat-keyboard-max-width: 960px !default;
 
 :host {
 	@include mat-elevation(6);
-	border-radius:    2px;
-	box-sizing:       border-box;
-	display:          block;
-	margin:           0 auto;
-	max-width:        $mat-keyboard-max-width;
-	min-width:        $mat-keyboard-min-width;
-	padding:          $mat-keyboard-padding;
-	// Initial transformation is applied to start keyboard out of view.
-	transform:        translateY(100%);
+	border-radius: 2px;
+	box-sizing:    border-box;
+	display:       block;
+	margin:        0 auto;
+	max-width:     $mat-keyboard-max-width;
+	min-width:     $mat-keyboard-min-width;
+	padding:       $mat-keyboard-padding;
+	position:      absolute;
+	top:           100%;
 
 	@include cdk-high-contrast {
 		border: solid 1px;
@@ -31,15 +31,15 @@ $mat-keyboard-max-width: 960px !default;
 	}
 
 	.drag-manipulate {
-		position:         absolute;
-		top:              -25px;
-		right:            -25px;
-		color:            #fff;
-		width:            50px;
-		height:           50px;
-		font-size:        40px;
-		text-align:       center;
-		border-radius:    25px;
+		position:      absolute;
+		top:           -25px;
+		right:         -25px;
+		color:         #fff;
+		width:         50px;
+		height:        50px;
+		font-size:     40px;
+		text-align:    center;
+		border-radius: 25px;
 
 		&:hover, &:focus, &:active {
 			cursor: move;

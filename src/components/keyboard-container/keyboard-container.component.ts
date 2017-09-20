@@ -1,12 +1,13 @@
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {AnimationEvent} from '@angular/animations/src/animation_event';
 import {first} from '@angular/cdk';
-import {Component, ComponentRef, HostBinding, HostListener, Input, NgZone, OnDestroy, ViewChild} from '@angular/core';
+import {Component, ComponentRef, ElementRef, HostBinding, HostListener, Inject, Input, NgZone, OnDestroy, ViewChild} from '@angular/core';
 import {BasePortalHost, ComponentPortal, PortalHostDirective, TemplatePortal} from '@angular/material';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {throwContentAlreadyAttached} from '../../utils/keyboard-errors';
 import {MdKeyboardConfig} from '../../configs/keyboard.config';
+import {DOCUMENT} from '@angular/common';
 
 export type KeyboardState = 'initial' | 'visible' | 'complete' | 'void';
 
@@ -25,9 +26,9 @@ export const HIDE_ANIMATION = '195ms cubic-bezier(0.0,0.0,0.2,1)';
 	styleUrls: ['./keyboard-container.component.scss'],
 	animations: [
 		trigger('state', [
-			state('initial', style({transform: 'translateY(100%)'})),
-			state('visible', style({transform: 'translateY(0%)'})),
-			state('complete', style({transform: 'translateY(100%)'})),
+			state('initial', style({top: '100%'})),
+			state('visible', style({top: '50%'})),
+			state('complete', style({top: '100%'})),
 			transition('visible => complete', animate(HIDE_ANIMATION)),
 			transition('initial => visible, void => visible', animate(SHOW_ANIMATION)),
 		])
@@ -43,15 +44,20 @@ export class MdKeyboardContainerComponent extends BasePortalHost implements OnDe
 
 	private _layoutName: string;
 
-	private _fixedPositionX = 0;
-	private _fixedPositionY = 0;
+	private _fixedPositionLeft;
+	private _fixedPositionTop;
 
-	private _deltaPositionX = 0;
-	private _deltaPositionY = 0;
+	private _deltaPositionLeft;
+	private _deltaPositionTop;
 
-	@HostBinding('style.transform')
-	get currentPosition(): string {
-		return 'translate(' + this._deltaPositionX + 'px, ' + this._deltaPositionY + 'px)';
+	@HostBinding('style.top')
+	get currentPositionTop(): string {
+		return this._deltaPositionTop + 'px';
+	}
+
+	@HostBinding('style.left')
+	get currentPositionLeft(): string {
+		return this._deltaPositionLeft + 'px';
 	}
 
 	@HostBinding('attr.data-layout-name') get layoutName() {
@@ -78,7 +84,11 @@ export class MdKeyboardContainerComponent extends BasePortalHost implements OnDe
 	/** The keyboard configuration. */
 	keyboardConfig: MdKeyboardConfig;
 
-	constructor(private _ngZone: NgZone) {
+	constructor(
+		private _ngZone: NgZone,
+		private el: ElementRef,
+		@Inject(DOCUMENT) private document: Document,
+	) {
 		super();
 	}
 
@@ -160,12 +170,54 @@ export class MdKeyboardContainerComponent extends BasePortalHost implements OnDe
 	}
 
 	private _dragKeyboard($event) {
-		this._deltaPositionX = this._fixedPositionX + $event.deltaX;
-		this._deltaPositionY = this._fixedPositionY + $event.deltaY;
+		// -- Выставляем начальные значения на основе текущих данных
+		const rects = this.el.nativeElement.getBoundingClientRect();
+
+		if (undefined === this._deltaPositionLeft) {
+			this._deltaPositionLeft = this._fixedPositionLeft = rects.left;
+		}
+
+		if (undefined === this._deltaPositionTop) {
+			this._deltaPositionTop = this._fixedPositionTop = rects.top;
+		}
+		// -- -- -- --
+
+		// -- Определяем границы, за которые нельзя двигать клавиатуру
+		const bounds = {
+			top:    40,
+			right:  this.el.nativeElement.parentElement.offsetWidth - this.el.nativeElement.offsetWidth - 40,
+			bottom: this.el.nativeElement.parentElement.offsetHeight - this.el.nativeElement.offsetHeight,
+			left:   0
+		};
+		// -- -- -- --
+
+		let newLeftDelta = this._fixedPositionLeft + $event.deltaX;
+		let newTopDelta  = this._fixedPositionTop + $event.deltaY;
+
+		if (newLeftDelta > bounds.right) {
+			newLeftDelta = bounds.right;
+		}
+		else if (newLeftDelta < bounds.left) {
+			newLeftDelta = bounds.left;
+		}
+
+		if (newTopDelta > bounds.bottom) {
+			newTopDelta = bounds.bottom;
+		}
+		else if (newTopDelta < bounds.top) {
+			newTopDelta = bounds.top;
+		}
+
+		this._deltaPositionLeft = newLeftDelta;
+		this._deltaPositionTop  = newTopDelta;
 	}
 
 	private _fixPosition() {
-		this._fixedPositionX = this._deltaPositionX;
-		this._fixedPositionY = this._deltaPositionY;
+		this._fixedPositionLeft = this._deltaPositionLeft;
+		this._fixedPositionTop = this._deltaPositionTop;
+	}
+
+	private _onMousedown(ev: MouseEvent) {
+		ev.preventDefault();
 	}
 }

@@ -110,6 +110,9 @@ export class MdKeyboardKeyComponent implements OnInit {
 			case 'Bksp':
 				this.input.nativeElement.value = [value.slice(0, caret - 1), value.slice(caret)].join('');
 				this._setCursorPosition(caret - 1);
+
+				char = '';
+				this.keyClick.emit();
 				break;
 
 			case 'Caps':
@@ -143,9 +146,11 @@ export class MdKeyboardKeyComponent implements OnInit {
 				break;
 		}
 
-		if (char && this.input) {
-			this.input.nativeElement.value = [value.slice(0, caret), char, value.slice(caret)].join('');
-			this._setCursorPosition(caret + 1);
+		if (undefined !== char && this.input) {
+			if ('' !== char) {
+				this.input.nativeElement.value = [value.slice(0, caret), char, value.slice(caret)].join('');
+				this._setCursorPosition(caret + 1);
+			}
 
 			this._triggerKeyEvent();
 		}
