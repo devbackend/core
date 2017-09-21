@@ -31076,8 +31076,8 @@ class MdKeyboardContainerComponent extends BasePortalHost {
         // -- Определяем границы, за которые нельзя двигать клавиатуру
         const /** @type {?} */ bounds = {
             top: 40,
-            right: this.el.nativeElement.parentElement.offsetWidth - this.el.nativeElement.offsetWidth - 40,
-            bottom: this.el.nativeElement.parentElement.offsetHeight - this.el.nativeElement.offsetHeight,
+            right: this.el.nativeElement.parentElement.parentElement.offsetWidth - this.el.nativeElement.offsetWidth - 40,
+            bottom: this.el.nativeElement.parentElement.parentElement.offsetHeight - this.el.nativeElement.offsetHeight,
             left: 0
         };
         // -- -- -- --
@@ -31151,8 +31151,9 @@ MdKeyboardContainerComponent.decorators = [
      max-width: 960px;
      min-width: 568px;
      padding: 14px 24px;
-     position: absolute;
-     top: 100%; }
+     position: fixed;
+     top: 100%;
+     z-index: 10000; }
      @media screen and (-ms-high-contrast: active) {
        :host {
          border: solid 1px; } }

@@ -185,8 +185,8 @@ export class MdKeyboardContainerComponent extends BasePortalHost implements OnDe
 		// -- Определяем границы, за которые нельзя двигать клавиатуру
 		const bounds = {
 			top:    40,
-			right:  this.el.nativeElement.parentElement.offsetWidth - this.el.nativeElement.offsetWidth - 40,
-			bottom: this.el.nativeElement.parentElement.offsetHeight - this.el.nativeElement.offsetHeight,
+			right:  this.el.nativeElement.parentElement.parentElement.offsetWidth - this.el.nativeElement.offsetWidth - 40,
+			bottom: this.el.nativeElement.parentElement.parentElement.offsetHeight - this.el.nativeElement.offsetHeight,
 			left:   0
 		};
 		// -- -- -- --

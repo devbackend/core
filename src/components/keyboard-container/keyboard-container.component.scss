@@ -13,8 +13,9 @@ $mat-keyboard-max-width: 960px !default;
 	max-width:     $mat-keyboard-max-width;
 	min-width:     $mat-keyboard-min-width;
 	padding:       $mat-keyboard-padding;
-	position:      absolute;
+	position:      fixed;
 	top:           100%;
+	z-index:       10000;
 
 	@include cdk-high-contrast {
 		border: solid 1px;
